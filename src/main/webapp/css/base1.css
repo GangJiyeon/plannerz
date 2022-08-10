@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'NEXON Lv2 Gothic';
+}
+.menu_bar{
+    background-color: rgb(152, 166, 185);
+    display: grid;
+    grid-template-columns: 10px 22px 22px 22px 1fr 120px 5px 120px 20px;
+}
+.circle{
+    background-color: rgb(113, 131, 147);
+    border-radius: 50%;
+    margin: 11.5px 4px;
+}
+
+#go_login,#go_join{
+    background-color: rgb(152, 166, 185);
+    border: solid 1px  rgb(113, 131, 147);
+    margin: 5px;
+    color: rgb(88, 103, 116);
+    width: 100%;
+    border-radius: 5px;
+}
+#go_login:hover,#go_join:hover{
+    background-color: white;
+    cursor: pointer;
+}
+.header{
+    font-size: 30px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 200px 1fr 250px 10px 40px 5px 100px;
+}
+.logo_wrapper{
+    font-family: 'GangwonEduPowerExtraBoldA';
+    text-align: center;
+}
+
+.title{
+    font-family: 'GangwonEduPowerExtraBoldA';
+    font-size: 50px;
+}
+.title2{
+    text-align: center;
+    font-size: 28px;
+}
+#go_home:hover{
+    cursor: pointer;
+}

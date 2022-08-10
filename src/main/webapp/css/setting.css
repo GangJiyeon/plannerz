@@ -1,0 +1,38 @@
+.fourToone{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+.switch{
+    font-size: 20px;
+    text-align: right;
+}
+.setting_title{
+    font-size: 20px;
+}
+.setting_item{
+    padding: 15px 10px 8px 10px;
+    border-bottom: solid 1px gainsboro;
+}
+.howToUse{
+    padding-bottom: 20px;
+    border-bottom: solid 1px gainsboro;
+
+}
+.three_div{
+
+    display: grid;
+    grid-template-columns: 150px 150px 1fr;
+}
+.three_div div input{
+    width: 100%;
+}
+.optional{
+    margin-top: 10px;
+    padding: 10px 10px 7px 12px;
+    border-radius: 10px;
+    background-color:  rgb(242, 244, 247);
+    margin-bottom: 10px;
+}
+.center{
+    padding: 2.5px 0px;
+}

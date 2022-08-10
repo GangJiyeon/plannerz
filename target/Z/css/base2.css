@@ -1,0 +1,64 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'NEXON Lv2 Gothic';
+}
+.contents{
+    min-height: 500px;
+    position: fixed;
+    min-width: 1050px;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+}
+.side_bar{
+
+    width: 50px;
+    height: 100%;
+    padding-top: 15px;
+    background-color: rgb(152, 166, 185);
+
+    color: white;
+    font-size: 20px;
+}
+.side_bar div{
+    text-align: center;
+}
+.font_30{
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.bottom{
+    bottom: 10px;
+    left: 14px;
+    position: absolute;
+}
+.menu{
+    margin-top: 10px;
+}
+i{
+    margin: 5px 0px;
+}
+.space::before{
+    margin: 10px 0px;
+}
+
+
+
+
+
+/*내용*/
+.title{
+    margin: 30px 0px 0px 40px;
+    font-size: 28px;
+}
+
+
+
+#go_home:hover,#go_alarm:hover,#go_mypage:hover,#go_calendar:hover,#go_todolist:hover,
+#go_project:hover,#go_board:hover,#go_faq:hover,#go_userinfo:hover,#go_setting:hover,
+#go_status:hover,#user_info:hover{
+    cursor: pointer;
+}

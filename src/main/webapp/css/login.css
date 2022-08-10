@@ -1,0 +1,23 @@
+.login_menu{
+    display: grid;
+    grid-template-columns: 1fr 10px 1fr 10px 1fr;
+}
+form{
+    border-radius: 5px;
+    padding: 0px 30px;
+    border: none !important;
+    margin: 0px 250px !important;
+}
+#naver_login{
+    width: 150px;
+}
+.naver_login_wrapper{
+    text-align: center;
+    background-color: #03c75a;
+}
+.fixed{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(242, 244, 247);
+}

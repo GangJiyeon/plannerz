@@ -1,0 +1,42 @@
+#user_info{
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.822);
+    border: solid 1px rgb(152, 166, 185);
+}
+#userImgWrapper img{
+    width: 100%;
+}
+#userImgWrapper{
+    margin: 20px;
+}
+.contentArea{
+    height: 100vh;
+}
+.two_div{
+    height: 100vh;
+}
+.border_blue{
+    margin: 20px 0px 20px 40px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.822);
+    border: solid 1px rgb(152, 166, 185);
+}
+.user_two_div{
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+#userInfo_area{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.oneToone{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+.oneSpaceone{
+    display: grid;
+    grid-template-columns: 1fr 30px 1fr;
+}

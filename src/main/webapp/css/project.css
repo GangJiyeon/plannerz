@@ -1,0 +1,49 @@
+.onetTothree{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+.project_item{
+    border-radius: 12px;
+
+    padding: 7px 10px;
+    margin-top: 7px;
+}
+.project_item:hover{
+    cursor: pointer;
+    border-radius: 12px;
+    background-color: rgb(242, 244, 247);
+    border: solid 1px rgb(195, 204, 217);
+
+}
+.project_items{
+    margin-top: 10px;
+}
+#project_contents{
+    background-color: rgb(242, 244, 247);
+    
+}
+.bg_w{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+.content_title{
+    margin-bottom: 10px;
+}
+.title3{
+    font-size: 23px;
+}
+.title4{
+    font-size: 18px;
+}
+.three{
+    display: grid;
+    grid-template-columns: 1fr 10px 1fr 10px 1fr;
+}
+
+.item_list{
+    padding: 7px 10px;
+    margin-top: 7px;
+
+    border-radius: 12px;
+}

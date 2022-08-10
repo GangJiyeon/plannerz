@@ -1,0 +1,19 @@
+
+
+
+.contents{
+    text-align: center;
+}
+.title_wrapper{
+    font-family: 'GangwonEduPowerExtraBoldA';
+    padding: 70px 50px 30px 50px;
+    font-size: 50px;
+}
+.menuList{
+    padding: 60px;
+    display: grid;
+    grid-template-columns: 1fr 100px 10px 100px 10px 100px 10px 100px 1fr;
+}
+.menuList div button{
+    width: 100%;
+}
