@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,17 +16,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>plannerz</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="/css/base2.css">
-    <link rel="stylesheet" href="/css/mypage.css">
-    <link rel="stylesheet" href="/css/basic_theme.css">
-    <link rel="stylesheet" href="/css/userInfo.css">
-    <link rel="stylesheet" href="/css/project.css">
-    <script src="/js/function.js"></script>
-
+    <link rel="stylesheet" href="../Z/css/base2.css">
+    <link rel="stylesheet" href="../Z/css/mypage.css">
+    <link rel="stylesheet" href="../Z/css/basic_theme.css">
+    <link rel="stylesheet" href="../Z/css/userInfo.css">
+    <link rel="stylesheet" href="../Z/css/project.css">
+    <script src="../Z/js/function.js"></script>
+    <script src="../Z/js/project.js"></script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -59,16 +63,11 @@
                         <div>강지연님의 프로젝트</div>
                         <div class="project_items">
                             <hr>
-                            <div class="project_item">
-                                <span>스케줄 관리 웹 만들기 </span>
-
-                            </div>
-                            <div class="project_item">
-                                빙그린 몰 기능 완성하기
-                            </div>
-                            <div class="project_item">
-                                식물공장 아두이노 프로젝트
-                            </div>
+                            <c:forEach items="${projectInfoList}" var="projectInfo">
+                                <div class="project_item" id="${projectInfo.project_idx}">
+                                    <span>${projectInfo.title}</span>
+                                </div>
+                            </c:forEach>
                             <hr>
                             <div class="project_item">
                                 프로젝트를 추가하세요
@@ -77,80 +76,49 @@
                     </div>
                 </div>
                 <div>
+
                     <div class="border_blue" id="project_contents">
-                        <div class="content_title">
-                            <div class="title3">스케줄 관리 웹 만들기 [D-20]</div>
-                            <div>목표기한: 2022년 8월 31일</div>
-                        </div>
-                        <div class="three">
-                            <div class="bg_w">
-                                <div class="title4">기간별/주제별 맞춤 목표</div>
+                        <c:forEach items="${projectInfoList}" var="projectInfo">
+                            <div id="${projectInfo.project_idx}" class="project_middle">
+                                <div class="content_title">
+                                    <div class="title3">${projectInfo.title} [D-20]</div>
+                                    <div>목표기한: ${projectInfo.target_date}</div>
+                                </div>
+                                <div class="three">
+                                    <c:forEach items="${middleList}" var="middleItem">
+                                        <c:forEach items="${middleItem}" var="middle">
+                                            <c:if test="${projectInfo.project_idx==middle.project_idx}">
 
-                            </div>
-                            <div></div>
-                            <div class="bg_w">
-                                <div class="title4">목표</div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
+                                                <div class="bg_w">
+                                                    <div class="title4" id="con_${middle.project_middle_idx}">
+                                                            ${middle.title}
+                                                    </div>
+                                                    <c:forEach items="${itemList}" var="items">
+                                                        <c:forEach items="${items}" var="item">
+                                                            <c:if test="${middle.project_middle_idx==item.middle_idx}">
+                                                                <div class="item_list">
+                                                                    <input type="checkbox" name="" id=""
+                                                                           class="${item.done}"
+                                                                           checked disabled>
+                                                                    <span>${item.title}</span>
+                                                                </div>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </c:forEach>
+                                                </div>
+
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:forEach>
+
+
                                 </div>
                             </div>
-                            <div></div>
-                            <div class="bg_w">
-                                <div class="title4">Done</div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
-                                <div class="item_list">
-                                    <input type="checkbox" name="" id="" checked disabled>
-                                    <span> 마라탕 시켜먹기</span>
-                                </div>
+                        </c:forEach>
 
-                            </div>
-
-                        </div>
                     </div>
+
+
                 </div>
 
             </div>

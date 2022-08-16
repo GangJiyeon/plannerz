@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="/css/base2.css">
-    <link rel="stylesheet" href="/css/mypage.css">
-    <link rel="stylesheet" href="/css/basic_theme.css">
-    <link rel="stylesheet" href="/css/userInfo.css">
-    <link rel="stylesheet" href="/css/board.css">
-    <script src="/js/function.js"></script>
+    <link rel="stylesheet" href="../Z/css/mypage.css">
+    <link rel="stylesheet" href="../Z/css/basic_theme.css">
+    <link rel="stylesheet" href="../Z/css/userInfo.css">
+    <link rel="stylesheet" href="../Z/css/board.css">
+    <link rel="stylesheet" href="../Z/css/base2.css">
+    <script src="../Z/js/function.js"></script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -64,7 +64,7 @@
 
                 <div class="title">
                     <div>
-                        <img src="/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
+                        <img src="../Z/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
                         <span>강지연</span>
                     </div>
 

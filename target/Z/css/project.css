@@ -23,6 +23,7 @@
     
 }
 .bg_w{
+    width: 280px;
     padding: 10px;
     border-radius: 10px;
     background-color: white;
@@ -36,14 +37,9 @@
 .title4{
     font-size: 18px;
 }
-.three{
-    display: grid;
-    grid-template-columns: 1fr 10px 1fr 10px 1fr;
-}
 
 .item_list{
     padding: 7px 10px;
     margin-top: 7px;
-
     border-radius: 12px;
 }

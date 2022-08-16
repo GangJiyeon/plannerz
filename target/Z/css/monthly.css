@@ -16,6 +16,10 @@
     border-right: solid 1px gainsboro;
     height: 15%;
 }
+div.calendar_sidemenu{
+    background-color: rgb(152, 166, 185) !important;
+
+}
 .calendar_menu{
     display: grid;
     grid-template-columns: 1fr 1fr;

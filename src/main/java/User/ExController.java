@@ -16,4 +16,12 @@ public class ExController {
     public String home(){
         return "home";
     }
+
+    @RequestMapping("/join")
+    public String join(){
+        return "join1";
+    }
+
+
+
 }

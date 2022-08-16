@@ -12,8 +12,12 @@ $(document).ready(function(){
         location.href = "join"
     })
 
+    $("#logout_btn").on("click", function(){
+        location.href = "logout"
+    })
+
     $("#go_planner").on("click", function(){
-        location.href = "userinfo/user"
+        location.href = "userinfo"
     })
 
     $("#go_userinfo").on("click", function(){
@@ -24,8 +28,6 @@ $(document).ready(function(){
     $("#user_info").on("click", function(){
         location.href = "userinfo"
     })
-    
-
 
     $("#go_calendar").on("click", function(){
         location.href = "monthly"

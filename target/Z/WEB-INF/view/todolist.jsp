@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="/css/base2.css">
-    <link rel="stylesheet" href="/css/mypage.css">
-    <link rel="stylesheet" href="/css/basic_theme.css">
-    <link rel="stylesheet" href="/css/userInfo.css">
-    <link rel="stylesheet" href="/css/todolist.css">
-    <script src="/js/function.js"></script>
+    <link rel="stylesheet" href="../Z/css/base2.css">
+    <link rel="stylesheet" href="../Z/css/mypage.css">
+    <link rel="stylesheet" href="../Z/css/basic_theme.css">
+    <link rel="stylesheet" href="../Z/css/userInfo.css">
+    <link rel="stylesheet" href="../Z/css/todolist.css">
+    <script src="../Z/js/function.js"></script>
 
     <style>
         @font-face {

@@ -10,6 +10,7 @@
     margin: 20px;
 }
 .contentArea{
+    background-color: white;
     height: 100vh;
 }
 .two_div{
@@ -19,8 +20,8 @@
     margin: 20px 0px 20px 40px;
     padding: 30px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.822);
-    border: solid 1px rgb(152, 166, 185);
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 2px 2px 10px #bababa;
 }
 .user_two_div{
     display: grid;
