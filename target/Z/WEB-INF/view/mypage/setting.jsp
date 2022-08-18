@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="../Z/css/base2.css">
-    <link rel="stylesheet" href="../Z/css/mypage.css">
-    <link rel="stylesheet" href="../Z/css/basic_theme.css">
-    <link rel="stylesheet" href="../Z/css/userInfo.css">
-    <link rel="stylesheet" href="../Z/css/setting.css">
-    <script src="../Z/js/function.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base2.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic_theme.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userInfo.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/setting.css">
+    <script src="${pageContext.request.contextPath}/js/function.js"></script>
 
     <style>
         @font-face {
@@ -55,7 +55,7 @@
             <div class="two_div">
                 <div class="menu_bar">
                     <div id="userImgWrapper">
-                        <img src="/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
+                        <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
                     </div>
                     <div id="user_info"><span>user's info</span></div>
                     <div id="go_alarm"><span >alram</span></div>

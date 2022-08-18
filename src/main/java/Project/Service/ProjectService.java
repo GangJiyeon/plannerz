@@ -3,9 +3,7 @@ package Project.Service;
 import Project.Dao.PROJECT_TB_Dao;
 import Project.Dao.PROJ_ITEM_TB_Dao;
 import Project.Dao.PROJ_MID_TB_Dao;
-import Project.Dto.ProjectInfo;
-import Project.Dto.Project_item_info;
-import Project.Dto.Project_middle_info;
+import Project.Dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +45,11 @@ public class ProjectService {
     public List<Project_item_info> selectProjectItemList(Integer middle_idx){
         List<Project_item_info> projectItemInfoList = proj_item_tb_dao.select_itemList_byMidIdx(middle_idx);
         return projectItemInfoList;
+    }
+
+    public Integer insertProject(ProjectCommand pc){
+        Integer project_idx = project_tb_dao.insertProject(pc);
+        return project_idx;
     }
 
 }

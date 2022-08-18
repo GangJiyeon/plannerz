@@ -21,9 +21,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="../css/base1.css">
-    <link rel="stylesheet" href="../css/join.css">
-    <script src="../js/function.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base1.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/join.css">
+    <script src="${pageContext.request.contextPath}/js/function.js"></script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -95,14 +95,13 @@
 
             <div class="inputArea form_border" id="step2_content">
 
-                <form:form action="/Z/check/id" modelAttribute="user_id">
+                <form:form action="${pageContext.request.contextPath}/check/id" modelAttribute="user_id">
                     <div class="div2">
                         <div><label for="user_id"><spring:message code="user_id"/></label></div>
                         <div class="div_2">
                             <div>
                                 <c:if test="${!empty user_id}">
-                                    <input type="text" name="user_id" id="user_id" value="${user_id}"
-                                           readonly>
+                                    <input type="text" name="user_id" id="user_id" value="${user_id}">
                                 </c:if>
                                 <c:if test="${empty user_id}">
                                     <input type="text" name="user_id" id="user_id"
@@ -116,27 +115,24 @@
                     </div>
                 </form:form>
 
-                <form:form action="/Z/join/input" method="post">
+                <form:form action="${pageContext.request.contextPath}/join/input" method="post">
                 <div class="div2">
                     <div>
                         <label for="user_pw"><spring:message code="user_pw"/></label>
                     </div>
                     <div>
-                        <input type="pw" name="user_pw" id="user_pw"
-                               placeholder="<spring:message code="pw_rule" />">
+                        <form:password path="user_pw" placeholder="<spring:message code=\"pw_rule\" />"/>
                     </div>
                 </div>
                 <div class="div2">
                     <div>
                         <label for="pw_check"><spring:message code="check_pw"/></label>
+                        <form:password path="check_pw" placeholder
                     </div>
                     <div>
                         <input type="pw" name="pw_check" id="pw_check">
                     </div>
                 </div>
-
-
-
                 <div class="div2">
                     <div>
                         <label for="user_name"><spring:message code="user_name"/></label>

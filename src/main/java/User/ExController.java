@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ExController {
 
 
-    @RequestMapping("/login")
-    public String login(){
-        return "login";
-    }
+
 
     @RequestMapping("/home")
     public String home(){

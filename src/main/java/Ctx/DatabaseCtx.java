@@ -14,7 +14,8 @@ import Project.Dao.PROJECT_TB_Dao;
 import Project.Dao.PROJ_ITEM_TB_Dao;
 import Project.Dao.PROJ_MID_TB_Dao;
 import Project.Service.ProjectService;
-import ToDoList.Dao.TODOLIST_TB_Dad;
+import ToDoList.Dao.TODOLIST_ITEM_TB_Dao;
+import ToDoList.Dao.TODOLIST_TB_Dao;
 import ToDoList.Service.TodolistService;
 import User.Dao.USER_TB_Dao;
 import User.Service.JoinService;
@@ -33,7 +34,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 public class DatabaseCtx {
@@ -126,16 +126,21 @@ public class DatabaseCtx {
     }
 
     @Bean
-    public TODOLIST_TB_Dad todolist_tb_dad(){
-        return new TODOLIST_TB_Dad(dataSource());
+    public TODOLIST_TB_Dao todolist_tb_dad(){
+        return new TODOLIST_TB_Dao(dataSource());
     }
 
     @Bean
+    public TODOLIST_ITEM_TB_Dao todolist_item_tb_dao(){
+        return new TODOLIST_ITEM_TB_Dao(dataSource());
+    }
+    @Bean
     public TodolistService todolistService(){
         TodolistService todolistService = new TodolistService();
-        todolistService.setTodolist_tb_dad(todolist_tb_dad());
+        todolistService.setTodolist_tb(todolist_tb_dad(), todolist_item_tb_dao());
         return todolistService;
     }
+
     @Bean
     public USER_TB_Dao user_tb_dao(){
         return new USER_TB_Dao(dataSource());

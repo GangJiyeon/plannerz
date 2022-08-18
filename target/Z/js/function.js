@@ -1,7 +1,10 @@
+
 $(document).ready(function(){
 
+
+
     $("#go_home").on("click", function(){
-        location.href = "home"
+        location.href = "home";
     })
 
     $("#go_login").on("click", function(){

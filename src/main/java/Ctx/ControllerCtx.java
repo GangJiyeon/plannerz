@@ -151,7 +151,7 @@ public class ControllerCtx {
     @Bean
     public UserInfoController userInfoController(){
         UserInfoController userInfoController = new UserInfoController();
-        userInfoController.setUserInfoService(userInfoService);
+        userInfoController.setUserInfoService(userInfoService, loginService);
         return userInfoController;
     }
 

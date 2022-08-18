@@ -28,10 +28,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="../Z/css/base1.css">
-    <link rel="stylesheet" href="../Z/css/join.css">
-    <link rel="stylesheet" href="../Z/css/join1.css">
-    <script src="../Z/js/function.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base1.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/join.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/join1.css">
+    <script src="${pageContext.request.contextPath}/js/function.js"></script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -100,7 +100,7 @@
             <div>
 
             </div>
-            <form:form action="/Z/view/step2" method="post" cssClass="form_border" >
+            <form:form action="${pageContext.request.contextPath}/view/step2" method="post" cssClass="form_border" >
                 <div class="inputArea" id="step1_content">
                     본인인증
                     <div>

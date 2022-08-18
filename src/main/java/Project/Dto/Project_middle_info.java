@@ -7,6 +7,9 @@ public class Project_middle_info {
     private String title;
 
 
+    public Project_middle_info() {
+    }
+
     public Project_middle_info(Integer project_middle_idx, Integer project_idx, String title) {
         this.project_middle_idx = project_middle_idx;
         this.project_idx = project_idx;

@@ -21,10 +21,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="../Z/css/base1.css">
-    <link rel="stylesheet" href="../Z/css/join.css">
-    <link rel="stylesheet" href="../Z/css/login.css">
-    <script src="../Z/js/function.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base1.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/join.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
+    <script src="${pageContext.request.contextPath}/js/function.js"></script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -89,12 +89,14 @@
 
                 </c:if>
                 <c:if test="${loginSession == null}">
-                    <form action="/Z/login" method="post">
+                    
+
+                    <form:form action="${pageContext.request.contextPath}/login/self" modelAttribute="loginCommand">
                         <div>
-                            <input type="text" class="input" placeholder="아이디를 입력하세요" name="user_id">
+                            <form:input path="user_id" placeholder="아이디를 입력하세요"/>
                         </div>
                         <div>
-                            <input type="pw"  class="input" placeholder="비밀번호 입력하세요" name="user_pw">
+                            <form:password path="user_pw" placeholder="비밀번호 입력하세요"/>
                         </div>
                         <div class="re_id">
                             <input type="checkbox" name="remember_id" id="remember_id">
@@ -124,8 +126,10 @@
                                      src="../Z/img/2021_Login_with_naver_guidelines_Kr/btnG_완성형.png" alt="">
                             </div>
                         </div>
+                    </form:form>
 
-                    </form>
+
+
                 </c:if>
 
 

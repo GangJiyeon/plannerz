@@ -21,13 +21,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="../Z/css/base2.css">
-    <link rel="stylesheet" href="../Z/css/mypage.css">
-    <link rel="stylesheet" href="../Z/css/basic_theme.css">
-    <link rel="stylesheet" href="../Z/css/userInfo.css">
-    <link rel="stylesheet" href="../Z/css/project.css">
-    <script src="../Z/js/function.js"></script>
-    <script src="../Z/js/project.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base2.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic_theme.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userInfo.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
+    <script src="${pageContext.request.contextPath}/js/function.js"></script>
+    <script src="${pageContext.request.contextPath}/js/project.js"></script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -60,7 +60,11 @@
             <div class="onetTothree">
                 <div>
                     <div class="border_blue">
-                        <div>강지연님의 프로젝트</div>
+                        <div>
+                            <spring:message code="project_title">
+                                <spring:argument value="${loginSession.user_name}"/>
+                            </spring:message>
+                        </div>
                         <div class="project_items">
                             <hr>
                             <c:forEach items="${projectInfoList}" var="projectInfo">
@@ -69,7 +73,7 @@
                                 </div>
                             </c:forEach>
                             <hr>
-                            <div class="project_item">
+                            <div class="project_item" id="add_project">
                                 프로젝트를 추가하세요
                             </div>
                         </div>
@@ -88,7 +92,6 @@
                                     <c:forEach items="${middleList}" var="middleItem">
                                         <c:forEach items="${middleItem}" var="middle">
                                             <c:if test="${projectInfo.project_idx==middle.project_idx}">
-
                                                 <div class="bg_w">
                                                     <div class="title4" id="con_${middle.project_middle_idx}">
                                                             ${middle.title}
@@ -115,7 +118,30 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        <div id="project_input_area" class="project_middle">
+                            <div class="content_title">
+                                <form:form action="${pageContext.request.contextPath}/project/form1" modelAttribute="projectCommand">
+                                    <div class="title3">프로젝트 추가하기</div>
+                                    <div>
+                                        <form:input path="title" placeholder="프로젝트 이름을 입력하세요. "/>
+                                    </div>
+                                    <div>
+                                        <form:input path="target_date" placeholder="목표날짜를 입력하세요. "/>
+                                    </div>
+                                    <div class="input_project">
+                                        <form:input path="middle_title" placeholder="중간목표 입력하세요. "/>
+                                    </div>
+                                    <div class="input_project" id="add_middle_btn">
+                                        <span>중간목표 추가하기</span>
+                                    </div>
+                                    <div>
+                                        <button type="submit">다음으로</button>
+                                    </div>
+                                </form:form>
 
+
+                            </div>
+                        </div>
                     </div>
 
 

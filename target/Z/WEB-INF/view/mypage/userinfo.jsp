@@ -22,16 +22,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <link rel="stylesheet" href="../Z/css/base2.css">
-    <link rel="stylesheet" href="../Z/css/mypage.css">
-    <link rel="stylesheet" href="../Z/css/basic_theme.css">
-    <link rel="stylesheet" href="../Z/css/userInfo.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base2.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic_theme.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userInfo.css">
     <!-- Libs CSS -->
-    <link rel="stylesheet" href="../Z/css/libs.bundle.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/libs.bundle.css"/>
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="../Z/css/theme.bundle.css"/>
-    <script src="../Z/js/function.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.bundle.css"/>
+    <script src="${pageContext.request.contextPath}/js/function.js"></script>
 
     <style>
         @font-face {
@@ -64,7 +64,7 @@
             <div class="two_div">
                 <div class="menu_bar">
                     <div id="userImgWrapper">
-                        <img src="../Z/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
+                        <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
                     </div>
                     <div id="user_info"><span>user's info</span></div>
                     <div id="go_alarm"><span>alram</span></div>
@@ -91,10 +91,42 @@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" for="user_name">
+                                                <spring:message code="profile_photo"/>
+                                            </label>
+                                            <input class="form-control form-control-sm" id="img" type="image"
+                                                   value="${userInfo.img}" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="user_name">
                                                 <spring:message code="user_name"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="user_name" type="text"
-                                                   value="${loginSession.user_name}" required="">
+                                                   value="${loginSession.user_name}" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="user_id">
+                                                <spring:message code="user_id"/>
+                                            </label>
+                                            <input class="form-control form-control-sm" id="user_id" type="text"
+                                                   value="${loginSession.user_id}" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="user_pw">
+                                                <spring:message code="user_pw"/>
+                                            </label>
+                                            <input class="form-control form-control-sm" id="user_pw" type="password"
+                                                   value="${userInfo.user_pw}" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="sns">
+                                                <spring:message code="sns"/>
+                                            </label>
+                                            <input class="form-control form-control-sm" id="sns" name="sns"
+                                                   type="text" value="${userInfo.sns}" required="" disabled>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -103,7 +135,7 @@
                                                 <spring:message code="birth"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="birth" name="birth"
-                                                   type="datetime" value="" required="">
+                                                   type="datetime" value="${userInfo.birth}" required="">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -112,38 +144,27 @@
                                                 <spring:message code="phone"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="phone" name="phone" type="text"
-                                                   value="" required="">
+                                                   value="${userInfo.phone}" required="required">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="user_id">
-                                                <spring:message code="user_id"/>
+                                            <label class="form-label" for="job">
+                                                <spring:message code="job"/>
                                             </label>
-                                            <input class="form-control form-control-sm" id="user_id" type="text"
-                                                   value="${loginSession.user_id}" required="">
+                                            <input class="form-control form-control-sm" id="job" name="job"
+                                                   type="datetime" value="${userInfo.job}" required="">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label" for="user_pw">
-                                                <spring:message code="user_pw"/>
+                                            <label class="form-label" for="join_date">
+                                                <spring:message code="join_date"/>
                                             </label>
-                                            <input class="form-control form-control-sm" id="user_pw" type="password"
-                                                   value="" required="">
+                                            <input class="form-control form-control-sm" id="join_date" name="join_date"
+                                                   type="datetime" value="${userInfo.join_date}" required="" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="accountEmail">
-                                                <spring:message code="email"/>
-                                            </label>
-                                            <input class="form-control form-control-sm" id="accountEmail" type="email"
-                                                   placeholder="Email Address *" value="user@email.com" required="">
-                                        </div>
-                                    </div>
-
-
                                     <div class="col-12 col-lg-6">
                                         <div class="form-group mb-8">
                                             <label class="form-label"><spring:message code="gendar"/></label>
@@ -160,7 +181,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-12">
                                         <button class="btn btn-dark" type="submit">
                                             <spring:message code="save_btn"/>

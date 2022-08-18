@@ -24,8 +24,9 @@ public class USER_TB_Mapper implements RowMapper<UserInfo> {
         Date birth = rs.getDate("birth");
         String job = rs.getString("job");
         String img = rs.getString("img");
+        String phone = rs.getString("phone");
 
-        UserInfo userInfo = new UserInfo(user_id, user_pw, user_name, sns, join_date, birth, job, img);
+        UserInfo userInfo = new UserInfo(user_id, user_pw, user_name, sns, join_date, birth, job, img, phone);
         return userInfo;
     }
 }

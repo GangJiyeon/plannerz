@@ -14,11 +14,9 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -30,7 +28,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    public void setLoginService(LoginService loginService){
+    public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
     }
 
@@ -41,26 +39,34 @@ public class LoginController {
         this.naverLoginBO = naverLoginBO;
     }
 
+    @GetMapping("/login")
+    public void login(Model model){
+        model.addAttribute("loginCommand", new LoginCommand());
+    }
+
+
     //직접 입력 로그인
-    @PostMapping("/login")
-    public String selfLogin(@Valid LoginCommand loginCommand, Errors errors, HttpSession session){
+    @PostMapping("/login/self")
+    public String selfLogin(@ModelAttribute("loginCommand") @Valid LoginCommand loginCommand,
+                            Errors errors, HttpSession session) {
+
 
         new LoginCommandValidator().validate(loginCommand, errors);
 
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             return "login";
         }
 
-        try{
+        try {
             UserInfo userInfo = loginService.loginService(loginCommand);
 
-            if (userInfo != null){
+            if (userInfo != null) {
                 LoginSession loginSession = new LoginSession(userInfo.getUser_id(), userInfo.getUser_name(), userInfo.getSns());
                 session.setAttribute("loginSession", loginSession);
             }
 
             return "login";
-        }catch (WrongIdPwException e){
+        } catch (WrongIdPwException e) {
             errors.reject("ioPasswordNotMatching");
             System.out.println("login error");
             return "login";
@@ -68,7 +74,7 @@ public class LoginController {
     }
 
     //로그인 첫 화면 요청 메소드
-    @RequestMapping(value = "/login.do", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/login.do", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(Model model, HttpSession session) {
         /* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -83,7 +89,7 @@ public class LoginController {
     }
 
     //네이버 로그인 성공시 callback호출 메소드
-    @RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/callback", method = {RequestMethod.GET, RequestMethod.POST})
     public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException, IOException {
 
         System.out.println("여기는 callback");
@@ -93,14 +99,14 @@ public class LoginController {
         //1. 로그인 사용자 정보를 읽어온다.
         apiResult = naverLoginBO.getUserProfile(oauthToken);  //String형식의 json데이터
         /** apiResult json 구조
-        {"resultcode":"00",
-        "message":"success",
-        "response":{"id":"33666449",
-                    "nickname":"shinn****",
-                    "age":"20-29",
-                    "gender":"M",
-                    "email":"sh@naver.com",
-                    "name":"\uc2e0\ubc94\ud638"}
+         {"resultcode":"00",
+         "message":"success",
+         "response":{"id":"33666449",
+         "nickname":"shinn****",
+         "age":"20-29",
+         "gender":"M",
+         "email":"sh@naver.com",
+         "name":"\uc2e0\ubc94\ud638"}
          }
          **/
 
@@ -111,13 +117,13 @@ public class LoginController {
 
         //3. 데이터 파싱
         //Top레벨 단계 _response 파싱
-        JSONObject response_obj = (JSONObject)jsonObj.get("response");
+        JSONObject response_obj = (JSONObject) jsonObj.get("response");
         //response의 nickname값 파싱
-        String nickname = (String)response_obj.get("nickname");
+        String nickname = (String) response_obj.get("nickname");
         System.out.println(nickname);
 
         //4.파싱 닉네임 세션으로 저장
-        session.setAttribute("sessionId",nickname); //세션 생성
+        session.setAttribute("sessionId", nickname); //세션 생성
         model.addAttribute("result", apiResult);
         return "login";
     }

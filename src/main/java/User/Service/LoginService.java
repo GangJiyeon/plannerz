@@ -18,7 +18,14 @@ public class LoginService {
     }
 
     public UserInfo loginService(LoginCommand loginCommand){
-        UserInfo userInfo = user_tb_dao.select_userInfo(loginCommand);
+        UserInfo userInfo = user_tb_dao.loginCheck(loginCommand);
         return userInfo;
     }
+
+    public UserInfo select_userInfo(String user_id){
+        UserInfo userInfo = user_tb_dao.select_userInfo(user_id);
+        return userInfo;
+    }
+
+
 }

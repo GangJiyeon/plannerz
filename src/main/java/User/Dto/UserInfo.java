@@ -13,7 +13,9 @@ public class UserInfo {
     private String job;
     private String img;
 
-    public UserInfo(String user_id, String user_pw, String user_name, String sns, Date join_date, Date birth, String job, String img) {
+    private String phone;
+
+    public UserInfo(String user_id, String user_pw, String user_name, String sns, Date join_date, Date birth, String job, String img, String phone) {
         this.user_id = user_id;
         this.user_pw = user_pw;
         this.user_name = user_name;
@@ -22,8 +24,16 @@ public class UserInfo {
         this.birth = birth;
         this.job = job;
         this.img = img;
+        this.phone = phone;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getUser_id() {
         return user_id;

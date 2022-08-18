@@ -1,5 +1,6 @@
 package Project.Dao;
 
+import Project.Dto.ProjectCommand;
 import Project.Dto.ProjectInfo;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +15,7 @@ public class PROJECT_TB_Dao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+
     public List<ProjectInfo> selectProjectList_byUserId(String user_id){
         String sql = "SELECT * FROM PROJECT_TB WHERE user_id=?";
         List<ProjectInfo> results = jdbcTemplate.query(sql, new PROJECT_TB_Mapper(), user_id);
@@ -21,5 +23,9 @@ public class PROJECT_TB_Dao {
         return results.isEmpty() ? null : results;
     }
 
+    public Integer insertProject(ProjectCommand projectCommand){
+
+        return 1;
+    }
 
 }

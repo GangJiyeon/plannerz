@@ -43,3 +43,23 @@
     margin-top: 7px;
     border-radius: 12px;
 }
+
+.input_project{
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.project_div2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.project_div2 div button{
+    text-align: right;
+}
+.input_project label{
+    margin-right: 10px;
+}
+.input_project input{
+    padding-left: 10px;
+}
