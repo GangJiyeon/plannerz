@@ -45,10 +45,14 @@ public class JoinValidator implements Validator {
              */
 
             int length = joinCommand.getUser_pw().length();
+
+            /*
             if(length < 8 || 20 < length ){
                 System.out.println("pw param error");
                 errors.rejectValue("user_pw", "bad");
             }
+            */
+
         }
 
         if(!joinCommand.getPw_check().equals(joinCommand.getUser_pw())){

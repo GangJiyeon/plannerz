@@ -5,7 +5,33 @@
   Time: 11:26 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
+
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.net.URL" %>
+<%@ page import="java.net.HttpURLConnection" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.InputStreamReader" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String clientId = "9M1xnD38Pu58YMvcnW37";//애플리케이션 클라이언트 아이디값";
+    String redirectURI = URLEncoder.encode("http://localhost:8080/Z/callback", "UTF-8");
+    SecureRandom random = new SecureRandom();
+    String state = new BigInteger(130, random).toString();
+    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+    apiURL += "&client_id=" + clientId;
+    apiURL += "&redirect_uri=" + redirectURI;
+    apiURL += "&state=" + state;
+    session.setAttribute("state", state);
+%>
+
+
+
+
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -43,31 +69,8 @@
 </head>
 <body>
 <div class="fixed">
-    <div class="headerArea">
-        <div class="menu_bar">
-            <div></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div></div>
-            <div>
-                <button id="go_login">로그인</button>
-            </div>
-            <div></div>
-            <div>
-                <button id="go_join">회원가입</button>
-            </div>
-            <div></div>
-        </div>
-        <div class="header">
-            <div class="logo_wrapper" id="go_home">plannerZ</div>
-            <div></div>
-            <div></div>
-            <div><i class="bi bi-person-fill"></i></div>
-            <div></div>
-            <div><i class="bi bi-list" id="go_planner"></i></div>
-        </div>
-    </div>
+    <%@include file="./includes/header.jsp"%>
+
     <div class="form_wrapper">
         <div class="form">
             <div class="title2">로그인</div>
@@ -76,6 +79,12 @@
                 <c:if test="${loginSession != null}">
                     <form:form method="get">
                         <div class="welcome">
+                            <div>
+                                <c:if test="${loginSession.sns !='none'}">
+                                    <div>${loginSession.sns}계정</div>
+                                </c:if>
+
+                            </div>
                             <div>${loginSession.user_name}님 반갑습니다!</div>
                             <div><img src="https://cr3.shopping.naver.com/bridge/searchGate?query=빵빠레&bt=-1&nv_mid=31177622472&cat_id=50013240&h=571e6ebe1d019e6a8470394c801d0a51538726af&t=L6NPX366&frm=NVSCPRO"></div>
                         </div>
@@ -86,16 +95,16 @@
                             <button type="submit" onclick="javascript:form.action='/Z/logout'" id="logout_btn">로그아웃</button>
                         </div>
                     </form:form>
-
                 </c:if>
+
+
                 <c:if test="${loginSession == null}">
-                    
 
                     <form:form action="${pageContext.request.contextPath}/login/self" modelAttribute="loginCommand">
-                        <div>
+                        <div class="mb5">
                             <form:input path="user_id" placeholder="아이디를 입력하세요"/>
                         </div>
-                        <div>
+                        <div class="mb5">
                             <form:password path="user_pw" placeholder="비밀번호 입력하세요"/>
                         </div>
                         <div class="re_id">
@@ -114,21 +123,20 @@
                             <div>
                                 <button type="submit" id="login_btn">로그인</button>
                             </div>
-                            <div>
-                                <div id="naver_id_login" style="text-align:center">
-                                    <a href="${url}">
-                                        <img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="naver_login_wrapper">
-                                <img id="naver_login"
-                                     src="../Z/img/2021_Login_with_naver_guidelines_Kr/btnG_완성형.png" alt="">
-                            </div>
+
+
                         </div>
                     </form:form>
-
-
+                    <div id="naver_login_wrapper">
+                        <div id="naver_id_login" style="text-align:center" >
+                            <a href="${url}">
+                                <div class="naver_login_wrapper" id="">
+                                    <img id="naver_login"
+                                         src="../Z/img/2021_Login_with_naver_guidelines_Kr/btnG_완성형.png" alt="">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
 
                 </c:if>
 

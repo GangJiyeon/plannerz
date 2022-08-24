@@ -9,7 +9,6 @@ public class ProjectCommand {
     private String title;
     private Date target_date;
     private String user_id;
-
     private String middle_title;
 
     public ProjectCommand() {

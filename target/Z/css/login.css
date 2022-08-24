@@ -3,6 +3,7 @@
     text-align: right;
     grid-template-columns: 1fr 90px 10px 90px 10px 90px;
     margin-bottom: 5px;
+    font-size: 14px;
 }
 .login_menu div a{
     text-decoration: none;
@@ -11,7 +12,7 @@
 .login_menu div a:hover{
     color: rgb(88, 103, 116);
 }
-form{
+form,#naver_login_wrapper{
     border-radius: 5px;
     padding: 0px 30px;
     border: none !important;
@@ -65,6 +66,9 @@ form{
     font-size: 15px;
     width: 300px;
 }
+#naver_id_login{
+    width: 100%;
+}
 .success_login{
     text-align: center;
     padding: 5%;
@@ -75,4 +79,14 @@ form{
 .welcome div img{
     height: 160px;
 
+}
+.re_id{
+    text-align: left;
+}
+.mb5{
+    margin-bottom: 5px;
+}
+.mb5 input{
+    padding-left: 5px;
+    height: 40px;
 }

@@ -9,6 +9,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,21 +41,8 @@
 </head>
 <body>
 <div class="contents">
-    <div class="side_bar">
-        <div><i class="bi bi-person-circle font_30" id="go_userinfo"></i></div>
-        <div class="menu">
-            <div><i class="bi bi-calendar-check space" id="go_calendar"></i></div>
-            <div><i class="bi bi-check2-square space" id="go_todolist"></i></div>
-            <div><i class="bi bi-list-task space" id="go_project"></i></div>
-            <div><i class="bi bi-people space" id="go_board"></i></div>
+    <%@include file="includes/side_bar.jsp"%>
 
-            <div class="bottom">
-                <div><i class="bi bi-house space" id="go_home"></i></div>
-                <div><i class="bi bi-bell-fill space" id="go_alram"></i></div>
-                <div><i class="bi bi-question-circle-fill space" id="go_faq"></i></div>
-            </div>
-        </div>
-    </div>
     <div class="content">
         <div class="real">
             <div class="title">프로젝트</div>
@@ -126,16 +115,16 @@
                                         <form:input path="title" placeholder="프로젝트 이름을 입력하세요. "/>
                                     </div>
                                     <div>
-                                        <form:input path="target_date" placeholder="목표날짜를 입력하세요. "/>
+                                        <form:input path="target_date" type="date" value='<fmt:formatDate pattern = yyyy-mm-dd>' placeholder="목표날짜를 입력하세요. "/>
                                     </div>
                                     <div class="input_project">
-                                        <form:input path="middle_title" placeholder="중간목표 입력하세요. "/>
+                                        <form:input path="middle_title" placeholder="중간목표를 입력하세요. "/>
                                     </div>
                                     <div class="input_project" id="add_middle_btn">
                                         <span>중간목표 추가하기</span>
                                     </div>
                                     <div>
-                                        <button type="submit">다음으로</button>
+                                        <form:button>다음으로</form:button>
                                     </div>
                                 </form:form>
 

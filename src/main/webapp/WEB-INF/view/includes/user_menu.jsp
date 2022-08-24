@@ -6,11 +6,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<div class="menu_bar">
+    <div id="userImgWrapper">
+        <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
+    </div>
+    <div id="user_info"><span>user's info</span></div>
+    <div id="go_alarm"><span>alram</span></div>
+    <div id="go_setting"><span>setting</span></div>
+    <div id="go_board2"><span>board</span></div>
+    <hr>
+    <div id="go_status"><span>status</span></div>
+    <hr>
+    <div><span>logout</span></div>
+    <div><span>회원탈퇴</span></div>
+</div>
 
-</body>
-</html>
+

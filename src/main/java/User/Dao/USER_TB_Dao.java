@@ -39,8 +39,9 @@ public class USER_TB_Dao {
     }
 
     public void insert(JoinCommand joinCommand){
-        String sql = "INSERT INTO USER_TB (user_id, user_pw, user_name, sns, birth, job, img)";
+        String sql = "INSERT INTO USER_TB (user_id, user_pw, user_name, sns, birth, job, img, phone) VALUES " +
+                "(?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql, joinCommand.getUser_id(), joinCommand.getUser_pw(), joinCommand.getUser_name(), joinCommand.getSns(),
-                                joinCommand.getBirth(), joinCommand.getJob(), joinCommand.getImg());
+                                joinCommand.getUser_birth(), joinCommand.getJob(), joinCommand.getImg(), joinCommand.getPhone());
     }
 }

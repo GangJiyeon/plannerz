@@ -15,6 +15,9 @@ public class UserInfo {
 
     private String phone;
 
+    public UserInfo() {
+    }
+
     public UserInfo(String user_id, String user_pw, String user_name, String sns, Date join_date, Date birth, String job, String img, String phone) {
         this.user_id = user_id;
         this.user_pw = user_pw;

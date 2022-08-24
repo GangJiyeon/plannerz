@@ -2,7 +2,7 @@ package ToDoList.Dto;
 
 public class Todolist_item_info {
 
-    private Integer list_item_idx;
+    private String list_item_idx;
     private Integer list_idx;
     private String item_title;
     private Boolean done;
@@ -10,18 +10,18 @@ public class Todolist_item_info {
     public Todolist_item_info() {
     }
 
-    public Todolist_item_info(Integer list_item_idx, Integer list_idx, String item_title, Boolean done) {
+    public Todolist_item_info(String list_item_idx, Integer list_idx, String item_title, Boolean done) {
         this.list_item_idx = list_item_idx;
         this.list_idx = list_idx;
         this.item_title = item_title;
         this.done = done;
     }
 
-    public Integer getList_item_idx() {
+    public String getList_item_idx() {
         return list_item_idx;
     }
 
-    public void setList_item_idx(Integer list_item_idx) {
+    public void setList_item_idx(String list_item_idx) {
         this.list_item_idx = list_item_idx;
     }
 

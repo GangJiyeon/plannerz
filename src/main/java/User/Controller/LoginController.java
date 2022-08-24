@@ -28,20 +28,31 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    public void setLoginService(LoginService loginService) {
+    public void setLoginService(LoginService loginService, NaverLoginBO naverLoginBO) {
         this.loginService = loginService;
+        this.naverLoginBO = naverLoginBO;
     }
-
+    @Autowired
     private NaverLoginBO naverLoginBO;
     private String apiResult = null;
 
-    private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-        this.naverLoginBO = naverLoginBO;
-    }
 
     @GetMapping("/login")
-    public void login(Model model){
+    public String login(Model model, HttpSession session){
         model.addAttribute("loginCommand", new LoginCommand());
+
+        model.addAttribute("loginCommand", new LoginCommand());
+
+        /* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+        String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+
+        //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+        //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+        System.out.println("네이버:" + naverAuthUrl);
+
+        // 네이버
+        model.addAttribute("url", naverAuthUrl);
+        return "login";
     }
 
 
@@ -49,8 +60,6 @@ public class LoginController {
     @PostMapping("/login/self")
     public String selfLogin(@ModelAttribute("loginCommand") @Valid LoginCommand loginCommand,
                             Errors errors, HttpSession session) {
-
-
         new LoginCommandValidator().validate(loginCommand, errors);
 
         if (errors.hasErrors()) {
@@ -64,8 +73,7 @@ public class LoginController {
                 LoginSession loginSession = new LoginSession(userInfo.getUser_id(), userInfo.getUser_name(), userInfo.getSns());
                 session.setAttribute("loginSession", loginSession);
             }
-
-            return "login";
+            return "login_success";
         } catch (WrongIdPwException e) {
             errors.reject("ioPasswordNotMatching");
             System.out.println("login error");
@@ -73,26 +81,16 @@ public class LoginController {
         }
     }
 
-    //로그인 첫 화면 요청 메소드
-    @RequestMapping(value = "/login.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public String login(Model model, HttpSession session) {
-        /* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
-        String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
-
-        //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-        //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-        System.out.println("네이버:" + naverAuthUrl);
-
-        // 네이버
-        model.addAttribute("url", naverAuthUrl);
-        return "login";
-    }
-
     //네이버 로그인 성공시 callback호출 메소드
-    @RequestMapping(value = "/callback", method = {RequestMethod.GET, RequestMethod.POST})
-    public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException, IOException {
+    @RequestMapping(value = "/login_success", method = {RequestMethod.GET, RequestMethod.POST})
+    public String callback(Model model,
+                           @RequestParam("code") String code,
+                           @RequestParam("state") String state, HttpSession session,
+                           LoginSession loginSession)
+            throws IOException, ParseException, IOException {
 
-        System.out.println("여기는 callback");
+
+
         OAuth2AccessToken oauthToken;
         oauthToken = naverLoginBO.getAccessToken(session, code, state);
 
@@ -102,11 +100,12 @@ public class LoginController {
          {"resultcode":"00",
          "message":"success",
          "response":{"id":"33666449",
-         "nickname":"shinn****",
-         "age":"20-29",
-         "gender":"M",
-         "email":"sh@naver.com",
-         "name":"\uc2e0\ubc94\ud638"}
+                    "nickname":"shinn****",
+                     "age":"20-29",
+                     "gender":"M",
+                     "email":"sh@naver.com",
+                     "name":"\uc2e0\ubc94\ud638"
+                    }
          }
          **/
 
@@ -119,12 +118,23 @@ public class LoginController {
         //Top레벨 단계 _response 파싱
         JSONObject response_obj = (JSONObject) jsonObj.get("response");
         //response의 nickname값 파싱
-        String nickname = (String) response_obj.get("nickname");
-        System.out.println(nickname);
 
-        //4.파싱 닉네임 세션으로 저장
-        session.setAttribute("sessionId", nickname); //세션 생성
+
+        String user_id = (String) response_obj.get("id");
+        String user_name = (String) response_obj.get("name") ;
+
+        System.out.println(user_id);
+        System.out.println(user_name);
         model.addAttribute("result", apiResult);
-        return "login";
+
+        loginSession = new LoginSession(user_id, user_name, "naver");
+        session.setAttribute("loginSession", loginSession);
+        
+        model.addAttribute("result", apiResult);
+        return "login_success";
     }
+
+
+
+
 }

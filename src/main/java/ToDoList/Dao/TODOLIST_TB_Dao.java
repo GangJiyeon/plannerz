@@ -49,4 +49,22 @@ public class TODOLIST_TB_Dao {
         return list_idx;
 
     }
+
+
+    public Integer updateTodolist(Todolist_info todolist_info){
+        String sql = "UPDATE TODOLIST_TB SET list_title=? WHERE list_idx=?";
+        jdbcTemplate.update(sql, todolist_info.getList_title(), todolist_info.getList_idx());
+        return todolist_info.getList_idx();
+    }
+
+    public Boolean delete_list(Integer list_idx){
+        String sql = "DELETE FROM TODOLIST_TB WHERE list_idx=?";
+        int result = jdbcTemplate.update(sql, list_idx);
+
+        if(result!=0){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

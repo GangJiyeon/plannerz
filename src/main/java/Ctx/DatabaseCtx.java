@@ -18,6 +18,7 @@ import ToDoList.Dao.TODOLIST_ITEM_TB_Dao;
 import ToDoList.Dao.TODOLIST_TB_Dao;
 import ToDoList.Service.TodolistService;
 import User.Dao.USER_TB_Dao;
+import User.Dto.NaverLoginBO;
 import User.Service.JoinService;
 import User.Service.LoginService;
 
@@ -208,5 +209,7 @@ public class DatabaseCtx {
         userInfoService.setUserinfo_tb_dao(userinfo_tb_dao());
         return userInfoService;
     }
+
+
 
 }

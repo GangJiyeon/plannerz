@@ -36,12 +36,26 @@ public class TodolistService {
         return todolist_item_tb_dao.delete_listItem(list_idx, list_item_idx);
     }
 
+    public boolean delete_list(Integer list_idx){
+
+        todolist_item_tb_dao.delete_listItems(list_idx);
+        return todolist_tb_dad.delete_list(list_idx);
+    }
+
     public Integer insert_todolist(String list_title, String user_id){
         return todolist_tb_dad.insertTodolist(list_title, user_id);
+
     }
 
     public boolean insert_todolist_item(Todolist_item_info todolist_item_info){
         return todolist_item_tb_dao.insert_todolistItem(todolist_item_info);
+    }
+
+    public Integer update_todolist(Todolist_info todolist_info){
+        return todolist_tb_dad.updateTodolist(todolist_info);
+    }
+    public void update_todolist_item(Todolist_item_info todolist_item_info){
+        todolist_item_tb_dao.update_todolistItem(todolist_item_info);
     }
 
 }

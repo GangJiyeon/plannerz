@@ -13,25 +13,26 @@ public class JoinCommand {
 
     private String sns;
 
-
-    private Date birth;
+    private Date user_birth;
 
     private String job;
 
     private String img;
 
+    private String phone;
 
     public JoinCommand() {
     }
 
-    public JoinCommand(String user_id, String user_pw, String user_name, String sns, Date birth, String job, String img) {
+    public JoinCommand(String user_id, String user_pw, String user_name, String sns, Date birth, String job, String img, String phone) {
         this.user_id = user_id;
         this.user_pw = user_pw;
         this.user_name = user_name;
         this.sns = sns;
-        this.birth = birth;
+        this.user_birth = birth;
         this.job = job;
         this.img = img;
+        this.phone = phone;
     }
 
     public String getPw_check() {
@@ -75,13 +76,20 @@ public class JoinCommand {
     }
 
 
-
-    public Date getBirth() {
-        return birth;
+    public Date getUser_birth() {
+        return user_birth;
     }
 
-    public void setBirth(Date birth) {
-        this.birth = birth;
+    public void setUser_birth(Date user_birth) {
+        this.user_birth = user_birth;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getJob() {

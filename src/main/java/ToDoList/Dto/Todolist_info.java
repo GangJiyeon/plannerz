@@ -12,6 +12,10 @@ public class Todolist_info {
         this.user_id = user_id;
     }
 
+    public Todolist_info() {
+
+    }
+
     public Integer getList_idx() {
         return list_idx;
     }

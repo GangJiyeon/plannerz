@@ -19,8 +19,8 @@ public class User_idValidator implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return false;
+    public boolean supports(Class<?> clazz) {
+            return IdCheck.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -28,14 +28,14 @@ public class User_idValidator implements Validator {
 
         IdCheck idCheck = (IdCheck) target;
 
-        if(idCheck.getUser_id() == null || idCheck.getUser_id().trim().isEmpty()){
-            errors.rejectValue("user_id", "required");
-        }else if(idCheck.getUser_id().length()!=idCheck.getUser_id().replaceAll("\\s", "").length()){
-            errors.rejectValue("user_id", "cant_space");
+        if(idCheck.getCheck_user_id() == null || idCheck.getCheck_user_id().trim().isEmpty()){
+            errors.rejectValue("check_user_id", "required");
+        }else if(idCheck.getCheck_user_id().length()!=idCheck.getCheck_user_id().replaceAll("\\s", "").length()){
+            errors.rejectValue("check_user_id", "cant_space");
         }else {
-            Matcher matcher = pattern.matcher(idCheck.getUser_id());
+            Matcher matcher = pattern.matcher(idCheck.getCheck_user_id());
             if(!matcher.matches()){
-                errors.rejectValue("user_id", "bad");
+                errors.rejectValue("check_user_id", "bad");
             }
         }
     }

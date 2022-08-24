@@ -38,12 +38,18 @@ public class TODOLIST_ITEM_TB_Dao {
         }
     }
 
+    public void delete_listItems(Integer list_idx){
+        String sql = "DELETE FROM TODOLIST_ITEM_TB WHERE list_idx=?";
+        jdbcTemplate.update(sql, list_idx);
+
+    }
+
     public Boolean insert_todolistItem(Todolist_item_info todolist_item_info){
-        String sql = "INSERT INTO TODOLIST_ITEM_TB (list_idx, item_title, done)" +
-                "VALUES (?,?,?)";
+        String sql = "INSERT INTO TODOLIST_ITEM_TB (list_idx, item_title)" +
+                "VALUES (?,?)";
 
         int result = jdbcTemplate.update(sql, todolist_item_info.getList_idx(),
-                todolist_item_info.getItem_title(), todolist_item_info.getDone());
+                todolist_item_info.getItem_title());
 
         if(result!=0){
             return true;
@@ -51,5 +57,13 @@ public class TODOLIST_ITEM_TB_Dao {
             return false;
         }
 
+    }
+
+    public void update_todolistItem(Todolist_item_info todolist_item_info){
+        String sql = "UPDATE TODOLIST_ITEM_TB SET item_title=? " +
+                "WHERE list_item_idx=? AND list_idx=?";
+
+        jdbcTemplate.update(sql, todolist_item_info.getItem_title(),
+                todolist_item_info.getList_item_idx(), todolist_item_info.getList_idx());
     }
 }

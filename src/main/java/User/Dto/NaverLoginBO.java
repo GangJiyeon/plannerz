@@ -23,7 +23,7 @@ public class NaverLoginBO {
     // state: 애플리케이션이 생성한 상태 토큰
     private final static String CLIENT_ID = "9M1xnD38Pu58YMvcnW37";
     private final static String CLIENT_SECRET = "yj1l9jLNca";
-    private final static String REDIRECT_URI = "http://localhost:8080/Z/login";
+    private final static String REDIRECT_URI = "http://localhost:8080/Z/login_success";
     private final static String SESSION_STATE = "oauth_state";
 
     /* 프로필 조회 API URL */
@@ -92,4 +92,6 @@ public class NaverLoginBO {
         Response response = request.send();
         return response.getBody();
     }
+
+
 }

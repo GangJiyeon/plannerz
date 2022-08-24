@@ -1,7 +1,9 @@
 package User.Controller;
 
 import User.Dto.IdCheck;
+import User.Dto.JoinAgreeCommand;
 import User.Dto.JoinCommand;
+import User.Dto.UserInfo;
 import User.Exception.CantMakeUserInfoException;
 import User.Exception.DuplicateUserException;
 import User.Service.JoinService;
@@ -10,7 +12,10 @@ import User.Validator.User_idValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -28,14 +33,14 @@ public class JoinController {
     }
 
     @PostMapping("/view/step2")
-    public String go_step2() {
-
+    public String go_step2(Model model) {
+        model.addAttribute("JoinCommand", new JoinCommand());
+        model.addAttribute("idCheck", new IdCheck());
         return "join2";
     }
 
     @PostMapping("/view/step3")
-    public String go_step3() {
-
+    public String go_step3(Model model) {
         return "join3";
     }
 
@@ -46,11 +51,15 @@ public class JoinController {
     }
 
     @PostMapping("/check/id")
-    public String checkId(Model model, @Valid IdCheck idCheck,
+    public String checkId(Model model, @ModelAttribute("idCheck") IdCheck idCheck,
                           Errors errors, HttpSession session) {
 
-        idCheck.setId_exist(false);
         new User_idValidator().validate(idCheck, errors);
+
+        model.addAttribute("idCheck", new IdCheck());
+        model.addAttribute("JoinCommand", new JoinCommand());
+
+
 
         if (errors.hasErrors()) {
             System.out.println("error");
@@ -58,16 +67,14 @@ public class JoinController {
         }
 
         try {
-            boolean id_notexist = joinService.checkid(idCheck.getUser_id());
+            boolean id_notExist = joinService.checkid(idCheck.getCheck_user_id());
+            idCheck.setId_not_exist(id_notExist);
 
-            idCheck.setId_exist(id_notexist);
-
-            if (id_notexist) {
-                model.addAttribute("user_id", idCheck.getUser_id());
-                model.addAttribute("duplicate", idCheck.getId_exist());
-                session.setAttribute("user_id", idCheck.getUser_id());
+            if (id_notExist) {
+                session.setAttribute("new_userId", idCheck.getCheck_user_id());
             } else {
                 System.out.println("duplicate");
+                errors.rejectValue("check_user_id","duplicate");
             }
         } catch (DuplicateUserException e) {
 
@@ -76,29 +83,35 @@ public class JoinController {
 
     }
 
+ //   @InitBinder
+ //   protected void initBinder(WebDataBinder binder){
+ //       binder.setValidator(new User_idValidator());
+ //   }
+
+
     @PostMapping("/join/input")
-    public String join(Model model, @Valid JoinCommand joinCommand,
+    public String join(Model model, JoinCommand joinCommand,
                        Errors errors, HttpSession session) {
+        model.addAttribute("JoinAgreeCommand", new JoinAgreeCommand());
+        model.addAttribute("idCheck", new IdCheck());
+        model.addAttribute("JoinCommand", new JoinCommand());
 
-
+        /*
         new JoinValidator().validate(joinCommand, errors);
-
-        joinCommand.setUser_id((String) session.getAttribute("user_id"));
+         */
+        joinCommand.setUser_id((String) session.getAttribute("new_userId"));
+        joinCommand.setSns("none");
         joinCommand.setImg(null);
 
-        System.out.println(joinCommand.getUser_id());
-        System.out.println(joinCommand.getUser_pw());
-        System.out.println(joinCommand.getPw_check());
-        System.out.println(joinCommand.getBirth());
-        System.out.println(joinCommand.getUser_name());
-        System.out.println(joinCommand.getJob());
-        System.out.println(joinCommand.getImg());
 
 
+        /*
         if(errors.hasErrors()){
             System.out.println("has error");
             return "join2";
         }
+
+         */
 
         try{
             joinService.join(joinCommand);
@@ -109,4 +122,21 @@ public class JoinController {
             return "join2";
         }
     }
+
+    @PostMapping("/check/agree")
+    public String checkAgree(JoinAgreeCommand joinAgreeCommand){
+
+        if(joinAgreeCommand.getAgree1()==true){
+            if(joinAgreeCommand.getAgree2()==true){
+                return "join4";
+            }else {
+                return "join3";
+            }
+        }else{
+            return "join3";
+        }
+
+
+    }
+
 }

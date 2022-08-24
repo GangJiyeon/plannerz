@@ -11,7 +11,7 @@ public class TODOLIST_ITEM_TB_Mapper implements RowMapper<Todolist_item_info> {
     @Override
     public Todolist_item_info mapRow(ResultSet rs, int i) throws SQLException {
 
-        Integer list_item_idx = rs.getInt("list_item_idx");
+        String list_item_idx = rs.getString("list_item_idx");
         Integer list_idx = rs.getInt("list_idx");
         String item_title = rs.getString("item_title");
         Boolean done = rs.getBoolean("done");

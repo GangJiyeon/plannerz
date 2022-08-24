@@ -44,38 +44,14 @@
 </head>
 <body>
 <div class="contents">
-    <div class="side_bar">
-        <div><i class="bi bi-person-circle font_30" id="go_userinfo"></i></div>
-        <div class="menu">
-            <div><i class="bi bi-calendar-check space" id="go_calendar"></i></div>
-            <div><i class="bi bi-check2-square space" id="go_todolist"></i></div>
-            <div><i class="bi bi-list-task space" id="go_project"></i></div>
-            <div><i class="bi bi-people space" id="go_board"></i></div>
 
-            <div class="bottom">
-                <div><i class="bi bi-house space" id="go_home"></i></div>
-                <div><i class="bi bi-bell-fill space" id="go_alram"></i></div>
-                <div><i class="bi bi-question-circle-fill space" id="go_faq"></i></div>
-            </div>
-        </div>
-    </div>
+    <%@include file="../includes/side_bar.jsp"%>
+
     <div class="content">
         <div class="real">
             <div class="two_div">
-                <div class="menu_bar">
-                    <div id="userImgWrapper">
-                        <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
-                    </div>
-                    <div id="user_info"><span>user's info</span></div>
-                    <div id="go_alarm"><span>alram</span></div>
-                    <div id="go_setting"><span>setting</span></div>
-                    <div id="go_board2"><span>board</span></div>
-                    <hr>
-                    <div id="go_status"><span>status</span></div>
-                    <hr>
-                    <div><span>logout</span></div>
-                    <div><span>회원탈퇴</span></div>
-                </div>
+
+                <%@include file="../includes/user_menu.jsp"%>
 
                 <div class="contentArea">
                     <div class="title">

@@ -47,3 +47,14 @@
 
     border-radius: 12px;
 }
+#add_todolist_item:hover{
+    cursor: pointer;
+}
+#up_input{
+    width: 200px;
+    height: 30px;
+}
+#up_input_con{
+    width: 200px;
+    height: 30px;
+}

@@ -50,31 +50,8 @@
 </head>
 <body>
 <div class="fixed">
-    <div class="headerArea">
-        <div class="menu_bar">
-            <div></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div></div>
-            <div>
-                <button id="go_login">로그인</button>
-            </div>
-            <div></div>
-            <div>
-                <button id="go_join">회원가입</button>
-            </div>
-            <div></div>
-        </div>
-        <div class="header">
-            <div class="logo_wrapper" id="go_home">plannerZ</div>
-            <div></div>
-            <div></div>
-            <div><i class="bi bi-person-fill"></i></div>
-            <div></div>
-            <div><i class="bi bi-list" id="go_planner"></i></div>
-        </div>
-    </div>
+    <%@include file="./includes/header.jsp"%>
+
 
     <div class="form_wrapper">
         <div class="form">

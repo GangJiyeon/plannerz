@@ -50,31 +50,8 @@
 </head>
 <body>
 <div class="fixed">
-    <div class="headerArea">
-        <div class="menu_bar">
-            <div></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div></div>
-            <div>
-                <button id="go_login">로그인</button>
-            </div>
-            <div></div>
-            <div>
-                <button id="go_join">회원가입</button>
-            </div>
-            <div></div>
-        </div>
-        <div class="header">
-            <div class="logo_wrapper" id="go_home">plannerZ</div>
-            <div></div>
-            <div></div>
-            <div><i class="bi bi-person-fill"></i></div>
-            <div></div>
-            <div><i class="bi bi-list" id="go_planner"></i></div>
-        </div>
-    </div>
+    <%@include file="./includes/header.jsp"%>
+
 
     <div class="form_wrapper">
         <div class="form">
@@ -98,15 +75,45 @@
                 </div>
             </div>
 
-            <form action="" class="form_border">
-                <div class="inputArea" id="step3_content">
+            <form:form action="${pageContext.request.contextPath}/check/agree" modelAttribute="JoinAgreeCommand">
+                <div class="inputArea form_border" id="step3_content">
                     약관동의
+                    <div>
+                        <div>
+                            <div>
+                                <form:checkbox path="agree1" id="agree1"/>
+                                <label for="agree1">약관동의 1</label>
+                            </div>
+                            <div>
+                                약관동의 내용 1
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <form:checkbox path="agree2" id="agree2"/>
+                                <label for="agree2">약관동의 2</label>
+                            </div>
+                            <div>
+                                약관동의 내용 3
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <form:checkbox path="agree3" id="agree3"/>
+                                <label for="agree3">약관동의 3</label>
+                            </div>
+                            <div>
+                                약관동의 내용 3
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div>
-                    <button>이전으로</button>
-                    <button>다음으로</button>
+                    <<form:button><spring:message code="before"/></form:button>
+                    <form:button><spring:message code="next"/></form:button>
                 </div>
-            </form>
+            </form:form>
 
         </div>
     </div>

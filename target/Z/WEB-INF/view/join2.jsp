@@ -42,31 +42,8 @@
 </head>
 <body>
 <div class="fixed">
-    <div class="headerArea">
-        <div class="menu_bar">
-            <div></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div></div>
-            <div>
-                <button id="go_login">로그인</button>
-            </div>
-            <div></div>
-            <div>
-                <button id="go_join">회원가입</button>
-            </div>
-            <div></div>
-        </div>
-        <div class="header">
-            <div class="logo_wrapper" id="go_home">plannerZ</div>
-            <div></div>
-            <div></div>
-            <div><i class="bi bi-person-fill"></i></div>
-            <div></div>
-            <div><i class="bi bi-list" id="go_planner"></i></div>
-        </div>
-    </div>
+
+    <%@include file="./includes/header.jsp"%>
 
     <div class="form_wrapper">
         <div class="form">
@@ -95,42 +72,42 @@
 
             <div class="inputArea form_border" id="step2_content">
 
-                <form:form action="${pageContext.request.contextPath}/check/id" modelAttribute="user_id">
+                <form:form action="${pageContext.request.contextPath}/check/id" modelAttribute="idCheck">
                     <div class="div2">
-                        <div><label for="user_id"><spring:message code="user_id"/></label></div>
+                        <div>
+                            <label for="user_id"><spring:message code="user_id"/></label>
+                        </div>
                         <div class="div_2">
                             <div>
-                                <c:if test="${!empty user_id}">
-                                    <input type="text" name="user_id" id="user_id" value="${user_id}">
-                                </c:if>
-                                <c:if test="${empty user_id}">
-                                    <input type="text" name="user_id" id="user_id"
-                                           placeholder="<spring:message code="id_rule" />" >
-                                </c:if>
+                                <form:input path="check_user_id" value="${new_userId}"/>
+                                <form:errors path="check_user_id"/>
                             </div>
                             <div>
-                                <button type="submit"><spring:message code="check_id"/></button>
+                                <div>
+                                    <button type="submit"><spring:message code="check_id"/></button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </form:form>
 
-                <form:form action="${pageContext.request.contextPath}/join/input" method="post">
+                <form:form action="${pageContext.request.contextPath}/join/input" method="post"
+                           modelAttribute="JoinCommand">
                 <div class="div2">
                     <div>
+                        <form:input path="user_id" type="hidden" value="${new_userId}"/>
                         <label for="user_pw"><spring:message code="user_pw"/></label>
                     </div>
                     <div>
-                        <form:password path="user_pw" placeholder="<spring:message code=\"pw_rule\" />"/>
+                        <form:password path="user_pw"/>
                     </div>
                 </div>
                 <div class="div2">
                     <div>
                         <label for="pw_check"><spring:message code="check_pw"/></label>
-                        <form:password path="check_pw" placeholder
                     </div>
                     <div>
-                        <input type="pw" name="pw_check" id="pw_check">
+                        <form:password path="pw_check" id="pw_check"/>
                     </div>
                 </div>
                 <div class="div2">
@@ -138,42 +115,45 @@
                         <label for="user_name"><spring:message code="user_name"/></label>
                     </div>
                     <div>
-                        <input type="text" name="user_name" id="user_name">
+                        <form:input path="user_name" id="user_name"/>
                     </div>
                 </div>
 
                 <div class="div2">
                     <div>
-                        <label for="birth"><spring:message code="birth"/></label>
+                        <label for="user_birth"><spring:message code="birth"/></label>
                     </div>
                     <div>
-                        <input type="date" name="birth" id="birth" value="2001-06-14">
+                        <form:input path="user_birth" type="date" datetype="" id="birth"/>
                     </div>
+
                 </div>
 
                 <div class="div2">
                     <div><label for="job"><spring:message code="job"/> </label></div>
                     <div>
-                        <select name="job" id="job">
-                            <option value="무직">무직</option>
-                            <option value="중고등학생">중고등학생</option>
-                            <option value="대학생">대학생</option>
-                            <option value="중고등학생">중고등학생</option>
-                            <option value="마케팅">마케팅</option>
-                        </select>
+                        <form:select path="job" id="job">
+                            <form:option value="무직"></form:option>
+                            <form:option value="중고등학생"></form:option>
+                            <form:option value="대학생"></form:option>
+                            <form:option value="중고등학생"></form:option>
+                            <form:option value="마케팅"></form:option>
+                        </form:select>
                     </div>
                 </div>
                 <div class="div2">
                     <div><label for="img"><spring:message code="profile_photo"/></label></div>
-                    <div><input type="text" name="img" id="img"></div>
+                    <div>
+                        <form:input path="img" id="img"/>
+                    </div>
                 </div>
 
 
             </div>
 
             <div>
-                <button type="button"><spring:message code="before"/></button>
-                <button type="submit"><spring:message code="next"/></button>
+                <form:button><spring:message code="before"/></form:button>
+                <form:button><spring:message code="next"/></form:button>
             </div>
             </form:form>
         </div>

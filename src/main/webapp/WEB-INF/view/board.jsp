@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,21 +37,7 @@
 </head>
 <body>
 <div class="contents">
-    <div class="side_bar">
-        <div><i class="bi bi-person-circle font_30" id="go_userinfo"></i></div>
-        <div class="menu">
-            <div><i class="bi bi-calendar-check space" id="go_calendar"></i></div>
-            <div><i class="bi bi-check2-square space" id="go_todolist"></i></div>
-            <div><i class="bi bi-list-task space" id="go_project"></i></div>
-            <div><i class="bi bi-people space" id="go_board"></i></div>
-
-            <div class="bottom">
-                <div><i class="bi bi-house space" id="go_home"></i></div>
-                <div><i class="bi bi-bell-fill space" id="go_alram"></i></div>
-                <div><i class="bi bi-question-circle-fill space" id="go_faq"></i></div>
-            </div>
-        </div>
-    </div>
+    <%@include file="includes/side_bar.jsp"%>
     <div class="content">
         <div class="real">
 
@@ -56,22 +45,41 @@
                 <div class="two">
                     <div class="service_name">plannerZ > board</div>
                     <div class="btn_area">
-                        <button>글 작성하기</button>
-                        <button>내 피드보기</button>
-                        <button>전체 글 보기</button>
+                        <button id="board_form">글 작성하기</button>
+                        <button id="board_mine">내 피드보기</button>
+                        <button id="board_list">전체 글 보기</button>
                     </div>
                 </div>
 
                 <div class="title">
                     <div>
                         <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
-                        <span>강지연</span>
+                        <span>${loginSession.user_name}</span>
                     </div>
 
 
                 </div>
 
+                <div class="margin_con">
+                    <c:if test="${boardInfoList == null}">
+                        <div>게시글이 없습니다. </div>
+                    </c:if>
+                    <c:if test="${boardInfoList != null}">
+                        <c:forEach items="${boardInfoList}" var="boardInfo">
+                            <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
+                                <div>
+                                    <div>${boardInfo.board_idx}</div>
+                                    <div>${boardInfo.board_title}</div>
+                                    <div>${boardInfo.board_img1}</div>
 
+                                </div>
+                            </a>
+
+                            <hr>
+                        </c:forEach>
+                    </c:if>
+
+                </div>
             </div>
         </div>
 

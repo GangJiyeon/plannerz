@@ -1,9 +1,9 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     $(".con").css('display', 'none');
-    $(".con:first").css('display','block');
+    $(".con:first").css('display', 'block');
 
-    $(".project_item").on("click", function (){
+    $(".project_item").on("click", function () {
         $(".project_item").css('border-radius', 'none');
         $(".project_item").css('background-color', 'white');
         $(".project_item").css('border', 'none');
@@ -16,16 +16,30 @@ $(document).ready(function(){
         $(".con").css('display', 'none');
 
         $("#project_contents")
-        $(".con").filter('#'+todolist_idx).css('display','block');
+        $(".con").filter('#' + todolist_idx).css('display', 'block');
 
     })
 
-    $("#add_todolist_btn").on("click", function (){
-        $("#add_content").css('display','block');
+    $("#add_todolist_btn").on("click", function () {
+        $("#add_content").css('display', 'block');
     })
 
-    $(".delete_btn").on("click", function (){
+    $(".delete_btn").on("click", function () {
         let param = $(this).attr('id');
-        location.href = "/Z/todolist/delete?" +param;
+        alert(param);
+
+        location.href = "/Z/todolist/delete?" + param;
     })
+
+    $(".total_delete_btn").on("click", function () {
+        let param = $(this).attr('id');
+        alert(param);
+        location.href = "/Z/todolist/delete/total?" + param;
+    })
+
+    $("#add_todolist_item").on("click", function () {
+        let param = $(this).attr('class');
+        location.href = "/Z/todolist/add/list_item?" + param;
+    })
+
 });

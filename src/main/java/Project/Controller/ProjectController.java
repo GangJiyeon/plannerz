@@ -67,13 +67,10 @@ public class ProjectController {
 
     @PostMapping("/project/form1")
     public String projectForm1(Model model,
-                               ProjectCommand projectCommand,
-                               Project_middle_command project_middle_command) {
+                               ProjectCommand projectCommand) {
 
-        System.out.println(project_middle_command.getMiddle_title());
-       // Integer project_idx = projectService.insertProject(projectCommand);
+        System.out.println(projectCommand.getMiddle_title());
 
-       // Project_middle_command pmc = new
         return "project";
     }
 

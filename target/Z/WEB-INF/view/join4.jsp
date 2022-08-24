@@ -42,34 +42,11 @@
 </head>
 <body>
 <div class="fixed">
-    <div class="headerArea">
-        <div class="menu_bar">
-            <div></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div></div>
-            <div>
-                <button id="go_login">로그인</button>
-            </div>
-            <div></div>
-            <div>
-                <button id="go_join">회원가입</button>
-            </div>
-            <div></div>
-        </div>
-        <div class="header">
-            <div class="logo_wrapper" id="go_home">plannerZ</div>
-            <div></div>
-            <div></div>
-            <div><i class="bi bi-person-fill"></i></div>
-            <div></div>
-            <div><i class="bi bi-list" id="go_planner"></i></div>
-        </div>
-    </div>
+    <%@include file="./includes/header.jsp"%>
+
 
     <div class="form_wrapper">
-        <form action="get" class="form_border">
+        <div class="form">
             <div class="title2">회원가입</div>
             <div class="join_step">
                 <div id="step1" class="step">
@@ -88,16 +65,20 @@
                     <div class="square"><span>회원가입</span></div>
                 </div>
             </div>
-            <div class="inputArea" id="step4_content">
-                <div>회원가입 완료!</div>
-                <div>
-                    <button type="submit" onclick="javascript: form.action='/userinfo'">plannerZ 이용하기</button>
+
+            <form:form method="get">
+                <div class="inputArea form_border" id="step4_content">
+                    <div>회원가입 완료!</div>
+                    <div>
+                        <button type="submit" onclick="javascript: form.action='${pageContext.request.contextPath}/login'">로그인하기</button>
+                    </div>
+                    <div>
+                        <button type="submit" onclick="javascript: form.action='${pageContext.request.contextPath}/home'">메인으로 이동</button>
+                    </div>
                 </div>
-                <div>
-                    <button type="submit" onclick="javascript: form.action='/home'">메인으로 이동</button>
-                </div>
-            </div>
-        </form>
+            </form:form>
+
+        </div>
     </div>
 </div>
 </div>

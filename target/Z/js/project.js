@@ -29,7 +29,7 @@ $(document).ready(function(){
     })
 
     $("#add_middle_btn").on("click", function (){
-        $("#add_middle_btn").before("<div class=\"input_project\"><form:input path=\"middle_title\">중간목표</form:input></div>");
+        $("#add_middle_btn").before("<div class=\"input_project\"><input name=\"middle_title\" placeholder='중간목표를 입력하세요. '/></div>");
     })
 
 });

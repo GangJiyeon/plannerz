@@ -100,7 +100,7 @@ public class ControllerCtx {
     @Bean
     public LoginController loginController(){
         LoginController controller = new LoginController();
-        controller.setLoginService(loginService);
+        controller.setLoginService(loginService, naverLoginBO());
         return controller;
     }
 
@@ -154,6 +154,12 @@ public class ControllerCtx {
         userInfoController.setUserInfoService(userInfoService, loginService);
         return userInfoController;
     }
+
+    @Bean
+    public NaverLoginBO naverLoginBO(){
+        return new NaverLoginBO();
+    }
+
 
 
 

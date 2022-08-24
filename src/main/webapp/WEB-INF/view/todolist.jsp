@@ -40,21 +40,7 @@
 </head>
 <body>
 <div class="contents">
-    <div class="side_bar">
-        <div><i class="bi bi-person-circle font_30" id="go_userinfo"></i></div>
-        <div class="menu">
-            <div><i class="bi bi-calendar-check space" id="go_calendar"></i></div>
-            <div><i class="bi bi-check2-square space" id="go_todolist"></i></div>
-            <div><i class="bi bi-list-task space" id="go_project"></i></div>
-            <div><i class="bi bi-people space" id="go_board"></i></div>
-
-            <div class="bottom">
-                <div><i class="bi bi-house space" id="go_home"></i></div>
-                <div><i class="bi bi-bell-fill space" id="go_alram"></i></div>
-                <div><i class="bi bi-question-circle-fill space" id="go_faq"></i></div>
-            </div>
-        </div>
-    </div>
+    <%@include file="includes/side_bar.jsp"%>
     <div class="content">
         <div class="real">
             <div class="title">todolist</div>
@@ -87,6 +73,8 @@
                             <div id="${todolistInfo.list_idx}" class="con">
                                 <div class="content_title">
                                     <div class="title3">${todolistInfo.list_title}</div>
+                                    <button type="button" class="total_delete_btn" id="list_idx=${todolistInfo.list_idx}">투투리스트 삭제하기</button>
+
                                 </div>
                                 <div class="bg_w">
                                     <c:forEach items="${listItemInfoList}" var="listItemInfo">

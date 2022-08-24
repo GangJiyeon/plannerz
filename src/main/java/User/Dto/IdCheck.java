@@ -1,27 +1,37 @@
 package User.Dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class IdCheck {
 
-    private String user_id;
+    private String check_user_id;
 
-    private Boolean id_nonexistent;
+    private Boolean id_not_exist;
 
     public IdCheck() {
     }
 
-    public String getUser_id() {
-        return user_id;
+    public IdCheck(String check_user_id, Boolean id_not_exist) {
+        this.check_user_id = check_user_id;
+        this.id_not_exist = id_not_exist;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+
+    public String getCheck_user_id() {
+        return check_user_id;
     }
 
-    public Boolean getId_exist() {
-        return id_nonexistent;
+    public void setCheck_user_id(String check_user_id) {
+        this.check_user_id = check_user_id;
     }
 
-    public void setId_exist(Boolean id_notexist) {
-        this.id_nonexistent = id_notexist;
+    public Boolean getId_not_exist() {
+        return id_not_exist;
     }
+
+    public void setId_not_exist(Boolean id_not_exist) {
+        this.id_not_exist = id_not_exist;
+    }
+
+
 }

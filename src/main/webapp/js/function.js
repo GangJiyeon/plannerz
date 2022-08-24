@@ -3,6 +3,17 @@ $(document).ready(function(){
 
 
 
+    $("#board_form").on("click", function (){
+        location.href = "board/form";
+    })
+    $("#board_mine").on("click", function (){
+        location.href = "board";
+    })
+    $("#board_list").on("click", function (){
+        location.href = "board/list";
+    })
+
+
     $("#go_home").on("click", function(){
         location.href = "home";
     })
@@ -80,6 +91,9 @@ $(document).ready(function(){
         location.href = "status"
     })
 
-    
-    
+    $("#naver_login_btn").on("click", function(){
+        location.href = "login.do"
+    })
+
+
 });
