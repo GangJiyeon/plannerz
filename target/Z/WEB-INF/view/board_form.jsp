@@ -31,7 +31,7 @@
 <body>
 <div class="contents">
     <%@include file="includes/side_bar.jsp"%>
-    <div class="content">
+    <div class="content margin_40">
         <div class="real">
 
             <div class="contentArea">
@@ -53,7 +53,7 @@
 
                 </div>
                 <div class="margin_con">
-                    <form:form method="post" action="${pageContext.request.contextPath}/board/form.do" modelAttribute="boardCommand">
+                    <form:form method="post" action="${pageContext.request.contextPath}/board/form.do"  enctype="multipart/form-data" modelAttribute="boardCommand">
                         <div>
                             <label>
                                 <spring:message code="board.title" />
@@ -70,12 +70,23 @@
                             <label>
                                 <spring:message code="board.img" />
                             </label>
-                            <form:input path="board_img1"/>
+                            <input type="file" name="file" multiple="multiple"/>
                         </div>
+                        <div>
+                            <label>
+                                <spring:message code="board.img" />
+                            </label>
+                            <input type="file" name="file" multiple="multiple"/>
+                        </div>
+
                         <form:button>
                             <spring:message code="board.form"/>
                         </form:button>
                     </form:form>
+
+                    <hr>
+
+
 
                 </div>
 

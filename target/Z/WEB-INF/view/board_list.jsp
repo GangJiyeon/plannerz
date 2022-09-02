@@ -38,7 +38,7 @@
 <body>
 <div class="contents">
     <%@include file="includes/side_bar.jsp"%>
-    <div class="content">
+    <div class="content margin_40">
         <div class="real">
 
             <div class="contentArea">
@@ -59,21 +59,27 @@
 
 
                 </div>
-                <div class="margin_con">
-                    <c:if test="${boardInfoList_18 == null}">
-                        게시글이 없습니다.
-                    </c:if>
-                    <c:if test="${boardInfoList_18 != null}">
-                        <c:forEach items="${boardInfoList_18}" var="boardInfo">
-                            <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
+                <div class="margin_con " id="board_area">
+                    <div class="board_scroll">
+                        <c:if test="${boardInfoList_18 == null}">
+                            게시글이 없습니다.
+                        </c:if>
+                        <c:if test="${boardInfoList_18 != null}">
+                            <c:forEach items="${boardInfoList_18}" var="boardInfo">
                                 <div>
-                                    <div>작성자: ${boardInfo.user_id}</div>
-                                    <div>제목: ${boardInfo.board_title}</div>
+                                    <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
+                                        <div>
+                                            <div>작성자: ${boardInfo.user_id}</div>
+                                            <div>제목: ${boardInfo.board_title}</div>
+                                            <div>조회수: ${boardInfo.see}</div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                            <hr>
-                        </c:forEach>
-                    </c:if>
+
+                            </c:forEach>
+                        </c:if>
+                    </div>
+
                 </div>
 
 

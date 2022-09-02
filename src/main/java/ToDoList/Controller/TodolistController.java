@@ -97,8 +97,6 @@ public class TodolistController {
         List<List<Todolist_item_info>> listItemInfoList = new ArrayList<>();
 
 
-
-
         for (Todolist_info nth : todolistInfoList) {
             listItemInfoList.add(todolistService.select_ListItem(nth.getList_idx()));
         }

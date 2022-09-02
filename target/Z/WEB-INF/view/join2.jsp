@@ -73,6 +73,7 @@
             <div class="inputArea form_border" id="step2_content">
 
                 <form:form action="${pageContext.request.contextPath}/check/id" modelAttribute="idCheck">
+                    <form:errors />
                     <div class="div2">
                         <div>
                             <label for="user_id"><spring:message code="user_id"/></label>

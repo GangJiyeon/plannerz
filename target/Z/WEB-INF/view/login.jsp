@@ -51,6 +51,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/join.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
     <script src="${pageContext.request.contextPath}/js/function.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -102,22 +103,22 @@
 
                     <form:form action="${pageContext.request.contextPath}/login/self" modelAttribute="loginCommand">
                         <div class="mb5">
-                            <form:input path="user_id" placeholder="아이디를 입력하세요"/>
+                            <form:input path="user_id" placeholder="아이디를 입력하세요" value="${loginCommand.user_id}"/>
                         </div>
                         <div class="mb5">
                             <form:password path="user_pw" placeholder="비밀번호 입력하세요"/>
                         </div>
                         <div class="re_id">
-                            <input type="checkbox" name="remember_id" id="remember_id">
-                            <label for="remember_id">아이디 기억하기</label>
+                            <form:checkbox path="remember_me" id="remember_me" value="${loginCommand.remember_me}"/>
+                            <label for="remember_me">아이디 기억하기</label>
                         </div>
                         <div class="login_menu">
                             <div></div>
-                            <div><a href="http://">아이디 찾기</a></div>
+                            <div><a href="${pageContext.request.contextPath}/view/find/id">아이디 찾기</a></div>
                             <div> |</div>
-                            <div><a href="http://">비밀번호 찾기</a></div>
+                            <div><a href="${pageContext.request.contextPath}/view/find/pw">비밀번호 찾기</a></div>
                             <div> |</div>
-                            <div><a href="http://">회원가입 하기</a></div>
+                            <div><a href="${pageContext.request.contextPath}/join">회원가입 하기</a></div>
                         </div>
                         <div>
                             <div>
@@ -135,6 +136,14 @@
                                          src="../Z/img/2021_Login_with_naver_guidelines_Kr/btnG_완성형.png" alt="">
                                 </div>
                             </a>
+                        </div>
+                    </div>
+                    <div id="kakao_login_wrapper">
+                        <div class="snslogin">
+                            <a class="p-2" href="${reqUrl}">
+                                <img src="../BeingGreenMall/img/kakao/kakao_login_medium_narrow.png" style="height:60px">
+                            </a>
+
                         </div>
                     </div>
 

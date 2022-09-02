@@ -2,6 +2,7 @@ package Board.Dao;
 
 import Board.Dto.BoardCommand;
 import Board.Dto.BoardInfo;
+import Board.Dto.BoardLikeInfo;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -95,6 +96,22 @@ public class BOARD_TB_Dao {
                 boardCommand.getBoard_img2(), boardCommand.getBoard_img3(), boardCommand.getBoard_img4(), boardCommand.getBoard_img5(),
                 boardCommand.getBoard_idx());
 
+    }
 
+    public void updateBoardSee(BoardInfo boardInfo){
+        String sql = "UPDATE BOARD_TB SET see=? WHERE board_idx=?";
+        jdbcTemplate.update(sql, boardInfo.getSee()+1, boardInfo.getBoard_idx());
+    }
+
+    public void addBoardLike(BoardInfo boardInfo){
+        int num = boardInfo.getLike()+1;
+        String sql = "UPDATE BOARD_TB SET board_like=? WHERE board_idx=?";
+        jdbcTemplate.update(sql, num, boardInfo.getBoard_idx());
+    }
+
+    public void minusBoardLike(BoardInfo boardInfo){
+        int num = boardInfo.getLike()-1;
+        String sql = "UPDATE BOARD_TB SET board_like=? WHERE board_idx=?";
+        jdbcTemplate.update(sql, num, boardInfo.getBoard_idx());
     }
 }

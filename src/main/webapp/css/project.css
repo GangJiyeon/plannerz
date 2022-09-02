@@ -1,10 +1,12 @@
 .onetTothree{
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 330px 1fr;
+}
+.content{
+    width: 100%;
 }
 .project_item{
     border-radius: 12px;
-
     padding: 7px 10px;
     margin-top: 7px;
 }
@@ -20,13 +22,16 @@
 }
 #project_contents{
     background-color: rgb(242, 244, 247);
-    
+    overflow: hidden !important;
+    height: auto !important;
 }
 .bg_w{
-    width: 280px;
     padding: 10px;
     border-radius: 10px;
     background-color: white;
+    flex-basis: 280px;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 .content_title{
     margin-bottom: 10px;
@@ -62,4 +67,17 @@
 }
 .input_project input{
     padding-left: 10px;
+}
+.three{
+    display: flex;
+    gap: 20px;
+}
+.border_blue_left{
+    margin: 20px 0px 20px 40px !important;
+    lex-basis: 330px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.scroller_wrapper{
+    overflow: scroll;
 }

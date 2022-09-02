@@ -12,12 +12,13 @@ import Project.Controller.ProjectController;
 import Project.Service.ProjectService;
 import ToDoList.Controller.TodolistController;
 import ToDoList.Service.TodolistService;
-import User.API.NaverLoginApi;
+import User.Controller.FindAccountController;
 import User.Controller.JoinController;
 import User.Controller.LoginController;
 import User.Controller.LogoutController;
 import User.Dto.NaverLoginBO;
 import User.ExController;
+import User.Service.FindAccountService;
 import User.Service.JoinService;
 import User.Service.LoginService;
 import UserInfo.Controller.AlarmController;
@@ -28,10 +29,8 @@ import UserInfo.Service.AlarmService;
 import UserInfo.Service.SettingService;
 import UserInfo.Service.StatusService;
 import UserInfo.Service.UserInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 @Configuration
 public class ControllerCtx {
@@ -40,6 +39,7 @@ public class ControllerCtx {
     public ExController exController() {
         return new ExController();
     }
+
 
     private BoardService boardService;
 
@@ -94,6 +94,14 @@ public class ControllerCtx {
         return todolistController;
     }
 
+    private FindAccountService findAccountService;
+
+    @Bean
+    public FindAccountController findAccountController(){
+        FindAccountController findAccountController = new FindAccountController();
+        findAccountController.setFindAccountService(findAccountService);
+        return  findAccountController;
+    }
 
     private LoginService loginService;
 

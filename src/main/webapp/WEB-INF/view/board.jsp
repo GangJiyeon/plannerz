@@ -38,7 +38,7 @@
 <body>
 <div class="contents">
     <%@include file="includes/side_bar.jsp"%>
-    <div class="content">
+    <div class="content margin_40">
         <div class="real">
 
             <div class="contentArea">
@@ -60,20 +60,23 @@
 
                 </div>
 
-                <div class="margin_con">
+                <div class="margin_con board_scroll">
                     <c:if test="${boardInfoList == null}">
                         <div>게시글이 없습니다. </div>
                     </c:if>
                     <c:if test="${boardInfoList != null}">
                         <c:forEach items="${boardInfoList}" var="boardInfo">
-                            <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
-                                <div>
-                                    <div>${boardInfo.board_idx}</div>
-                                    <div>${boardInfo.board_title}</div>
-                                    <div>${boardInfo.board_img1}</div>
+                            <div>
+                                <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
+                                    <div>
+                                        <div>${boardInfo.board_idx}</div>
+                                        <div>${boardInfo.board_title}</div>
+                                        <div>${boardInfo.board_img1}</div>
 
-                                </div>
-                            </a>
+                                    </div>
+                                </a>
+                            </div>
+
 
                             <hr>
                         </c:forEach>

@@ -48,7 +48,7 @@
             <div class="title">프로젝트</div>
             <div class="onetTothree">
                 <div>
-                    <div class="border_blue">
+                    <div class="border_blue border_blue_left">
                         <div>
                             <spring:message code="project_title">
                                 <spring:argument value="${loginSession.user_name}"/>
@@ -68,45 +68,50 @@
                         </div>
                     </div>
                 </div>
-                <div>
 
-                    <div class="border_blue" id="project_contents">
+                <div>
+                    <div class="border_blue " id="project_contents">
                         <c:forEach items="${projectInfoList}" var="projectInfo">
                             <div id="${projectInfo.project_idx}" class="project_middle">
                                 <div class="content_title">
                                     <div class="title3">${projectInfo.title} [D-20]</div>
                                     <div>목표기한: ${projectInfo.target_date}</div>
                                 </div>
-                                <div class="three">
-                                    <c:forEach items="${middleList}" var="middleItem">
-                                        <c:forEach items="${middleItem}" var="middle">
-                                            <c:if test="${projectInfo.project_idx==middle.project_idx}">
-                                                <div class="bg_w">
-                                                    <div class="title4" id="con_${middle.project_middle_idx}">
-                                                            ${middle.title}
-                                                    </div>
-                                                    <c:forEach items="${itemList}" var="items">
-                                                        <c:forEach items="${items}" var="item">
-                                                            <c:if test="${middle.project_middle_idx==item.middle_idx}">
-                                                                <div class="item_list">
-                                                                    <input type="checkbox" name="" id=""
-                                                                           class="${item.done}"
-                                                                           checked disabled>
-                                                                    <span>${item.title}</span>
-                                                                </div>
-                                                            </c:if>
+                                <div class="scroller_wrapper">
+                                    <div class="three">
+                                        <c:forEach items="${middleList}" var="middleItem">
+                                            <c:forEach items="${middleItem}" var="middle">
+                                                <c:if test="${projectInfo.project_idx==middle.project_idx}">
+                                                    <div class="bg_w">
+                                                        <div class="title4" id="con_${middle.project_middle_idx}">
+                                                                ${middle.title}
+                                                        </div>
+                                                        <c:forEach items="${itemList}" var="items">
+                                                            <c:forEach items="${items}" var="item">
+                                                                <c:if test="${middle.project_middle_idx==item.middle_idx}">
+                                                                    <div class="item_list">
+                                                                        <input type="checkbox" name="" id=""
+                                                                               class="${item.done}"
+                                                                               checked disabled>
+                                                                        <span>${item.title}</span>
+                                                                    </div>
+                                                                </c:if>
+                                                            </c:forEach>
                                                         </c:forEach>
-                                                    </c:forEach>
-                                                </div>
+                                                    </div>
 
-                                            </c:if>
+                                                </c:if>
+                                            </c:forEach>
                                         </c:forEach>
-                                    </c:forEach>
 
 
+                                    </div>
                                 </div>
+
                             </div>
                         </c:forEach>
+
+
                         <div id="project_input_area" class="project_middle">
                             <div class="content_title">
                                 <form:form action="${pageContext.request.contextPath}/project/form1" modelAttribute="projectCommand">
@@ -132,9 +137,12 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
+
+
+
+
+
 
             </div>
         </div>

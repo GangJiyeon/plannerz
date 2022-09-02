@@ -50,8 +50,36 @@
 .two{
     margin: 20px 0px 0px 40px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 150px 1fr;
+
 }
 .margin_con{
-    padding: 20px 40px !important;
+    padding: 20px 0px 20px 40px !important;
+
+}
+.board{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.comment_info_area{
+    display: flex;
+    gap: 10px;
+}
+.comment_btn_area{
+    display: flex;
+    gap: 10px;
+}
+.cocComment{
+    margin-left: 30px;
+}
+#board_area{
+    display: flex;
+    gap: 10px;
+}
+.margin_40{
+    margin-right: 40px;
+}
+.board_scroll{
+    height: 100vh;
+    overflow: auto;
 }

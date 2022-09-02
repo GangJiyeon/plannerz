@@ -22,7 +22,7 @@ public class BOARD_TB_Mapper implements RowMapper<BoardInfo> {
         String board_img3 = rs.getString("board_img3");
         String board_img4 = rs.getString("board_img4");
         String board_img5 = rs.getString("board_img5");
-        Integer like = rs.getInt("like");
+        Integer like = rs.getInt("board_like");
         Integer comment = rs.getInt("comment");
         Date insert_date = rs.getDate("insert_date");
         Integer see = rs.getInt("see");

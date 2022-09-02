@@ -1,5 +1,6 @@
 package Ctx;
 
+import Etc.LoginCheckInterceptor;
 import User.Validator.JoinValidator;
 import User.Validator.User_idValidator;
 import org.springframework.context.MessageSource;
@@ -7,10 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
+
 @Configuration
 @EnableWebMvc
 public class MvcCtx implements WebMvcConfigurer {
@@ -27,6 +26,18 @@ public class MvcCtx implements WebMvcConfigurer {
         registry.jsp("/WEB-INF/view/", ".jsp");
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(loginCheckInterceptor())
+                .addPathPatterns("/board/**","/todolist/**")
+                .excludePathPatterns((""));
+
+    }
+
+    @Bean
+    public LoginCheckInterceptor loginCheckInterceptor(){
+        return new LoginCheckInterceptor();
+    }
     @Bean
     public MessageSource messageSource(){
         ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
@@ -35,6 +46,7 @@ public class MvcCtx implements WebMvcConfigurer {
 
         return ms;
     }
+
 
 
 }

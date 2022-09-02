@@ -1,4 +1,7 @@
-<%--
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="Calendar.Dto.MonthlyInfo" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: gangjiyeon
   Date: 2022/08/10
@@ -18,17 +21,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base2.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/monthly.css">
     <link href='${pageContext.request.contextPath}/css/main.css' rel='stylesheet'/>
     <script src="${pageContext.request.contextPath}/js/function.js"></script>
     <script src='${pageContext.request.contextPath}/js/main.js'></script>
+
     <style>
         html, body {
             overflow: hidden; /* don't do scrollbars */
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
         }
+
         #calendar-container {
             position: absolute;
             top: 0;
@@ -58,9 +70,6 @@
     </style>
     <script>
 
-        $.ajax(
-
-        )
 
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
@@ -72,50 +81,42 @@
                 slotMaxTime: '20:00',
                 headerToolbar: {
                     left: 'prev title next today',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: 'addEventButton dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                customButtons: {
+                    addEventButton: { // 추가한 버튼 설정
+                        text: "일정 추가",  // 버튼 내용
+                        click: function () { // 버튼 클릭 시 이벤트 추가
+                            $("#calendarModal").modal("show"); // modal 나타내기
+                        }
+                    }
                 },
                 initialView: 'dayGridMonth',
-                initialDate: '2020-09-12',
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
                 selectable: true,
                 nowIndicator: true,
                 dayMaxEvents: true, // allow "more" link when too many events
                 locale: 'ko',
-
                 events: [
+                    <%List<MonthlyInfo> monthlyInfoList = (List<MonthlyInfo>) request.getAttribute("monthlyInfoList");%>
+                    <%if (monthlyInfoList != null) {%>
+                    <%for (MonthlyInfo nth : monthlyInfoList) {%>
                     {
-                        title: 'All Day Event',
-                        start: '2020-09-01',
+                        title: '<%= nth.getTitle()%>',
+                        start: '<%= nth.getStart_date()%>',
+                        end: '<%= nth.getFinish_date()%>',
+                        color: '<%= nth.getBg_color()%>',
+                        textColor: '<%= nth.getTx_color()%>'
                     },
-                    {
-                        title: 'Long Event',
-                        start: '2020-09-07',
-                        end: '2020-09-10'
-                    },
-                    {
-                        groupId: 999,
-                        title: 'Repeating Event',
-                        start: '2020-09-16T16:00:00'
-                    },
-                    {
-                        title: 'Dinner',
-                        start: '2020-09-12T20:00:00'
-                    },
-                    {
-                        title: 'Birthday Party',
-                        start: '2020-09-13T07:00:00'
-                    },
-                    {
-                        title: 'Click for Google',
-                        url: 'http://google.com/',
-                        start: '2020-09-28'
-                    }
+                    <%}
+                }%>
                 ]
             });
 
             calendar.render();
         });
+
 
     </script>
 
@@ -146,10 +147,94 @@
             </div>
         </div>
     </div>
-    <div class="calendar_sidemenu">
+    <!-- modal 추가 -->
+    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form:form action="${pageContext.request.contextPath}/monthly/add" modelAttribute="monthlyInfo">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div>
+                                <label for="title">일정 내용</label>
+                                <form:input path="title" class="form-control" id="title"/>
+                            </div>
+                            <div>
+                                <label for="start_date">시작 날짜</label>
+                                <form:input type="datetime-local" path="start_date" class="form-control"
+                                   value="<fmt:formatDate pattern=\"yyyy-MM-dd HH:mm:ss\" />"         id="start_date"/>
+                            </div>
+                            <div>
+                                <label for="finish_date">종료 날짜</label>
+                                <form:input type="datetime-local" path="finish_date" class="form-control"
+                                            value="<fmt:formatDate pattern = yyyy-MM-dd'/>" id="finish_date"/>
+                            </div>
+                            <div>
+                                <label for="bg_color">배경색</label>
+                                <form:input type="color" path="bg_color" class="form-control" id="bg_color"/>
+                            </div>
+                            <div>
+                                <label for="tx_color">글자색</label>
+                                <form:input type="color" path="tx_color" class="form-control" id="tx_color"/>
+                            </div>
+                            <div>
+                                <label for="alarm_time">알림 설정(미입력 시 알림 없음)</label>
+                                <form:input type="datetime-local" path="alarm_time" class="form-control"
+                                            id="alarm_time"/>
+                            </div>
+                        </div>
 
+                        <div class="modal-footer">
+                            <form:button class="btn btn-warning">추가</form:button>
+                            <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    id="sprintSettingModalClose">취소
+                            </button>
+
+                            <script>
+
+                                $("#addCalendar").on("click", function () {  // modal의 추가 버튼 클릭 시
+
+                                    var content = $("#calendar_content").val();
+                                    var start_date = $("#calendar_start_date").val();
+                                    var end_date = $("#calendar_end_date").val();
+
+                                    //내용 입력 여부 확인
+                                    if (content == null || content == "") {
+                                        alert("내용을 입력하세요.");
+                                    } else if (start_date == "" || end_date == "") {
+                                        alert("날짜를 입력하세요.");
+                                    } else if (new Date(end_date) - new Date(start_date) < 0) { // date 타입으로 변경 후 확인
+                                        alert("종료일이 시작일보다 먼저입니다.");
+                                    } else { // 정상적인 입력 시
+                                        var obj = {
+                                            "title": content,
+                                            "start": start_date,
+                                            "end": end_date
+                                        }//전송할 객체 생성
+
+                                        alert(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                    </div>
+                </form:form>
+            </div>
+        </div>
+
+
+        <div class="calendar_sidemenu">
+
+        </div>
     </div>
-</div>
 </div>
 </body>
 </html>

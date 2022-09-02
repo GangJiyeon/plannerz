@@ -2,7 +2,10 @@
 package Ctx;
 
 
+import Board.Dao.BOARD_LIKE_TB_Dao;
 import Board.Dao.BOARD_TB_Dao;
+import Board.Dao.COMMENT_LIKE_TB_Dao;
+import Board.Dao.COMMENT_TB_Dao;
 import Board.Service.BoardService;
 import Calendar.Dao.DAILY_TB_Dao;
 import Calendar.Dao.MONTHLY_TB_Dao;
@@ -18,7 +21,7 @@ import ToDoList.Dao.TODOLIST_ITEM_TB_Dao;
 import ToDoList.Dao.TODOLIST_TB_Dao;
 import ToDoList.Service.TodolistService;
 import User.Dao.USER_TB_Dao;
-import User.Dto.NaverLoginBO;
+import User.Service.FindAccountService;
 import User.Service.JoinService;
 import User.Service.LoginService;
 
@@ -63,9 +66,24 @@ public class DatabaseCtx {
     }
 
     @Bean
+    public COMMENT_TB_Dao comment_tb_dao(){
+        return new COMMENT_TB_Dao(dataSource());
+    }
+
+    @Bean
+    public BOARD_LIKE_TB_Dao board_like_tb_dao(){
+        return new BOARD_LIKE_TB_Dao(dataSource());
+    }
+
+    @Bean
+    public COMMENT_LIKE_TB_Dao comment_like_tb_dao(){
+        return new COMMENT_LIKE_TB_Dao(dataSource());
+    }
+
+    @Bean
     public BoardService boardService(){
         BoardService boardService = new BoardService();
-        boardService.setBoard_tb_dao(board_tb_dao());
+        boardService.setBoard_tb_dao(board_tb_dao(), comment_tb_dao(), board_like_tb_dao(), comment_like_tb_dao());
         return boardService;
     }
 
@@ -146,6 +164,14 @@ public class DatabaseCtx {
     public USER_TB_Dao user_tb_dao(){
         return new USER_TB_Dao(dataSource());
     }
+
+    @Bean
+    public FindAccountService findInfoService(){
+        FindAccountService findInfoService = new FindAccountService();
+        findInfoService.setUser_tb_dao(user_tb_dao());
+        return findInfoService;
+    }
+
     @Bean
     public LoginService loginService(){
         LoginService loginService = new LoginService();

@@ -27,6 +27,7 @@
                 Ctx.DatabaseCtx
                 Ctx.MvcCtx
                 Ctx.ControllerCtx
+                Ctx.FileCtx
             </param-value>
         </init-param>
 

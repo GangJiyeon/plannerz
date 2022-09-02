@@ -12,7 +12,6 @@ public class UserInfo {
     private Date birth;
     private String job;
     private String img;
-
     private String phone;
 
     public UserInfo() {
