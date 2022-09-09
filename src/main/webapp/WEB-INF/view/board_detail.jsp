@@ -45,25 +45,7 @@
         <div class="real">
 
             <div class="contentArea">
-                <div class="two">
-                    <div class="service_name">plannerZ > board</div>
-                    <div class="btn_area">
-                        <button id="board_form">글 작성하기</button>
-                        <button id="board_mine">내 피드보기</button>
-                        <button id="board_list">전체 글 보기</button>
-                    </div>
-                </div>
-                <script>
-
-
-                    $(document).ready(function () {
-
-                        $("#board_form").on("click", function () {
-                            location.href = "/board/form";
-                        })
-                    });
-                </script>
-
+                <%@include file="includes/board.jsp"%>
                 <div class="title">
                     <div>
                         <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png"

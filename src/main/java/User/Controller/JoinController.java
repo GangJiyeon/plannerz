@@ -32,6 +32,17 @@ public class JoinController {
         this.joinService = joinService;
     }
 
+    //뷰 보여주기
+    @RequestMapping("/join")
+    public String join(){
+        return "join1";
+    }
+
+    @RequestMapping("/success")
+    public String success(){
+        return "join1";
+    }
+
     @PostMapping("/view/step2")
     public String go_step2(Model model) {
         model.addAttribute("JoinCommand", new JoinCommand());
@@ -46,10 +57,11 @@ public class JoinController {
 
     @PostMapping("/view/step4")
     public String go_step4() {
-
         return "join4";
     }
 
+
+    //아이디 중복 체크
     @PostMapping("/check/id")
     public String checkId(Model model, @ModelAttribute("idCheck") IdCheck idCheck,
                           Errors errors, HttpSession session) {
@@ -89,6 +101,7 @@ public class JoinController {
  //   }
 
 
+    //회원정보 입력
     @PostMapping("/join/input")
     public String join(Model model, JoinCommand joinCommand,
                        Errors errors, HttpSession session) {
@@ -123,6 +136,7 @@ public class JoinController {
         }
     }
 
+    //동의 항목 체크
     @PostMapping("/check/agree")
     public String checkAgree(JoinAgreeCommand joinAgreeCommand){
 

@@ -4,6 +4,9 @@
     padding: 0;
     font-family: 'NEXON Lv2 Gothic';
 }
+a{
+    color: black;
+}
 .contents{
     height: 100vh;
     display: grid;
@@ -52,6 +55,6 @@ i{
 
 #go_home:hover,#go_alarm:hover,#go_mypage:hover,#go_calendar:hover,#go_todolist:hover,
 #go_project:hover,#go_board:hover,#go_faq:hover,#go_userinfo:hover,#go_setting:hover,
-#go_status:hover,#user_info:hover{
+#go_status:hover,#user_info:hover,#go_alarm2:hover,#go_board2:hover{
     cursor: pointer;
 }

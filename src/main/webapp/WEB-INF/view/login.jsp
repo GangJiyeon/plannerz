@@ -99,6 +99,7 @@
                 </c:if>
 
 
+
                 <c:if test="${loginSession == null}">
 
                     <form:form action="${pageContext.request.contextPath}/login/self" modelAttribute="loginCommand">
@@ -141,22 +142,20 @@
                     <div id="kakao_login_wrapper">
                         <div class="snslogin">
                             <a class="p-2" href="${reqUrl}">
-                                <img src="../BeingGreenMall/img/kakao/kakao_login_medium_narrow.png" style="height:60px">
+                                <img src="${pageContext.request.contextPath}/img/kakao_login_medium_narrow.png" style="height:60px">
                             </a>
-
                         </div>
                     </div>
 
                 </c:if>
-
-
-
-
-
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    $("#logout_btn").on("click", function(){
+        location.href = "${pageContext.request.contextPath}/logout"
+    })
+</script>
 </body>
 </html>

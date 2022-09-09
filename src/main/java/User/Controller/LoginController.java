@@ -50,10 +50,6 @@ public class LoginController {
     public String login(Model model, HttpSession session, LoginCommand loginCommand,
                         @CookieValue(value = "remember_me", required = false) Cookie cookie, HttpServletRequest request) throws Exception{
 
-
-
-
-
         model.addAttribute("loginCommand", new LoginCommand());
 
         /* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
@@ -187,6 +183,33 @@ public class LoginController {
     }
 
 
+
+    // 카카오 연동정보 조회
+    @RequestMapping(value = "/login/oauth_kakao")
+    public String oauthKakao(@RequestParam(value = "code", required = false) String code,
+                             Model model, HttpSession session) throws Exception {
+        System.out.println("#########" + code);
+        String access_Token = getAccessToken(code);
+        System.out.println("###access_Token#### : " + access_Token);
+
+        HashMap<String, Object> userInfo = getUserInfo(access_Token);
+        System.out.println("###access_Token#### : " + access_Token);
+        System.out.println("###userInfo#### : " + userInfo.get("account_email"));
+        System.out.println("###nickname#### : " + userInfo.get("profile_nickname"));
+        System.out.println("###gender#### : " + userInfo.get("gender"));
+
+        JSONObject kakaoInfo =  new JSONObject(userInfo);
+        model.addAttribute("kakaoInfo", kakaoInfo);
+
+
+        String user_name = (String) userInfo.get("user_name");
+        String sns = (String) userInfo.get("sns");
+        LoginSession loginSession = new LoginSession(user_name, user_name, sns);
+        session.setAttribute("loginSession", loginSession);
+
+        return "/login_success"; //본인 원하는 경로 설정
+    }
+
     //토큰발급
     public String getAccessToken (String authorize_code) {
         String access_Token = "";
@@ -246,27 +269,6 @@ public class LoginController {
         return access_Token;
     }
 
-
-    // 카카오 연동정보 조회
-    @RequestMapping(value = "/login/oauth_kakao")
-    public String oauthKakao(@RequestParam(value = "code", required = false) String code, Model model) throws Exception {
-        System.out.println("#########" + code);
-        String access_Token = getAccessToken(code);
-        System.out.println("###access_Token#### : " + access_Token);
-
-        HashMap<String, Object> userInfo = getUserInfo(access_Token);
-        System.out.println("###access_Token#### : " + access_Token);
-        System.out.println("###userInfo#### : " + userInfo.get("account_email"));
-        System.out.println("###nickname#### : " + userInfo.get("profile_nickname"));
-        System.out.println("###gender#### : " + userInfo.get("gender"));
-
-        JSONObject kakaoInfo =  new JSONObject(userInfo);
-        model.addAttribute("kakaoInfo", kakaoInfo);
-
-        return "/login_success"; //본인 원하는 경로 설정
-    }
-
-
     //유저정보조회
     public HashMap<String, Object> getUserInfo (String access_Token) {
 
@@ -300,18 +302,21 @@ public class LoginController {
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-            String nickname = properties.getAsJsonObject().get("profile_nickname").getAsString();
+            System.out.println("properties=" + properties);
+
+            System.out.println("kakao=" + kakao_account);
+
             String img = properties.getAsJsonObject().get("profile_image").getAsString();
-            String email = kakao_account.getAsJsonObject().get("account_email").getAsString();
-            String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
+            String email = kakao_account.getAsJsonObject().get("email").getAsString();
             String birthday = kakao_account.getAsJsonObject().get("birthday").getAsString();
 
+
+
             userInfo.put("accessToken", access_Token);
-            userInfo.put("nickname", nickname);
-            userInfo.put("email", email);
-            userInfo.put("gender", gender);
+            userInfo.put("user_name", email);
             userInfo.put("img", img);
             userInfo.put("birthday", birthday);
+            userInfo.put("sns", "kakao");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

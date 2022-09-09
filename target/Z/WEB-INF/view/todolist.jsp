@@ -46,7 +46,7 @@
             <div class="title">todolist</div>
             <div class="onetTothree">
                 <div>
-                    <div class="border_blue">
+                    <div class="border_blue not">
                         <div>
                             <spring:message code="todolist_title">
                                 <spring:argument value="${loginSession.user_name}"/>
@@ -54,11 +54,13 @@
                         </div>
                         <div class="project_items">
                             <hr>
-                            <c:forEach items="${todolistInfoList}" var="todolistInfo">
-                                <div class="project_item" id="${todolistInfo.list_idx}">
-                                    <span>${todolistInfo.list_title}</span>
-                                </div>
-                            </c:forEach>
+                            <div class="scroll">
+                                <c:forEach items="${todolistInfoList}" var="todolistInfo">
+                                    <div class="project_item" id="${todolistInfo.list_idx}">
+                                        <span>${todolistInfo.list_title}</span>
+                                    </div>
+                                </c:forEach>
+                            </div>
                             <hr>
                             <div class="project_item" id="add_todolist_btn">
                                 프로젝트를 추가하세요
@@ -67,28 +69,40 @@
                     </div>
                 </div>
                 <div>
-                    <div class="border_blue" id="project_contents">
+                    <div class="border_blue not" id="project_contents">
 
                         <c:forEach items="${todolistInfoList}" var="todolistInfo">
                             <div id="${todolistInfo.list_idx}" class="con">
                                 <div class="content_title">
-                                    <div class="title3">${todolistInfo.list_title}</div>
-                                    <button type="button" class="total_delete_btn" id="list_idx=${todolistInfo.list_idx}">투투리스트 삭제하기</button>
+                                    <div class="three_items">
+                                        <div><span class="title3">${todolistInfo.list_title}</span></div>
+                                        <div class="btn_area_todolist">
+                                            <button type="button" class="total_delete_btn" id="list_idx=${todolistInfo.list_idx}">삭제</button>
+                                            <button type="button" class="total_update_btn" id="list_idx=${todolistInfo.list_idx}">수정</button>
+                                        </div>
 
-                                </div>
-                                <div class="bg_w">
-                                    <c:forEach items="${listItemInfoList}" var="listItemInfo">
-                                        <c:forEach items="${listItemInfo}" var="listItem">
-                                            <c:if test="${todolistInfo.list_idx==listItem.list_idx}">
-                                                <div class="item_list">
-                                                    <input type="checkbox" name=""
-                                                           id="${listItem.list_item_idx}" checked>
-                                                    <span>${listItem.item_title}</span>
-                                                    <button class="delete_btn" id="list_idx=${todolistInfo.list_idx}&item_idx=${listItem.list_item_idx}">X</button>
-                                                </div>
-                                            </c:if>
+
+                                    </div>
+
+                                    <div class="bg_w">
+                                        <c:forEach items="${listItemInfoList}" var="listItemInfo">
+                                            <c:forEach items="${listItemInfo}" var="listItem">
+                                                <c:if test="${todolistInfo.list_idx==listItem.list_idx}">
+                                                    <div class="item_list todo_items">
+                                                        <div>
+                                                            <input type="checkbox" name=""
+                                                                   id="${listItem.list_item_idx}" checked>
+                                                            <span>${listItem.item_title}</span>
+                                                        </div>
+                                                        <div class="delete_btn_area">
+                                                            <button class="delete_btn" id="list_idx=${todolistInfo.list_idx}&item_idx=${listItem.list_item_idx}">X</button>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
+                                            </c:forEach>
                                         </c:forEach>
-                                    </c:forEach>
+                                    </div>
+
                                 </div>
                             </div>
                         </c:forEach>
@@ -107,6 +121,7 @@
                                         <input name="item_title" placeholder="투두리스트 내용">
                                         <input name="item_title" placeholder="투두리스트 내용">
                                         <input name="item_title" placeholder="투두리스트 내용">
+                                        <button type="button" id="add_todolist_input">투두리스트 추가하기</button>
                                         <button type="submit">투두리스트 등록하기</button>
                                     </div>
                                 </div>

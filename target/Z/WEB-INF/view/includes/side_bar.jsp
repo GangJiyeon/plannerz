@@ -16,50 +16,46 @@
 
         <div class="bottom">
             <div><i class="bi bi-house space" id="go_home"></i></div>
-            <div><i class="bi bi-bell-fill space" id="go_alram"></i></div>
+            <div><i class="bi bi-bell-fill space" id="go_alarm"></i></div>
             <div><i class="bi bi-question-circle-fill space" id="go_faq"></i></div>
         </div>
     </div>
 </div>
 <script>
 
-    $(document).ready(function(){
 
         $("#go_home").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"home";
+            location.href = "${pageContext.request.contextPath}/home";
         })
 
         $("#go_userinfo").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"userinfo"
+            location.href = "${pageContext.request.contextPath}/userinfo"
         })
 
         $("#go_calendar").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"monthly"
+            location.href = "${pageContext.request.contextPath}/monthly"
         })
 
         $("#go_todolist").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"todolist"
+            location.href = "${pageContext.request.contextPath}/todolist"
         })
 
         $("#go_project").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"project"
+            location.href = "${pageContext.request.contextPath}/project"
         })
 
         $("#go_board").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"board"
+            location.href = "${pageContext.request.contextPath}/board"
         })
 
         $("#go_faq").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"home?menu=faq"
+            location.href = "${pageContext.request.contextPath}/home?menu=faq"
         })
 
-        $("#go_setting").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"setting"
-        })
+
 
         $("#go_alarm").on("click", function(){
-            location.href = ${pageContext.request.contextPath}"alarm"
-        })
+            location.href = "${pageContext.request.contextPath}/alarm"
+        });
 
-    });
 </script>

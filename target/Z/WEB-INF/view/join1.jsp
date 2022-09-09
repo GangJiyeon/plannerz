@@ -5,17 +5,42 @@
   Time: 10:20 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%--
-  Created by IntelliJ IDEA.
-  User: gangjiyeon
-  Date: 2022/08/10
-  Time: 11:25 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@page import="javax.xml.bind.DatatypeConverter"%>
+<%@page import="java.security.MessageDigest"%>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.util.Calendar"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%
+    String mid = "INIiasTest";                                    // 부여받은 MID(상점ID) 입력(영업담당자 문의)
+    String apiKey = "TGdxb2l3enJDWFRTbTgvREU3MGYwUT09";      // 부여받은 MID 에 대한 apiKey
+    String reqSvcCd = "01";
+    String mTxId = "mTxId_" + Calendar.getInstance().getTimeInMillis();
+    String reservedMsg = "isUseToken=Y";                 // 결과조회 응답시 개인정보SEED 암호화 처리 요청
+
+// 등록가맹점 확인
+    String plainText1 = mid + mTxId + apiKey;
+    MessageDigest authmd = MessageDigest.getInstance("SHA-256");
+    authmd.update(plainText1.getBytes("UTF-8"));
+    String authHash = DatatypeConverter.printHexBinary(authmd.digest()).toLowerCase();
+
+    String userName = "홍길동";           // 사용자 이름
+    String userPhone = "01011112222";  // 사용자 핸드폰
+    String userBirth = "19800101";         // 사용자 생년월일
+    String userHash = "";
+
+    String flgFixedUser = "N";              // 특정사용자 고정시 Y
+
+    if("Y".equals(flgFixedUser))
+    {
+        String plainText2 = userName + mid + userPhone + mTxId + userBirth + reqSvcCd;
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(plainText2.getBytes("UTF-8"));
+        userHash = DatatypeConverter.printHexBinary(md.digest()).toLowerCase();
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,11 +72,32 @@
             font-style: normal;
         }
     </style>
+    <script language="javascript">
+        function callSa()
+        {
+            let window = popupCenter();
+            if(window != undefined && window != null)
+            {
+                document.saForm.setAttribute("target", "sa_popup");
+                document.saForm.setAttribute("post", "post");
+                document.saForm.setAttribute("action", "https://sa.inicis.com/auth");
+                document.saForm.submit();
+            }
+        }
+
+        function popupCenter() {
+            let _width = 400;
+            let _height = 620;
+            var xPos = (document.body.offsetWidth/2) - (_width/2); // 가운데 정렬
+            xPos += window.screenLeft; // 듀얼 모니터일 때
+
+            return window.open("", "sa_popup", "width="+_width+", height="+_height+", left="+xPos+", menubar=yes, status=yes, titlebar=yes, resizable=yes");
+        }
+    </script>
 </head>
 <body>
 <div class="fixed">
     <%@include file="./includes/header.jsp"%>
-
 
     <div class="form_wrapper">
         <div class="form">
@@ -77,14 +123,45 @@
             <div>
 
             </div>
-            <form:form action="${pageContext.request.contextPath}/view/step2" method="post" cssClass="form_border" >
-                <div class="inputArea" id="step1_content">
-                    본인인증
-                    <div>
-                        <button type="submit">다음으로</button>
-                    </div>
+
+            <div class="form_border">
+                <div>
+                    <button type="submit" onclick="callSa()">본인인증</button>
                 </div>
-            </form:form>
+                <form name="saForm">
+                    <input type="text" name="mid" value="<%=mid %>" hidden>
+                    <input type="text" name="reqSvcCd" value="<%=reqSvcCd %>" hidden>
+                    <input type="text" name="mTxId" value="<%=mTxId %>" hidden>
+                    <input type="text" name="authHash" value="<%=authHash %>" hidden>
+                    <input type="text" name="flgFixedUser" value="<%=flgFixedUser %>" hidden>
+                    <label for="userName">이름</label>
+                    <input type="text" name="userName" value="<%=userName %>" id="userName">
+                    <label for="userPhone">전화번호</label>
+                    <input type="text" name="userPhone" value="<%=userPhone %>" id="userPhone">
+                    <label for="userBirth">생년월일</label>
+                    <input type="text" name="userBirth" value="<%=userBirth %>" id="userBirth">
+                    <input type="text" name="userHash" value="<%=userHash %>" hidden>
+                    <input type="text" name="reservedMsg" value="<%=reservedMsg %>" hidden>
+                    <input type="text" name="directAgency" value="" hidden>
+                    <input type="text" name="successUrl" value="http://localhost:8080/Z/success" hidden>
+                    <input type="text" name="failUrl" value="http://localhost:8080/Z/request" hidden>
+                    <!-- successUrl/failUrl 은 분리하여도 됩니다. !-->
+                </form>
+
+                <form:form method="post" cssClass="" >
+                    <div class="inputArea" id="step1_content">
+                        <input type="text" name="phone" value="" hidden>
+                        <input type="text" name="phone" value="" hidden>
+
+                        <div>
+                            <button type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/view/step2'">다음으로</button>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+
+
+
 
         </div>
     </div>

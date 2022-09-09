@@ -4,6 +4,7 @@ import UserInfo.Service.StatusService;
 import UserInfo.Service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class StatusController {
@@ -15,7 +16,8 @@ public class StatusController {
         this.statusService = statusService;
     }
 
+    @GetMapping("status")
     public String status(){
-        return "mypage/status";
+        return "status";
     }
 }

@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userInfo.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/todolist.css">
     <script src="${pageContext.request.contextPath}/js/function.js"></script>
-    <script src="${pageContext.request.contextPath}/js/todolist.js"></script>
+    <script src="${pageContext.request.contextPath}/js/todolist_update.js"></script>
 
     <style>
         @font-face {
@@ -37,6 +37,12 @@
             font-style: normal;
         }
     </style>
+    <script>
+        $(document).ready(function () {
+            $(".con").css('display', 'none');
+            $(".con").filter("#${param.list_idx}").css('display', 'block');
+        });
+    </script>
 </head>
 <body>
 <div class="contents">
@@ -46,7 +52,7 @@
             <div class="title">todolist</div>
             <div class="onetTothree">
                 <div>
-                    <div class="border_blue">
+                    <div class="border_blue not">
                         <div>
                             <spring:message code="todolist_title">
                                 <spring:argument value="${loginSession.user_name}"/>
@@ -54,32 +60,39 @@
                         </div>
                         <div class="project_items">
                             <hr>
-                            <c:forEach items="${todolistInfoList}" var="todolistInfo">
-                                <div class="project_item" id="${todolistInfo.list_idx}">
-                                    <span>${todolistInfo.list_title}</span>
-
-                                </div>
-                            </c:forEach>
+                            <div class="scroll">
+                                <c:forEach items="${todolistInfoList}" var="todolistInfo">
+                                    <div class="project_item" id="${todolistInfo.list_idx}">
+                                        <span>${todolistInfo.list_title}</span>
+                                    </div>
+                                </c:forEach>
+                            </div>
 
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div class="border_blue" id="project_contents">
+                    <div class="border_blue not" id="project_contents">
 
                         <c:forEach items="${todolistInfoList}" var="todolistInfo">
                             <form:form modelAttribute="todolist"
                                        action="${pageContext.request.contextPath}/todolist/update.do">
+
                                 <div id="${todolistInfo.list_idx}" class="con">
                                     <div class="content_title">
                                         <form:input path="list_idx" type="hidden" value="${todolistInfo.list_idx}"/>
                                         <form:input path="user_id" type="hidden" value="${loginSession.user_id}"/>
-                                        <div class="title3">
-                                            <form:input path="list_title" value="${todolistInfo.list_title}"/>
-                                            <button type="button" class="total_delete_btn"
-                                                    id="list_idx=${todolistInfo.list_idx}">투투리스트 삭제하기
-                                            </button>
+                                        <div class="three_items">
+                                            <div class="title3 width100">
+                                                <form:input path="list_title" value="${todolistInfo.list_title}"/>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="total_delete_btn"
+                                                        id="list_idx=${todolistInfo.list_idx}">삭제
+                                                </button>
+                                            </div>
                                         </div>
+
                                     </div>
                                     <div class="bg_w">
                                         <c:forEach items="${listItemInfoList}" var="listItemInfo">
@@ -87,31 +100,33 @@
                                                 <c:if test="${todolistInfo.list_idx==listItem.list_idx}">
                                                     <div class="item_list">
                                                         <div>
-                                                            <input type="checkbox" name="done" id="${listItem.list_item_idx}" checked>
-                                                            <form:input path="item_title" value="${listItem.item_title}"/>
+                                                            <input type="checkbox" name="done"
+                                                                   id="${listItem.list_item_idx}" checked>
+                                                            <form:input path="item_title"
+                                                                        value="${listItem.item_title}"/>
                                                             <button type="button" class="delete_btn"
                                                                     id="list_idx=${todolistInfo.list_idx}&item_idx=${listItem.list_item_idx}">
                                                                 X
                                                             </button>
-                                                            <form:input path="list_item_idx"  value="${listItem.list_item_idx}" type="hidden"/>
+                                                            <form:input path="list_item_idx"
+                                                                        value="${listItem.list_item_idx}"
+                                                                        type="hidden"/>
                                                         </div>
-
                                                     </div>
                                                 </c:if>
                                             </c:forEach>
                                         </c:forEach>
-                                        <div >
-                                            <button type="button" id="add_todolist_item" class="list_idx=${todolistInfo.list_idx}">
+                                        <div>
+                                            <button type="button" class="add_todolist_item"
+                                                    id="list_idx=${todolistInfo.list_idx}">
                                                 <span>투두리스트 추가하기</span>
                                             </button>
-
                                         </div>
                                         <form:button>제출하기</form:button>
                                     </div>
                                 </div>
                             </form:form>
                         </c:forEach>
-
 
                     </div>
                 </div>
@@ -121,6 +136,10 @@
     </div>
 
 </div>
-</div>
+
+<script>
+
+
+</script>
 </body>
 </html>

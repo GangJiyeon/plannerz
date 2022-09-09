@@ -4,6 +4,9 @@
     box-sizing: border-box;
     font-family: 'NEXON Lv2 Gothic';
 }
+a{
+    color: black;
+}
 .menu_bar{
     background-color: rgb(152, 166, 185);
     display: grid;

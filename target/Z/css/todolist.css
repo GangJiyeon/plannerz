@@ -25,7 +25,7 @@
 .bg_w{
     padding: 10px;
     border-radius: 10px;
-    background-color: white;
+    background-color: white !important;
 }
 .content_title{
     margin-bottom: 10px;
@@ -60,4 +60,50 @@
 }
 .border_blue{
     margin: 20px 0px 20px 40px !important;
+}
+.not{
+    height: auto !important;
+}
+.scroll{
+    max-height: 55vh;
+    overflow: scroll;
+}
+.total_delete_btn,.total_update_btn{
+    border: solid 1px rgb(113, 131, 147);
+    color: rgb(88, 103, 116);
+    width: 50px;
+    border-radius: 5px;
+    background-color: white;
+}
+.three_items{
+    padding-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.btn_area_todolist{
+    padding: 3px 0px;
+    text-align: right;
+}
+input#list_title{
+    width: 100%;
+}
+.width100{
+    width: 100% !important;
+}
+.project_item:hover{
+    border-radius: 12px;
+    background-color: rgb(242, 244, 247);
+    border: solid 1px rgb(195, 204, 217);
+}
+.delete_btn{
+    background-color: rgba(255, 255, 255, 0);
+    color: gainsboro;
+    border: none;
+}
+.todo_items{
+    display: grid;
+    grid-template-columns: 1fr 20px;
+}
+.delete_btn_area{
+    text-align: right;
 }

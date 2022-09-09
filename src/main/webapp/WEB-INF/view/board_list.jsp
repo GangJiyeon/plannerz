@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base2.css">
     <script src="${pageContext.request.contextPath}/js/function.js"></script>
+    <script src="${pageContext.request.contextPath}/js/board.js"></script>
+
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -42,14 +44,7 @@
         <div class="real">
 
             <div class="contentArea">
-                <div class="two">
-                    <div class="service_name">plannerZ > board</div>
-                    <div class="btn_area">
-                        <button id="board_form">글 작성하기</button>
-                        <button id="board_mine">내 피드보기</button>
-                        <button id="board_list">전체 글 보기</button>
-                    </div>
-                </div>
+                <%@include file="includes/board.jsp"%>
 
                 <div class="title">
                     <div>
@@ -72,6 +67,7 @@
                                             <div>작성자: ${boardInfo.user_id}</div>
                                             <div>제목: ${boardInfo.board_title}</div>
                                             <div>조회수: ${boardInfo.see}</div>
+                                            <div><img src="${pageContext.request.contextPath}/img/board/sunny.jpg"></div>
                                         </div>
                                     </a>
                                 </div>

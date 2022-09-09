@@ -73,13 +73,15 @@
     margin-left: 30px;
 }
 #board_area{
-    display: flex;
-    gap: 10px;
+
 }
 .margin_40{
     margin-right: 40px;
 }
 .board_scroll{
+    flex-wrap: wrap;
+    display: flex;
+    gap: 10px;
     height: 100vh;
     overflow: auto;
 }

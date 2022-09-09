@@ -1,6 +1,5 @@
 package UserInfo.Controller;
 
-import User.Dto.LoginCommand;
 import User.Dto.LoginSession;
 import User.Dto.UserInfo;
 import User.Service.LoginService;
@@ -26,6 +25,11 @@ public class UserInfoController {
         this.loginService = loginService;
     }
 
+    @GetMapping("/pay")
+    public String pay(){
+        return "INIStdPayRequest";
+    }
+
     @GetMapping("userinfo")
     public String userinfo(Model model, HttpSession session){
 
@@ -35,6 +39,6 @@ public class UserInfoController {
         UserInfo userInfo = loginService.select_userInfo(user_id);
 
         model.addAttribute("userInfo", userInfo);
-        return "mypage/userinfo";
+        return "userinfo";
     }
 }

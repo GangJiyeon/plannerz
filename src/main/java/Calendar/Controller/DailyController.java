@@ -17,7 +17,7 @@ public class DailyController {
 
     @GetMapping("/daily")
     public String daily(){
-        return "calendar/daily";
+        return "daily";
     }
 
 }

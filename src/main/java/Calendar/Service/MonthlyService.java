@@ -1,6 +1,7 @@
 package Calendar.Service;
 
 import Calendar.Dao.MONTHLY_TB_Dao;
+import Calendar.Dto.MonthlyCommand;
 import Calendar.Dto.MonthlyInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,21 @@ public class MonthlyService {
         return monthly_tb_dao.selectMonthlyInfoList_byUserId(user_id);
     }
 
-    public List<MonthlyInfo> insertNewMonthly(MonthlyInfo monthlyInfo){
+    public List<MonthlyInfo> insertNewMonthly(MonthlyCommand monthlyCommand){
 
-        monthly_tb_dao.insertMonthly(monthlyInfo);
-        return monthly_tb_dao.selectMonthlyInfoList_byUserId(monthlyInfo.getUser_id());
+        monthly_tb_dao.insertMonthly(monthlyCommand);
+        return monthly_tb_dao.selectMonthlyInfoList_byUserId(monthlyCommand.getUser_id());
     }
 
+    public void delete(Integer monthly_idx){
+        monthly_tb_dao.deleteMonthlyItem(monthly_idx);
+    }
+
+    public MonthlyInfo selectMonthlyItem(String user_id, Integer monthly_id){
+        return monthly_tb_dao.selectMonthlyItem(user_id, monthly_id);
+    }
+
+    public void update(MonthlyInfo monthlyInfo){
+        monthly_tb_dao.updateMonthly(monthlyInfo);
+    }
 }

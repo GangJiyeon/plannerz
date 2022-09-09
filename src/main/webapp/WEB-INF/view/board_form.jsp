@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base2.css">
     <script src="${pageContext.request.contextPath}/js/function.js"></script>
+    <script src="${pageContext.request.contextPath}/js/board.js"></script>
+
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';
@@ -35,15 +37,7 @@
         <div class="real">
 
             <div class="contentArea">
-                <div class="two">
-                    <div class="service_name">plannerZ > board</div>
-                    <div class="btn_area">
-                        <button id="board_form">글 작성하기</button>
-                        <button id="board_mine">내 피드보기</button>
-                        <button id="board_list">전체 글 보기</button>
-                    </div>
-                </div>
-
+                <%@include file="includes/board.jsp"%>
                 <div class="title">
                     <div>
                         <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">

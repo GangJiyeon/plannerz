@@ -7,16 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ExController {
 
 
-
-
     @RequestMapping("/home")
     public String home(){
         return "home";
-    }
-
-    @RequestMapping("/join")
-    public String join(){
-        return "join1";
     }
 
 

@@ -93,6 +93,10 @@
     </style>
 </head>
 <body>
+<script>
+    $(location).attr("href", "${pageContext.request.contextPath}/login");
+
+</script>
 <div class="fixed">
     <%@include file="./includes/header.jsp"%>
 

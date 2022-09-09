@@ -17,6 +17,6 @@ public class WeeklyController {
 
     @GetMapping("/weekly")
     public String weekly(){
-        return "calendar/weekly";
+        return "weekly";
     }
 }
