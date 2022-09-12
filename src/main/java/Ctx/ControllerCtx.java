@@ -108,7 +108,7 @@ public class ControllerCtx {
     @Bean
     public LoginController loginController(){
         LoginController controller = new LoginController();
-        controller.setLoginService(loginService, naverLoginBO());
+        controller.setLoginService(loginService, naverLoginBO() ,joinService);
         return controller;
     }
 
@@ -120,6 +120,7 @@ public class ControllerCtx {
         joinController.setLoginService(joinService);
         return joinController;
     }
+
 
     @Bean
     public LogoutController logoutController(){

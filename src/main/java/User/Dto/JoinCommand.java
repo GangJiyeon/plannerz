@@ -21,7 +21,25 @@ public class JoinCommand {
 
     private String phone;
 
+    private String email;
+
+    private String nickname;
+
     public JoinCommand() {
+    }
+
+    public JoinCommand(String user_id, String user_pw, String pw_check, String user_name, String sns, Date user_birth, String job, String img, String phone, String email, String nickname) {
+        this.user_id = user_id;
+        this.user_pw = user_pw;
+        this.pw_check = pw_check;
+        this.user_name = user_name;
+        this.sns = sns;
+        this.user_birth = user_birth;
+        this.job = job;
+        this.img = img;
+        this.phone = phone;
+        this.email = email;
+        this.nickname = nickname;
     }
 
     public JoinCommand(String user_id, String user_pw, String user_name, String sns, Date birth, String job, String img, String phone) {
@@ -37,6 +55,23 @@ public class JoinCommand {
 
     public String getPw_check() {
         return pw_check;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void setPw_check(String pw_check) {

@@ -26,7 +26,7 @@
     authmd.update(plainText1.getBytes("UTF-8"));
     String authHash = DatatypeConverter.printHexBinary(authmd.digest()).toLowerCase();
 
-    String userName = "홍길동";           // 사용자 이름
+    String userName = "";           // 사용자 이름
     String userPhone = "01011112222";  // 사용자 핸드폰
     String userBirth = "19800101";         // 사용자 생년월일
     String userHash = "";
@@ -78,7 +78,7 @@
             let window = popupCenter();
             if(window != undefined && window != null)
             {
-                document.saForm.setAttribute("target", "sa_popup");
+                //document.saForm.setAttribute("target", "sa_popup");
                 document.saForm.setAttribute("post", "post");
                 document.saForm.setAttribute("action", "https://sa.inicis.com/auth");
                 document.saForm.submit();
@@ -125,39 +125,54 @@
             </div>
 
             <div class="form_border">
-                <div>
-                    <button type="submit" onclick="callSa()">본인인증</button>
-                </div>
-                <form name="saForm">
-                    <input type="text" name="mid" value="<%=mid %>" hidden>
-                    <input type="text" name="reqSvcCd" value="<%=reqSvcCd %>" hidden>
-                    <input type="text" name="mTxId" value="<%=mTxId %>" hidden>
-                    <input type="text" name="authHash" value="<%=authHash %>" hidden>
-                    <input type="text" name="flgFixedUser" value="<%=flgFixedUser %>" hidden>
-                    <label for="userName">이름</label>
-                    <input type="text" name="userName" value="<%=userName %>" id="userName">
-                    <label for="userPhone">전화번호</label>
-                    <input type="text" name="userPhone" value="<%=userPhone %>" id="userPhone">
-                    <label for="userBirth">생년월일</label>
-                    <input type="text" name="userBirth" value="<%=userBirth %>" id="userBirth">
-                    <input type="text" name="userHash" value="<%=userHash %>" hidden>
-                    <input type="text" name="reservedMsg" value="<%=reservedMsg %>" hidden>
-                    <input type="text" name="directAgency" value="" hidden>
-                    <input type="text" name="successUrl" value="http://localhost:8080/Z/success" hidden>
-                    <input type="text" name="failUrl" value="http://localhost:8080/Z/request" hidden>
-                    <!-- successUrl/failUrl 은 분리하여도 됩니다. !-->
-                </form>
-
-                <form:form method="post" cssClass="" >
-                    <div class="inputArea" id="step1_content">
-                        <input type="text" name="phone" value="" hidden>
-                        <input type="text" name="phone" value="" hidden>
-
+                <div class="sns_join_area">
+                    <div>
                         <div>
-                            <button type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/view/step2'">다음으로</button>
+                            <button type="submit" onclick="callSa()">본인인증</button>
                         </div>
+                        <form name="saForm">
+                            <input type="text" name="mid" value="<%=mid %>" hidden>
+                            <input type="text" name="reqSvcCd" value="<%=reqSvcCd %>" hidden>
+                            <input type="text" name="mTxId" value="<%=mTxId %>" hidden>
+                            <input type="text" name="authHash" value="<%=authHash %>" hidden>
+                            <input type="text" name="flgFixedUser" value="<%=flgFixedUser %>" hidden>
+                            <input type="text" name="userName" value="<%=userName %>" id="userName" hidden>
+                            <input type="text" name="userPhone" value="<%=userPhone %>" id="userPhone" hidden>
+                            <input type="text" name="userBirth" value="<%=userBirth %>" id="userBirth" hidden>
+                            <input type="text" name="userHash" value="<%=userHash %>" hidden>
+                            <input type="text" name="reservedMsg" value="<%=reservedMsg %>" hidden>
+                            <input type="text" name="directAgency" value="" hidden>
+                            <input type="text" name="successUrl" value="http://localhost:8080/Z/view/step2" hidden>
+                            <input type="text" name="failUrl" value="http://localhost:8080/Z/join1" hidden>
+                            <!-- successUrl/failUrl 은 분리하여도 됩니다. !-->
+                        </form>
                     </div>
-                </form:form>
+                    <div >
+                        <div class="sns_wrapper">
+                            <a href="${url}">
+                                <div class="naver">
+                                    <img src="${pageContext.request.contextPath}/img/naver.png" />
+                                </div>
+                                <div>네이버로 시작하기</div>
+
+                            </a>
+
+                        </div>
+                        <div class="sns_wrapper">
+                            <a href="${reqUrl}">
+                                <div class="kakao">
+                                    <img src="${pageContext.request.contextPath}/img/kakao_talk.svg" />
+                                </div>
+                                <div>카카오로 시작하기</div>
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
             </div>
 
 

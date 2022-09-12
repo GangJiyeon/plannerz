@@ -1,10 +1,8 @@
 package User.Controller;
 
-import User.Dto.LoginCommand;
-import User.Dto.LoginSession;
-import User.Dto.NaverLoginBO;
-import User.Dto.UserInfo;
+import User.Dto.*;
 import User.Exception.WrongIdPwException;
+import User.Service.JoinService;
 import User.Validator.LoginCommandValidator;
 import User.Service.LoginService;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -29,7 +27,10 @@ import javax.validation.Valid;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 @Controller
 public class LoginController {
@@ -37,9 +38,12 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    public void setLoginService(LoginService loginService, NaverLoginBO naverLoginBO) {
+    @Autowired
+    private JoinService joinService;
+    public void setLoginService(LoginService loginService, NaverLoginBO naverLoginBO, JoinService joinService) {
         this.loginService = loginService;
         this.naverLoginBO = naverLoginBO;
+        this.joinService = joinService;
     }
     @Autowired
     private NaverLoginBO naverLoginBO;
@@ -135,9 +139,7 @@ public class LoginController {
                            @RequestParam("code") String code,
                            @RequestParam("state") String state, HttpSession session,
                            LoginSession loginSession)
-            throws IOException, ParseException, IOException {
-
-
+            throws IOException, ParseException, IOException, java.text.ParseException {
 
         OAuth2AccessToken oauthToken;
         oauthToken = naverLoginBO.getAccessToken(session, code, state);
@@ -156,6 +158,7 @@ public class LoginController {
                     }
          }
          **/
+        System.out.println("api=" + apiResult);
 
         //2. String형식인 apiResult를 json형태로 바꿈
         JSONParser parser = new JSONParser();
@@ -165,47 +168,110 @@ public class LoginController {
         //3. 데이터 파싱
         //Top레벨 단계 _response 파싱
         JSONObject response_obj = (JSONObject) jsonObj.get("response");
-        //response의 nickname값 파싱
-
 
         String user_id = (String) response_obj.get("id");
         String user_name = (String) response_obj.get("name") ;
+        String birthday = (String) response_obj.get("birthday");
+        String birthyear = (String) response_obj.get("birthyear");
+        String img = (String) response_obj.get("profile_image");
+        String phone = (String) response_obj.get("mobile");
+        String email = (String) response_obj.get("email");
+        String nickname = (String) response_obj.get("nickname");
+        String sns = "naver";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String user_birth = birthyear + "-" + birthday;
+        Date birth = formatter.parse(user_birth);
 
-        System.out.println(user_id);
-        System.out.println(user_name);
-        model.addAttribute("result", apiResult);
+        //4. db 조회 및 처리
+        //SNS_ACCOUNT_TB 조회 후 등록된 계정이면 => USER_TB의 사용자 정보를 가져옴
+        //                     등록된 계정이 아니라면 => 랜덤 id 생성 후 SNS_ACCOUNT_TB 에 저장, USER_TB에 저장
+
+        SNSAccount snsAccount = new SNSAccount();
+        snsAccount.setUser_id(user_id);
+        snsAccount.setSns("naver");
+
+        //해당 sns id로 구성된 사용자 정보 SNS_ACCOUNT_TB에서 조회하기
+        SNSAccount select_snsAccount = joinService.selectSNS_Account(snsAccount);
+
+        //등록되지 않은 SNS 계정이라면
+        if(select_snsAccount == null){
+            //랜덤 아이디 생성 후 SNS_ACCOUNT_TB 에 계정 등록
+            SNSAccount snsAccount1 = joinService.create_random_id(snsAccount);
+            JoinCommand joinCommand = new JoinCommand();
+            joinCommand.setUser_name(user_name);
+            joinCommand.setSns(sns);
+            joinCommand.setJob("무직");
+            joinCommand.setUser_birth(birth);
+            joinCommand.setImg(img);
+            joinCommand.setPhone(phone);
+            joinCommand.setEmail(email);
+            joinCommand.setNickname(nickname);
+            joinCommand.setUser_id(snsAccount1.getRandom_id());
+            //USER_TB에 사용자 정보 저장
+            joinService.join(joinCommand);
+
+            model.addAttribute("joinCommand", joinCommand);
+            model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
+            return "join3";
+        }
+
 
         loginSession = new LoginSession(user_id, user_name, "naver");
         session.setAttribute("loginSession", loginSession);
-        
         model.addAttribute("result", apiResult);
         return "login_success";
     }
 
-
-
+    //<--------------------------카카오-------------------------->
     // 카카오 연동정보 조회
     @RequestMapping(value = "/login/oauth_kakao")
     public String oauthKakao(@RequestParam(value = "code", required = false) String code,
                              Model model, HttpSession session) throws Exception {
-        System.out.println("#########" + code);
+
         String access_Token = getAccessToken(code);
-        System.out.println("###access_Token#### : " + access_Token);
-
         HashMap<String, Object> userInfo = getUserInfo(access_Token);
-        System.out.println("###access_Token#### : " + access_Token);
-        System.out.println("###userInfo#### : " + userInfo.get("account_email"));
-        System.out.println("###nickname#### : " + userInfo.get("profile_nickname"));
-        System.out.println("###gender#### : " + userInfo.get("gender"));
-
-        JSONObject kakaoInfo =  new JSONObject(userInfo);
-        model.addAttribute("kakaoInfo", kakaoInfo);
-
 
         String user_name = (String) userInfo.get("user_name");
         String sns = (String) userInfo.get("sns");
-        LoginSession loginSession = new LoginSession(user_name, user_name, sns);
+
+
+        //db 조회 및 처리
+        //SNS_ACCOUNT_TB 조회 후 등록된 계정이면 => USER_TB의 사용자 정보를 가져옴
+        //                     등록된 계정이 아니라면 => 랜덤 id 생성 후 SNS_ACCOUNT_TB 에 저장, USER_TB에 저장
+
+        SNSAccount snsAccount = new SNSAccount();
+        snsAccount.setUser_id((String) userInfo.get("accessToken"));
+        snsAccount.setSns(sns);
+
+        String user_id = (String) userInfo.get("accessToken");
+
+        //해당 sns id로 구성된 사용자 정보 SNS_ACCOUNT_TB에서 조회하기
+        SNSAccount select_snsAccount = joinService.selectSNS_Account(snsAccount);
+
+        SNSAccount snsAccount1 = null;
+        //등록되지 않은 SNS 계정이라면
+        if(select_snsAccount == null) {
+            //랜덤 아이디 생성 후 SNS_ACCOUNT_TB 에 계정 등록
+            snsAccount1 = joinService.create_random_id(snsAccount);
+
+            JoinCommand joinCommand = new JoinCommand();
+            joinCommand.setJob("무직");
+            joinCommand.setUser_id((String) userInfo.get("email"));
+            joinCommand.setEmail((String) userInfo.get("email"));
+            joinCommand.setUser_name((String) userInfo.get("user_name"));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date birth = formatter.parse((String) userInfo.get("birthday"));
+            joinCommand.setUser_birth(birth);
+            joinCommand.setImg((String) userInfo.get("img"));
+
+            //USER_TB에 사용자 정보 저장
+            joinService.join(joinCommand);
+        }
+
+
+        LoginSession loginSession = new LoginSession(user_id, user_name, sns);
         session.setAttribute("loginSession", loginSession);
+
 
         return "/login_success"; //본인 원하는 경로 설정
     }
@@ -284,7 +350,6 @@ public class LoginController {
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -294,7 +359,6 @@ public class LoginController {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
@@ -303,20 +367,18 @@ public class LoginController {
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             System.out.println("properties=" + properties);
-
             System.out.println("kakao=" + kakao_account);
 
             String img = properties.getAsJsonObject().get("profile_image").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
             String birthday = kakao_account.getAsJsonObject().get("birthday").getAsString();
 
-
-
             userInfo.put("accessToken", access_Token);
             userInfo.put("user_name", email);
             userInfo.put("img", img);
             userInfo.put("birthday", birthday);
             userInfo.put("sns", "kakao");
+            userInfo.put("email", email);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

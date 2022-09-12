@@ -11,7 +11,8 @@
     <div class="menu">
         <div><i class="bi bi-calendar-check space" id="go_calendar"></i></div>
         <div><i class="bi bi-check2-square space" id="go_todolist"></i></div>
-        <div><i class="bi bi-list-task space" id="go_project"></i></div>
+        <div><i class="bi bi-folder space" id="go_project"></i></div>
+        <div><i class="bi bi-list-task space" id="go_planner"></i></div>
         <div><i class="bi bi-people space" id="go_board"></i></div>
 
         <div class="bottom">
@@ -52,6 +53,9 @@
             location.href = "${pageContext.request.contextPath}/home?menu=faq"
         })
 
+        $("#go_planner").on("click", function(){
+            location.href = "${pageContext.request.contextPath}/planner"
+        })
 
 
         $("#go_alarm").on("click", function(){

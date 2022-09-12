@@ -3,6 +3,7 @@ package User.Dao;
 
 import User.Dto.JoinCommand;
 import User.Dto.LoginCommand;
+import User.Dto.SNSAccount;
 import User.Dto.UserInfo;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,6 +43,12 @@ public class USER_TB_Dao {
         String sql = "SELECT * FROM USER_TB WHERE user_id=?";
         List<UserInfo> results = jdbcTemplate.query(sql, new USER_TB_Mapper(), user_id);
 
+        return results.isEmpty() ? true : false;
+    }
+
+    public boolean possible_random_id(String random_id){
+        String sql = "SELECT * FROM USER_TB WHERE user_id=?";
+        List<UserInfo> results = jdbcTemplate.query(sql, new USER_TB_Mapper(), random_id);
         return results.isEmpty() ? true : false;
     }
 

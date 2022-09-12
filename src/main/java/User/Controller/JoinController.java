@@ -1,9 +1,6 @@
 package User.Controller;
 
-import User.Dto.IdCheck;
-import User.Dto.JoinAgreeCommand;
-import User.Dto.JoinCommand;
-import User.Dto.UserInfo;
+import User.Dto.*;
 import User.Exception.CantMakeUserInfoException;
 import User.Exception.DuplicateUserException;
 import User.Service.JoinService;
@@ -32,19 +29,54 @@ public class JoinController {
         this.joinService = joinService;
     }
 
+
+    @Autowired
+    private NaverLoginBO naverLoginBO;
+    private String apiResult = null;
+
     //뷰 보여주기
     @RequestMapping("/join")
-    public String join(){
+    public String join(Model model, HttpSession session){
+
+        //<<네이버 회원가입>>
+        /* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+        String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+
+        //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+        //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+        System.out.println("네이버:" + naverAuthUrl);
+
+        // 네이버
+        model.addAttribute("url", naverAuthUrl);
+
+
+        //<<카카오 회원가입>>
+        //카카오 인가코드 발급
+        System.out.println("--------- 카카오연동 들어옴 ---------");
+
+        String reqUrl =
+                "https://kauth.kakao.com/oauth/authorize"
+                        + "?client_id=7b08064aebeb5d53440182eabe007d83"
+                        + "&redirect_uri=http://localhost:8080/Z/login/oauth_kakao"
+                        + "&response_type=code";
+
+        model.addAttribute("reqUrl", reqUrl);
         return "join1";
     }
 
     @RequestMapping("/success")
     public String success(){
+        return "success";
+    }
+
+    @GetMapping("/identify")
+    public String identify(){
         return "join1";
     }
 
     @PostMapping("/view/step2")
-    public String go_step2(Model model) {
+    public String go_step2(Model model, HttpSession session) {
+
         model.addAttribute("JoinCommand", new JoinCommand());
         model.addAttribute("idCheck", new IdCheck());
         return "join2";
@@ -52,6 +84,7 @@ public class JoinController {
 
     @PostMapping("/view/step3")
     public String go_step3(Model model) {
+        model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
         return "join3";
     }
 

@@ -25,6 +25,9 @@ public class AlarmController {
         return "kakao";
     }
 
-
+    @GetMapping("/planner")
+    public String view_planner(){
+        return "planner";
+    }
 
 }

@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <form:form action="${pageContext.request.contextPath}/check/agree" modelAttribute="JoinAgreeCommand">
+            <form:form action="${pageContext.request.contextPath}/check/agree" modelAttribute="joinAgreeCommand">
                 <div class="inputArea form_border" id="step3_content">
                     약관동의
                     <div>

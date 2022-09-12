@@ -116,9 +116,9 @@
                         <div class="login_menu">
                             <div></div>
                             <div><a href="${pageContext.request.contextPath}/view/find/id">아이디 찾기</a></div>
-                            <div> |</div>
+                            <div>|</div>
                             <div><a href="${pageContext.request.contextPath}/view/find/pw">비밀번호 찾기</a></div>
-                            <div> |</div>
+                            <div>|</div>
                             <div><a href="${pageContext.request.contextPath}/join">회원가입 하기</a></div>
                         </div>
                         <div>

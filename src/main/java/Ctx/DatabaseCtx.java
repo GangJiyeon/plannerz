@@ -20,11 +20,14 @@ import Project.Service.ProjectService;
 import ToDoList.Dao.TODOLIST_ITEM_TB_Dao;
 import ToDoList.Dao.TODOLIST_TB_Dao;
 import ToDoList.Service.TodolistService;
+import User.Dao.PLANNER_TB_Dao;
+import User.Dao.SNS_ACCOUNT_TB_Dao;
 import User.Dao.USER_TB_Dao;
 import User.Service.FindAccountService;
 import User.Service.JoinService;
 import User.Service.LoginService;
 
+import User.Service.PlannerService;
 import UserInfo.Dao.ALARM_TB_Dao;
 import UserInfo.Dao.SETTING_TB_Dao;
 import UserInfo.Dao.STATUS_TB_Dao;
@@ -166,6 +169,11 @@ public class DatabaseCtx {
     }
 
     @Bean
+    public SNS_ACCOUNT_TB_Dao sns_account_tb_dao(){
+        return new SNS_ACCOUNT_TB_Dao(dataSource());
+    }
+
+    @Bean
     public FindAccountService findInfoService(){
         FindAccountService findInfoService = new FindAccountService();
         findInfoService.setUser_tb_dao(user_tb_dao());
@@ -183,10 +191,9 @@ public class DatabaseCtx {
     public JoinService joinService(){
         JoinService joinService = new JoinService();
         joinService.setUser_tb_dao(user_tb_dao());
+        joinService.setSns_account_tb_dao(sns_account_tb_dao());
         return joinService;
     }
-
-
 
     @Bean
     public ALARM_TB_Dao alarm_tb_dao(){
@@ -198,6 +205,18 @@ public class DatabaseCtx {
         AlarmService alarmService = new AlarmService();
         alarmService.setAlarm_tb_dao(alarm_tb_dao());
         return alarmService;
+    }
+
+    @Bean
+    public PLANNER_TB_Dao planner_tb_dao(){
+        return new PLANNER_TB_Dao(dataSource());
+    }
+
+    @Bean
+    public PlannerService plannerService(){
+        PlannerService plannerService = new PlannerService();
+        plannerService.setPlanner_tb_dao(planner_tb_dao());
+        return plannerService;
     }
 
     @Bean

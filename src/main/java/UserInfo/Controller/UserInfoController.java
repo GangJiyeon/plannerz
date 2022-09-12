@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,6 +29,21 @@ public class UserInfoController {
     @GetMapping("/pay")
     public String pay(){
         return "INIStdPayRequest";
+    }
+
+    @RequestMapping("/INIStdPayReturn")
+    public String pay_result(){
+        return "INIStdPayReturn";
+    }
+
+    @RequestMapping("/close")
+    public String close(){
+        return "close";
+    }
+
+    @RequestMapping("/popup")
+    public String popup(){
+        return "popup";
     }
 
     @GetMapping("userinfo")
