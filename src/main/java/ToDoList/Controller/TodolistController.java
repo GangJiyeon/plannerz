@@ -38,14 +38,17 @@ public class TodolistController {
         List<Todolist_info> todolistInfoList = todolistService.select_List(user_id);
         List<List<Todolist_item_info>> listItemInfoList = new ArrayList<>();
 
-        //3. 해당 리스트의 아이템 조회 후 List(listItemInfoList)에 저장하기
-        for (Todolist_info nth : todolistInfoList) {
-            listItemInfoList.add(todolistService.select_ListItem(nth.getList_idx()));
+        if(todolistInfoList != null){
+            //3. 해당 리스트의 아이템 조회 후 List(listItemInfoList)에 저장하기
+            for (Todolist_info nth : todolistInfoList) {
+                listItemInfoList.add(todolistService.select_ListItem(nth.getList_idx()));
+            }
+
+            //4. view로 List 전달하기
+            model.addAttribute("todolistInfoList", todolistInfoList);
+            model.addAttribute("listItemInfoList", listItemInfoList);
         }
 
-        //4. view로 List 전달하기
-        model.addAttribute("todolistInfoList", todolistInfoList);
-        model.addAttribute("listItemInfoList", listItemInfoList);
 
         return "todolist";
     }

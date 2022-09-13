@@ -64,7 +64,7 @@
                             <label>
                                 <spring:message code="board.img" />
                             </label>
-                            <input type="file" name="file" multiple="multiple"/>
+                            <input type="file" name="file" multiple="multiple" id="board_img"/>
                         </div>
                         <div>
                             <label>

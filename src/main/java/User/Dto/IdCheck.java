@@ -1,9 +1,10 @@
 package User.Dto;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 public class IdCheck {
 
+    @NotBlank
     private String check_user_id;
 
     private Boolean id_not_exist;

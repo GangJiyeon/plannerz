@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -75,16 +77,33 @@ public class JoinController {
     }
 
     @PostMapping("/view/step2")
-    public String go_step2(Model model, HttpSession session) {
-
-        model.addAttribute("JoinCommand", new JoinCommand());
-        model.addAttribute("idCheck", new IdCheck());
+    public String go_step2(Model model) {
         return "join2";
     }
 
+    @PostMapping("/view/step_2")
+    public String view_step2_2(@RequestParam("user_name") String user_name,
+                               @RequestParam("user_birth") String user_birth,
+                               @RequestParam("phone") String phone,
+                               Model model, HttpSession session){
+
+        session.setAttribute("user_name", user_name);
+        session.setAttribute("user_birth", user_birth);
+        session.setAttribute("phone", phone);
+
+        model.addAttribute("joinCommand", new JoinCommand());
+        model.addAttribute("idCheck", new IdCheck());
+
+        return "join2_2";
+    }
+
     @PostMapping("/view/step3")
-    public String go_step3(Model model) {
+    public String go_step3(Model model, HttpSession session) {
         model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
+        session.removeAttribute("user_name");
+        session.removeAttribute("user_birth");
+        session.removeAttribute("phone");
+
         return "join3";
     }
 
@@ -96,19 +115,19 @@ public class JoinController {
 
     //아이디 중복 체크
     @PostMapping("/check/id")
-    public String checkId(Model model, @ModelAttribute("idCheck") IdCheck idCheck,
-                          Errors errors, HttpSession session) {
+    public String checkId( Model model, HttpSession session, @Valid IdCheck idCheck,
+                          Errors errors) {
 
-        new User_idValidator().validate(idCheck, errors);
+        //new User_idValidator().validate(idCheck, errors);
 
-        model.addAttribute("idCheck", new IdCheck());
-        model.addAttribute("JoinCommand", new JoinCommand());
-
+        model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
+        //model.addAttribute("idCheck", new IdCheck());
+        model.addAttribute("joinCommand", new JoinCommand());
 
 
         if (errors.hasErrors()) {
             System.out.println("error");
-            return "join2";
+            return "join2_2";
         }
 
         try {
@@ -124,48 +143,58 @@ public class JoinController {
         } catch (DuplicateUserException e) {
 
         }
-        return "join2";
+
+
+
+        return "join2_2";
 
     }
-
- //   @InitBinder
- //   protected void initBinder(WebDataBinder binder){
- //       binder.setValidator(new User_idValidator());
- //   }
-
 
     //회원정보 입력
     @PostMapping("/join/input")
     public String join(Model model, JoinCommand joinCommand,
-                       Errors errors, HttpSession session) {
-        model.addAttribute("JoinAgreeCommand", new JoinAgreeCommand());
-        model.addAttribute("idCheck", new IdCheck());
-        model.addAttribute("JoinCommand", new JoinCommand());
+                       Errors errors, HttpSession session) throws ParseException {
 
-        /*
+
+        model.addAttribute("idCheck", new IdCheck());
+       // model.addAttribute("joinCommand", new JoinCommand());
+
+        String birth = joinCommand.getBirth();
+
+        String year = birth.substring(0,4);
+        String month = birth.substring(4,6);
+        String day = birth.substring(6);
+        birth = year + "-" + month + "-" + day;
+        System.out.println(birth);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        String phone = joinCommand.getPhone();
+        phone = phone.substring(0,3) + "-" + phone.substring(3,7) + "-" + phone.substring(7);
+        joinCommand.setPhone(phone);
+
+        Date user_birth = format.parse(birth);
+        joinCommand.setUser_birth(user_birth);
+
         new JoinValidator().validate(joinCommand, errors);
-         */
+
         joinCommand.setUser_id((String) session.getAttribute("new_userId"));
         joinCommand.setSns("none");
         joinCommand.setImg(null);
 
-
-
-        /*
         if(errors.hasErrors()){
+            System.out.println(errors);
             System.out.println("has error");
-            return "join2";
+            return "join2_2";
         }
-
-         */
 
         try{
             joinService.join(joinCommand);
             session.removeAttribute("user_id");
+            model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
             return "join3";
 
         }catch (CantMakeUserInfoException e){
-            return "join2";
+            return "join2_2";
         }
     }
 

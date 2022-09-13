@@ -56,6 +56,9 @@
                         </div>
                         <div class="project_items">
                             <hr>
+                            <c:if test="${empty projectInfoList}">
+                                <div>프로젝트 내역이 없습니다. </div>
+                            </c:if>
                             <c:forEach items="${projectInfoList}" var="projectInfo">
                                 <div class="project_item" id="${projectInfo.project_idx}">
                                     <span>${projectInfo.title}</span>
@@ -120,7 +123,7 @@
                                         <form:input path="title" placeholder="프로젝트 이름을 입력하세요. "/>
                                     </div>
                                     <div>
-                                        <form:input path="target_date" type="date" value='<fmt:formatDate pattern = yyyy-mm-dd>' placeholder="목표날짜를 입력하세요. "/>
+                                        <form:input path="target_date" type="date" placeholder="목표날짜를 입력하세요. "/>
                                     </div>
                                     <div class="input_project">
                                         <form:input path="middle_title" placeholder="중간목표를 입력하세요. "/>

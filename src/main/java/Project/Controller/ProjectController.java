@@ -24,6 +24,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    //프로젝트 내역 조회
     @GetMapping("/project")
     public String project(Model model, HttpSession session) {
 
@@ -37,30 +38,35 @@ public class ProjectController {
         List<List<Project_middle_info>> middleList = new ArrayList<>();
         List<List<Project_item_info>> itemList = new ArrayList<>();
 
-        for (ProjectInfo nth : projectInfoList) {
-            //사용자의 프로젝트 리스트 idx
-            project_idx_List.add(nth.getProject_idx());
-        }
-
-        for (Integer nth : project_idx_List) {
-            //프로젝트 idx를 기준으로 분류된 소목표 리스트
-            List<Project_middle_info> middle = projectService.selectProjectMiddleInfo(nth);
-            middleList.add(projectService.selectProjectMiddleInfo(nth));
-            for (Project_middle_info items : middle) {
-                //소목표 idx 리스트
-                List<Integer> item_idxList = new ArrayList<>();
-                item_idxList.add(items.getProject_middle_idx());
-
-                for (Integer item_nth : item_idxList) {
-                    itemList.add(projectService.selectProjectItemList(item_nth));
-                }
+        if(projectInfoList != null){
+            for (ProjectInfo nth : projectInfoList) {
+                //사용자의 프로젝트 리스트 idx
+                project_idx_List.add(nth.getProject_idx());
             }
 
+            for (Integer nth : project_idx_List) {
+                //프로젝트 idx를 기준으로 분류된 소목표 리스트
+                List<Project_middle_info> middle = projectService.selectProjectMiddleInfo(nth);
+                middleList.add(projectService.selectProjectMiddleInfo(nth));
+                for (Project_middle_info items : middle) {
+                    //소목표 idx 리스트
+                    List<Integer> item_idxList = new ArrayList<>();
+                    item_idxList.add(items.getProject_middle_idx());
+
+                    for (Integer item_nth : item_idxList) {
+                        itemList.add(projectService.selectProjectItemList(item_nth));
+                    }
+                }
+
+            }
+
+            model.addAttribute("projectInfoList", projectInfoList);
+            model.addAttribute("middleList", middleList);
+            model.addAttribute("itemList", itemList);
         }
 
-        model.addAttribute("projectInfoList", projectInfoList);
-        model.addAttribute("middleList", middleList);
-        model.addAttribute("itemList", itemList);
+
+
 
         return "project";
     }

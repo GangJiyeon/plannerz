@@ -90,3 +90,7 @@ form,#naver_login_wrapper{
     padding-left: 5px;
     height: 40px;
 }
+.left{
+    text-align: left;
+    color: #dc3636;
+}

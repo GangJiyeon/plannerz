@@ -18,7 +18,7 @@
     String apiKey = "TGdxb2l3enJDWFRTbTgvREU3MGYwUT09";      // 부여받은 MID 에 대한 apiKey
     String reqSvcCd = "01";
     String mTxId = "mTxId_" + Calendar.getInstance().getTimeInMillis();
-    String reservedMsg = "isUseToken=Y";                 // 결과조회 응답시 개인정보SEED 암호화 처리 요청
+    String reservedMsg = "isUseToken=N";                 // 결과조회 응답시 개인정보SEED 암호화 처리 요청
 
 // 등록가맹점 확인
     String plainText1 = mid + mTxId + apiKey;
@@ -30,7 +30,6 @@
     String userPhone = "01011112222";  // 사용자 핸드폰
     String userBirth = "19800101";         // 사용자 생년월일
     String userHash = "";
-
     String flgFixedUser = "N";              // 특정사용자 고정시 Y
 
     if("Y".equals(flgFixedUser))

@@ -90,10 +90,10 @@
                             <div><img src="https://cr3.shopping.naver.com/bridge/searchGate?query=빵빠레&bt=-1&nv_mid=31177622472&cat_id=50013240&h=571e6ebe1d019e6a8470394c801d0a51538726af&t=L6NPX366&frm=NVSCPRO"></div>
                         </div>
                         <div>
-                            <button type="submit" onclick="javascript:form.action='/Z/userInfo'" id="service">서비스 이용하기</button>
+                            <button type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/userinfo'" id="service">서비스 이용하기</button>
                         </div>
                         <div>
-                            <button type="submit" onclick="javascript:form.action='/Z/logout'" id="logout_btn">로그아웃</button>
+                            <button type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/logout'" id="logout_btn">로그아웃</button>
                         </div>
                     </form:form>
                 </c:if>
@@ -105,9 +105,17 @@
                     <form:form action="${pageContext.request.contextPath}/login/self" modelAttribute="loginCommand">
                         <div class="mb5">
                             <form:input path="user_id" placeholder="아이디를 입력하세요" value="${loginCommand.user_id}"/>
+                            <div class="left">
+                                <form:errors path="user_id" />
+                            </div>
+
                         </div>
                         <div class="mb5">
                             <form:password path="user_pw" placeholder="비밀번호 입력하세요"/>
+                            <div class="left">
+                                <form:errors path="user_pw" />
+                            </div>
+
                         </div>
                         <div class="re_id">
                             <form:checkbox path="remember_me" id="remember_me" value="${loginCommand.remember_me}"/>
@@ -134,7 +142,7 @@
                             <a href="${url}">
                                 <div class="naver_login_wrapper" id="">
                                     <img id="naver_login"
-                                         src="../Z/img/2021_Login_with_naver_guidelines_Kr/btnG_완성형.png" alt="">
+                                         src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnG_완성형.png" alt="">
                                 </div>
                             </a>
                         </div>

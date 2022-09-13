@@ -89,7 +89,7 @@ public class LoginController {
 
     //직접 입력 로그인
     @PostMapping("/login/self")
-    public String selfLogin(@ModelAttribute("loginCommand") @Valid LoginCommand loginCommand,
+    public String selfLogin(@ModelAttribute("loginCommand") LoginCommand loginCommand,
                             Errors errors, HttpSession session,
                             HttpServletResponse response) {
 

@@ -55,6 +55,9 @@
                         <div class="project_items">
                             <hr>
                             <div class="scroll">
+                                <c:if test="${empty todolistInfoList}">
+                                    <div>TO DO LIST 내역이 없습니다. </div>
+                                </c:if>
                                 <c:forEach items="${todolistInfoList}" var="todolistInfo">
                                     <div class="project_item" id="${todolistInfo.list_idx}">
                                         <span>${todolistInfo.list_title}</span>

@@ -3,27 +3,27 @@ import java.util.Date;
 
 public class JoinCommand {
 
-
     private String user_id;
-
     private String user_pw;
-
     private String pw_check;
     private String user_name;
-
     private String sns;
-
     private Date user_birth;
-
     private String job;
-
     private String img;
-
     private String phone;
-
     private String email;
-
     private String nickname;
+
+    private String birth;
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
 
     public JoinCommand() {
     }

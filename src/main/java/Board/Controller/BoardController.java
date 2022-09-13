@@ -4,6 +4,7 @@ import Board.Dto.*;
 import Board.Service.BoardService;
 import User.Dto.LoginSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,7 @@ public class BoardController {
 
     @PostMapping("/board/form.do")
     public String board_form_do(Model model, BoardCommand boardCommand, HttpSession session,
-                                @RequestParam("file") MultipartFile file) {
+                                @RequestParam(required = false, value = "file") MultipartFile file ) {
 
         LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
         boardCommand.setUser_id(loginSession.getUser_id());
@@ -56,7 +57,9 @@ public class BoardController {
 
         String uploadFolder = "/Users/gangjiyeon/Desktop/포폴/plannerz/image/board/img";
 
-        if (file != null) {
+        System.out.println(file!=null);
+        System.out.println(file);
+        if (file!=null) {
             String fileRealName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
             long size = file.getSize(); //파일 사이즈
 

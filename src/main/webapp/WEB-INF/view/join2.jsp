@@ -8,22 +8,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@page import="org.json.simple.parser.JSONParser"%>
-<%@page import="org.json.simple.JSONObject"%>
-<%@page import="java.util.Set"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.nio.charset.StandardCharsets"%>
-<%@page import="java.nio.charset.Charset"%>
-<%@page import="java.io.InputStreamReader"%>
-<%@page import="java.io.BufferedReader"%>
-<%@page import="java.net.URL"%>
-<%@page import="java.net.HttpURLConnection"%>
-<%@page import="java.util.Enumeration"%>
+<%@page import="org.json.simple.parser.JSONParser" %>
+<%@page import="org.json.simple.JSONObject" %>
+<%@page import="java.util.Set" %>
+<%@page import="java.util.HashMap" %>
+<%@page import="java.util.Map" %>
+<%@page import="java.nio.charset.StandardCharsets" %>
+<%@page import="java.nio.charset.Charset" %>
+<%@page import="java.io.InputStreamReader" %>
+<%@page import="java.io.BufferedReader" %>
+<%@page import="java.net.URL" %>
+<%@page import="java.net.HttpURLConnection" %>
+<%@page import="java.util.Enumeration" %>
 <%@ page import="org.springframework.ui.Model" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String getBirthday="";
+    String getBirthday = "";
     String getName = "";
     String getPhone = "";
 %>
@@ -37,7 +37,7 @@
     // STEP2 에 이어 인증결과가 성공일(resultCode=0000) 경우 STEP2 에서 받은 인증결과로 아래 승인요청 진행
 
     JSONObject resJson = null;
-    if("0000".equals(resultCode)){
+    if ("0000".equals(resultCode)) {
 
         String authRequestUrl = request.getParameter("authRequestUrl");
         String txId = request.getParameter("txId");
@@ -77,12 +77,11 @@
             }
         }
 
-
         String userBirthday = "userBirthday";
         String userName = "userName";
         String userPhone = "userPhone";
 
-        for(Object key : resJson.keySet()){
+        for (Object key : resJson.keySet()) {
             if (key.equals(userBirthday)) {
                 getBirthday = resJson.get(key).toString();
             } else if (key.equals(userName)) {
@@ -92,16 +91,12 @@
             }
         }
 
-
 // -------------------- 결과 수신 -------------------------------------------//
-
-
-    }else{
-        out.print("<p>"+resultCode+"</p>");
-        out.print("<p>"+resultMsg+"</p>");
+    } else {
+        out.print("<p>" + resultCode + "</p>");
+        out.print("<p>" + resultMsg + "</p>");
     }
 %>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -135,130 +130,31 @@
     </style>
 </head>
 <body>
+<script>
+    $(document).ready(function(){
+        $("#go_step2").keydown();
+    });
+</script>
 <div class="fixed">
 
-    <%@include file="./includes/header.jsp"%>
+    <%@include file="./includes/header.jsp" %>
 
     <div class="form_wrapper">
         <div class="form">
-            <div class="title2">회원가입</div>
-            <div class="join_step">
-                <div id="step1" class="step">
-                    <div class="square"><span>본인인증</span></div>
-                </div>
-                <div></div>
-                <div id="step2" class="step true">
-                    <div class="square"><span>정보입력</span></div>
-                </div>
-                <div></div>
-                <div id="step3" class="step">
-                    <div class="square"><span>약관동의</span></div>
-                </div>
-                <div></div>
-                <div id="step4" class="step">
-                    <div class="square"><span>회원가입</span></div>
-                </div>
+            <div class="inputArea form_border" id="step2_content" >
+                <form action="${pageContext.request.contextPath}/view/step_2" method="post">
+                    <input name="user_name" value="<%=getName%>" />
+                    <input name="user_birth" value="<%=getBirthday%>" />
+                    <input name="phone" value="<%=getPhone%>" />
+                    <button type="submit" id="go_step2">오예이</button>
+                </form>
             </div>
 
-
-            <div></div>
-
-
-            <div class="inputArea form_border" id="step2_content">
-
-                <form:form action="${pageContext.request.contextPath}/check/id" modelAttribute="idCheck">
-                    <div class="div2">
-                        <div>
-                            <label for="user_id"><spring:message code="user_id"/></label>
-                        </div>
-                        <div class="div_2">
-                            <div>
-                                <form:input path="check_user_id" value="${new_userId}"/>
-                            </div>
-                            <div>
-                                <div>
-                                    <button type="submit"><spring:message code="check_id"/></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form:form>
-
-                <form:form action="${pageContext.request.contextPath}/join/input" method="post" modelAttribute="JoinCommand">
-                <div class="div2">
-                    <div>
-                        <form:input path="user_id" type="hidden" value="${new_userId}"/>
-                        <label for="user_pw"><spring:message code="user_pw"/></label>
-                    </div>
-                    <div>
-                        <form:password path="user_pw"/>
-                    </div>
-                </div>
-                <div class="div2">
-                    <div>
-                        <label for="pw_check"><spring:message code="check_pw"/></label>
-                    </div>
-                    <div>
-                        <form:password path="pw_check" id="pw_check"/>
-                    </div>
-                </div>
-                <div class="div2">
-                    <div>
-                        <label for="user_name"><spring:message code="user_name" /></label>
-                    </div>
-                    <div>
-                        <form:input path="user_name" id="user_name" value="<%=getName%>" readonly="true"/>
-                    </div>
-                </div>
-
-                <div class="div2">
-                    <div>
-                        <label for="user_birth"><spring:message code="birth"/></label>
-                    </div>
-                    <div>
-                        <form:input path="user_birth" type="date" datetype="" id="user_birth" value="<%=getBirthday%>" readonly="true"/>
-                    </div>
-                </div>
-                <div class="div2">
-                    <div>
-                        <label for="phone">전화번호</label>
-                    </div>
-                    <div>
-                        <form:input path="phone" type="text" datetype="" id="phone" value="<%=getPhone%>" readonly="true"/>
-                    </div>
-                </div>
-
-                <div class="div2">
-                    <div><label for="job"><spring:message code="job"/> </label></div>
-                    <div>
-                        <form:select path="job" id="job">
-                            <form:option value="무직"></form:option>
-                            <form:option value="중고등학생"></form:option>
-                            <form:option value="대학생"></form:option>
-                            <form:option value="중고등학생"></form:option>
-                            <form:option value="마케팅"></form:option>
-                        </form:select>
-                    </div>
-                </div>
-                <div class="div2">
-                    <div><label for="img"><spring:message code="profile_photo"/></label></div>
-                    <div>
-                        <form:input path="img" id="img"/>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div>
-                <form:button><spring:message code="before"/></form:button>
-                <form:button><spring:message code="next"/></form:button>
-            </div>
-            </form:form>
         </div>
-
     </div>
 </div>
+
 </div>
+
 </body>
 </html>

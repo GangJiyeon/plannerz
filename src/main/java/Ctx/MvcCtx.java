@@ -47,6 +47,8 @@ public class MvcCtx implements WebMvcConfigurer {
         return ms;
     }
 
-
-
+    @Override
+    public Validator getValidator() {
+        return new User_idValidator();
+    }
 }
