@@ -68,6 +68,12 @@ public class BOARD_TB_Dao {
         return results.isEmpty() ? null : results.get(0);
     }
 
+    //게시글 전체 갯수 조회
+    public int count_boardList(){
+        String sql = "SELECT COUNT(*) FROM BOARD_TB";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
     //페이지번호에 따른 게시글 리스트 조회
     public List<BoardInfo> selectBoardList_byStartNum(Integer start_num){
 

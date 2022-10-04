@@ -43,6 +43,8 @@ public class JoinService {
 
     }
 
+
+
     //랜덤 아이디 생성 메서드
     public String isPossibleRandomId(){
         Random random = new Random();
@@ -87,4 +89,11 @@ public class JoinService {
 
     }
 
+
+    //회원탈퇴
+    public void deleteUserInfo(String user_id, String user_pw){
+
+        sns_account_tb_dao.deleteSNS_UserInfo(user_id);
+        user_tb_dao.deleteUserInfo(user_id, user_pw);
+    }
 }

@@ -38,32 +38,62 @@
             font-style: normal;
         }
     </style>
+    <script>
+        $(document).ready(function () {
+
+            $(".mid_delete_btn").on("click", function () {
+                let idx = $(this).attr('id');
+                location.href = "${pageContext.request.contextPath}/project/mid/delete?" + idx;
+
+            })
+
+            <c:if test="${not empty param.project_idx}">
+            $(".project_middle").css('display', 'none');
+            $(".project_middle").filter("#${param.project_idx}").css('display', 'block');
+
+            $(".project_item").css('border-radius', 'none');
+            $(".project_item").css('border', 'none');
+            $(".project_item").css('background-color', 'white');
+
+            $(".project_item").filter("#${param.project_idx}").css('border-radius', '12px');
+            $(".project_item").filter("#${param.project_idx}").css('background-color', 'rgb(242, 244, 247)');
+            $(".project_item").filter("#${param.project_idx}").css('border', '1px solid rgb(195, 204, 217)');
+
+            </c:if>
+
+
+        });
+    </script>
 </head>
 <body>
 <div class="contents">
-    <%@include file="includes/side_bar.jsp"%>
+    <%@include file="includes/side_bar.jsp" %>
 
     <div class="content">
         <div class="real">
             <div class="title">프로젝트</div>
             <div class="onetTothree">
                 <div>
-                    <div class="border_blue border_blue_left">
+                    <div class="border_blue border_blue_left not">
                         <div>
                             <spring:message code="project_title">
                                 <spring:argument value="${loginSession.user_name}"/>
                             </spring:message>
                         </div>
-                        <div class="project_items">
+                        <div class="project_items ">
                             <hr>
-                            <c:if test="${empty projectInfoList}">
-                                <div>프로젝트 내역이 없습니다. </div>
-                            </c:if>
-                            <c:forEach items="${projectInfoList}" var="projectInfo">
-                                <div class="project_item" id="${projectInfo.project_idx}">
-                                    <span>${projectInfo.title}</span>
-                                </div>
-                            </c:forEach>
+                            <div class="scroll">
+
+                                <c:if test="${empty projectInfoList}">
+                                    <div>프로젝트 내역이 없습니다.</div>
+                                </c:if>
+                                <c:forEach items="${projectInfoList}" var="projectInfo">
+                                    <div class="project_item" id="${projectInfo.project_idx}">
+                                        <span>${projectInfo.title}</span>
+                                    </div>
+                                </c:forEach>
+
+                            </div>
                             <hr>
                             <div class="project_item" id="add_project">
                                 프로젝트를 추가하세요
@@ -80,6 +110,29 @@
                                     <div class="title3">${projectInfo.title} [D-20]</div>
                                     <div>목표기한: ${projectInfo.target_date}</div>
                                 </div>
+                                <div class="btn_area_todolist">
+                                    <button type="button" class="total_delete_btn"
+                                            id="project_idx=${projectInfo.project_idx}">삭제
+                                    </button>
+                                    <button type="button" class="total_update_btn"
+                                            id="project_idx=${projectInfo.project_idx}">수정
+                                    </button>
+                                </div>
+                                <script>
+
+                                    $(".total_delete_btn").on("click", function () {
+                                        let idx = $(this).attr('id');
+                                        location.href = "${pageContext.request.contextPath}/project/total/delete?" + idx;
+                                    })
+
+                                    $(".total_update_btn").on("click", function () {
+                                        let idx = $(this).attr('id');
+                                        location.href = "${pageContext.request.contextPath}/project/update?" + idx;
+
+                                    })
+
+
+                                </script>
                                 <div class="scroller_wrapper">
                                     <div class="three">
                                         <c:forEach items="${middleList}" var="middleItem">
@@ -88,6 +141,9 @@
                                                     <div class="bg_w">
                                                         <div class="title4" id="con_${middle.project_middle_idx}">
                                                                 ${middle.title}
+                                                            <button type="button" class="mid_delete_btn"
+                                                                    id="mid_idx=${middle.project_middle_idx}">X
+                                                            </button>
                                                         </div>
                                                         <c:forEach items="${itemList}" var="items">
                                                             <c:forEach items="${items}" var="item">
@@ -97,6 +153,10 @@
                                                                                class="${item.done}"
                                                                                checked disabled>
                                                                         <span>${item.title}</span>
+                                                                        <button type="button" class="delete_item"
+                                                                                id="project_idx=${projectInfo.project_idx}&item_idx=${item.item_idx}">
+                                                                            X
+                                                                        </button>
                                                                     </div>
                                                                 </c:if>
                                                             </c:forEach>
@@ -112,12 +172,15 @@
                                 </div>
 
                             </div>
+
+
                         </c:forEach>
 
 
                         <div id="project_input_area" class="project_middle">
                             <div class="content_title">
-                                <form:form action="${pageContext.request.contextPath}/project/form1" modelAttribute="projectCommand">
+                                <form:form action="${pageContext.request.contextPath}/project/form1"
+                                           modelAttribute="projectCommand">
                                     <div class="title3">프로젝트 추가하기</div>
                                     <div>
                                         <form:input path="title" placeholder="프로젝트 이름을 입력하세요. "/>
@@ -126,7 +189,7 @@
                                         <form:input path="target_date" type="date" placeholder="목표날짜를 입력하세요. "/>
                                     </div>
                                     <div class="input_project">
-                                        <form:input path="middle_title" placeholder="중간목표를 입력하세요. "/>
+                                        <input type="text" name="middle_title" placeholder="중간목표를 입력하세요."/>
                                     </div>
                                     <div class="input_project" id="add_middle_btn">
                                         <span>중간목표 추가하기</span>
@@ -141,10 +204,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
 
 
             </div>

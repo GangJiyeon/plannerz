@@ -41,7 +41,6 @@ public class TODOLIST_ITEM_TB_Dao {
     public void delete_listItems(Integer list_idx){
         String sql = "DELETE FROM TODOLIST_ITEM_TB WHERE list_idx=?";
         jdbcTemplate.update(sql, list_idx);
-
     }
 
     public Boolean insert_todolistItem(Todolist_item_info todolist_item_info){

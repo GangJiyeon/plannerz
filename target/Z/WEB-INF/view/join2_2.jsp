@@ -87,7 +87,7 @@
                     </div>
                 </form:form>
 
-                <form:form action="${pageContext.request.contextPath}/join/input" method="post"
+                <form:form action="${pageContext.request.contextPath}/join/input" method="post" enctype="multipart/form-data"
                            modelAttribute="joinCommand">
                 <div class="div2">
                     <div>
@@ -150,7 +150,7 @@
                 <div class="div2">
                     <div><label for="img"><spring:message code="profile_photo"/></label></div>
                     <div>
-                        <form:input path="img" id="img"/>
+                        <input type="file" name="file" id="img"/>
                     </div>
                 </div>
 

@@ -1,8 +1,11 @@
 package UserInfo.Controller;
 
 import User.Dto.LoginSession;
+import User.Dto.SNSAccount;
 import User.Dto.UserInfo;
+import User.Service.JoinService;
 import User.Service.LoginService;
+import UserInfo.Dto.AlarmInfo;
 import UserInfo.Service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,7 +57,10 @@ public class UserInfoController {
 
         UserInfo userInfo = loginService.select_userInfo(user_id);
 
-        model.addAttribute("userInfo", userInfo);
+        model.addAttribute("selectUserInfo", userInfo);
+        model.addAttribute("userInfo", new UserInfo());
         return "userinfo";
     }
+
+
 }

@@ -41,4 +41,7 @@ $(document).ready(function () {
         let param = $(this).attr('id');
         location.href = "/Z/todolist/add/list_item?" + param;
     })
+
+
+
 });

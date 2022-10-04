@@ -6,13 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div class="side_bar">
     <div><i class="bi bi-person-circle font_30" id="go_userinfo"></i></div>
     <div class="menu">
         <div><i class="bi bi-calendar-check space" id="go_calendar"></i></div>
         <div><i class="bi bi-check2-square space" id="go_todolist"></i></div>
         <div><i class="bi bi-folder space" id="go_project"></i></div>
-        <div><i class="bi bi-list-task space" id="go_planner"></i></div>
         <div><i class="bi bi-people space" id="go_board"></i></div>
 
         <div class="bottom">

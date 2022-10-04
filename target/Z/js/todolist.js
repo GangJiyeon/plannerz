@@ -30,7 +30,6 @@ $(document).ready(function () {
     $(".delete_btn").on("click", function () {
         let param = $(this).attr('id');
         alert(param);
-
         location.href = "/Z/todolist/delete?" + param;
     })
 
@@ -52,7 +51,7 @@ $(document).ready(function () {
     })
 
     $("#add_todolist_input").on("click", function (){
-        $("#add_todolist_input").before("<input name=\"item_title\" placeholder=\"투두리스트 내용\">");
+        $("#here").before("<input name=\"item_title\" placeholder=\"투두리스트 내용\">");
     })
 
 });

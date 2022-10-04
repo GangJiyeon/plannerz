@@ -18,9 +18,15 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userInfo.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/base2.css">
+    <link  href="/path/to/cropper.css" rel="stylesheet">
+    <script src="/path/to/cropper.js"></script>
     <script src="${pageContext.request.contextPath}/js/function.js"></script>
     <script src="${pageContext.request.contextPath}/js/board.js"></script>
+    <script>
+        $(document).ready(function () {
 
+        });
+    </script>
     <style>
         @font-face {
             font-family: 'NEXON Lv2 Gothic';

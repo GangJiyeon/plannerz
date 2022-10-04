@@ -6,13 +6,24 @@ public class LoginSession {
     private String user_name;
     private String sns;
 
+    private String img;
+
     public LoginSession() {
     }
 
-    public LoginSession(String user_id, String user_name, String sns) {
+    public LoginSession(String user_id, String user_name, String sns, String img) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.sns = sns;
+        this.img = img;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getUser_id() {

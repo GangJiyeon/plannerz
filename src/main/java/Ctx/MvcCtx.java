@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 @EnableWebMvc
@@ -50,5 +51,16 @@ public class MvcCtx implements WebMvcConfigurer {
     @Override
     public Validator getValidator() {
         return new User_idValidator();
+    }
+
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        WebMvcConfigurer.super.addResourceHandlers(registry);
+        registry.addResourceHandler("/image/board/**")
+                .addResourceLocations("file:///Users/gangjiyeon/Desktop/포폴/plannerz/image/board/")
+                .setCachePeriod(60*10*6)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 }

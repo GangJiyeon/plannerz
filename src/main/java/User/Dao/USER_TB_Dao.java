@@ -58,4 +58,23 @@ public class USER_TB_Dao {
         jdbcTemplate.update(sql, joinCommand.getUser_id(), joinCommand.getUser_pw(), joinCommand.getUser_name(), joinCommand.getSns(),
                                 joinCommand.getUser_birth(), joinCommand.getJob(), joinCommand.getImg(), joinCommand.getPhone());
     }
+
+
+    public boolean deleteUserInfo(String id, String pw){
+        String sql = "DELETE FROM USER_TB WHERE user_id=? AND user_pw=?";
+        int result = jdbcTemplate.update(sql, id, pw);
+
+        if(result!=0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void update_userInfo(JoinCommand joinCommand){
+        String sql = "UPDATE memberInfo SET pw=?, user_name=?, tel=?, addr=? WHERE id=?";
+        jdbcTemplate.update(sql);
+
+    }
+
 }

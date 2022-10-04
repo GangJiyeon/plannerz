@@ -59,7 +59,7 @@
 }
 .board{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr;
 }
 .comment_info_area{
     display: flex;
@@ -79,9 +79,14 @@
     margin-right: 40px;
 }
 .board_scroll{
-    flex-wrap: wrap;
-    display: flex;
-    gap: 10px;
+
     height: 100vh;
     overflow: auto;
+}
+a{
+    text-decoration: none;
+}
+.board_grid{
+    display: grid;
+    grid-template-columns: 1fr 50px 50px;
 }

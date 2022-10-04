@@ -90,6 +90,16 @@ public class DatabaseCtx {
         return boardService;
     }
 
+
+    @Bean
+    public UserInfoService userInfoService(){
+        UserInfoService userInfoService = new UserInfoService();
+        userInfoService.setUser_tb_dao(user_tb_dao());
+        userInfoService.setUserinfo_tb_dao(userinfo_tb_dao());
+        userInfoService.setSns_account_tb_dao(sns_account_tb_dao());
+        return userInfoService;
+    }
+
     @Bean
     public DAILY_TB_Dao daily_tb_dao(){
         return new DAILY_TB_Dao(dataSource());
@@ -248,12 +258,7 @@ public class DatabaseCtx {
         return new USERINFO_TB_Dao(dataSource());
     }
 
-    @Bean
-    public UserInfoService userInfoService(){
-        UserInfoService userInfoService = new UserInfoService();
-        userInfoService.setUserinfo_tb_dao(userinfo_tb_dao());
-        return userInfoService;
-    }
+
 
 
 

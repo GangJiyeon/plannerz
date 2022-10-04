@@ -47,6 +47,7 @@ public class ControllerCtx {
     public BoardController boardController(){
         BoardController boardController = new BoardController();
         boardController.setBoardService(boardService);
+        boardController.setLoginService(loginService);
         return boardController;
     }
 
@@ -109,6 +110,7 @@ public class ControllerCtx {
     public LoginController loginController(){
         LoginController controller = new LoginController();
         controller.setLoginService(loginService, naverLoginBO() ,joinService);
+        controller.setAlarmService(alarmService);
         return controller;
     }
 
@@ -118,6 +120,7 @@ public class ControllerCtx {
     public JoinController joinController(){
         JoinController joinController = new JoinController();
         joinController.setLoginService(joinService);
+        joinController.setAlarmService(alarmService);
         return joinController;
     }
 
@@ -132,7 +135,7 @@ public class ControllerCtx {
     @Bean
     public AlarmController alarmController(){
         AlarmController alarmController = new AlarmController();
-        alarmController.setAlarmService(alarmService);
+        alarmController.setAlarm(alarmService, loginService);
         return alarmController;
     }
 

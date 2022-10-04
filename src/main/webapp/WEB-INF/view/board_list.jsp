@@ -36,6 +36,15 @@
             font-style: normal;
         }
     </style>
+    <script>
+
+        $(document).ready(function () {
+            let width = $(".board_img_1 img").width();
+            $(".board_img_1 img").css('height', width);
+            $(".board_img_1 img").css('object-fit', 'contain');
+
+        });
+    </script>
 </head>
 <body>
 <div class="contents">
@@ -59,21 +68,39 @@
                         <c:if test="${boardInfoList_18 == null}">
                             게시글이 없습니다.
                         </c:if>
-                        <c:if test="${boardInfoList_18 != null}">
-                            <c:forEach items="${boardInfoList_18}" var="boardInfo">
-                                <div>
-                                    <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
-                                        <div>
-                                            <div>작성자: ${boardInfo.user_id}</div>
-                                            <div>제목: ${boardInfo.board_title}</div>
-                                            <div>조회수: ${boardInfo.see}</div>
-                                            <div><img src="${pageContext.request.contextPath}/img/board/sunny.jpg"></div>
-                                        </div>
-                                    </a>
-                                </div>
 
-                            </c:forEach>
+                        <c:if test="${boardInfoList_18 != null}">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                <c:forEach items="${boardInfoList_18}" var="boardInfo">
+                                    <div class="col">
+                                        <div class="card shadow-sm">
+                                            <div class="card-body">
+                                                <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
+                                                    <div class="board_img_1">
+                                                        <img src="${pageContext.request.contextPath}/img/board/${boardInfo.board_img1}" style="width: 100%;">
+                                                        <div class="board_grid">
+                                                            <div>제목: ${boardInfo.board_title}</div>
+                                                            <div style="text-align: right"><i class="bi bi-eye"></i> ${boardInfo.see}</div>
+                                                            <div style="text-align: right"><i class="bi bi-heart"></i> ${boardInfo.like}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+
+                            </div>
+
+
                         </c:if>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <c:forEach begin="1" end="${end}" var="number">
+                                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/board/list?page=${number}">${number}</a></li>
+                                </c:forEach>
+                            </ul>
+                        </nav>
                     </div>
 
                 </div>

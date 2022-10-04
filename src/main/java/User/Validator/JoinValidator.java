@@ -27,7 +27,6 @@ public class JoinValidator implements Validator {
         JoinCommand joinCommand = (JoinCommand) target;
 
         if(joinCommand.getUser_pw()==null){
-            System.out.println("pw empty");
             errors.reject("user_pw", "required");
         }else {
             pattern = Pattern.compile(user_pwRegExp);
@@ -40,11 +39,8 @@ public class JoinValidator implements Validator {
             int length = joinCommand.getUser_pw().length();
 
             if(length < 8 || 20 < length ){
-                System.out.println("pw param error");
                 errors.rejectValue("user_pw", "bad");
             }
-
-
         }
 
         if(!joinCommand.getPw_check().equals(joinCommand.getUser_pw())){

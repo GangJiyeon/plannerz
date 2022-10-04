@@ -132,7 +132,7 @@
 <body>
 <script>
     $(document).ready(function(){
-        $("#go_step2").keydown();
+        $("#go_step2").trigger("click");
     });
 </script>
 <div class="fixed">

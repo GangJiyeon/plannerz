@@ -87,7 +87,12 @@
 
                             </div>
                             <div>${loginSession.user_name}님 반갑습니다!</div>
-                            <div><img src="https://cr3.shopping.naver.com/bridge/searchGate?query=빵빠레&bt=-1&nv_mid=31177622472&cat_id=50013240&h=571e6ebe1d019e6a8470394c801d0a51538726af&t=L6NPX366&frm=NVSCPRO"></div>
+                            <div>
+                                <c:if test="${loginSession.sns !='none'}">
+                                    <img src="${loginSession.img}" alt="">
+                                </c:if>
+                                <img src="${pageContext.request.contextPath}/img/user/${loginSession.img}" alt="">
+                            </div>
                         </div>
                         <div>
                             <button type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/userinfo'" id="service">서비스 이용하기</button>

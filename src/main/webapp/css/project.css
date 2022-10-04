@@ -81,3 +81,18 @@
 .scroller_wrapper{
     overflow: scroll;
 }
+.scroll{
+    overflow: scroll;
+    max-height: 55vh;
+}
+.not {
+    height: auto !important;
+}
+
+.total_delete_btn,.total_update_btn{
+    border: solid 1px rgb(113, 131, 147);
+    color: rgb(88, 103, 116);
+    width: 50px;
+    border-radius: 5px;
+    background-color: white;
+}

@@ -33,6 +33,10 @@ public class BoardService {
         this.comment_like_tb_dao = comment_like_tb_dao;
     }
 
+    //게시글 갯수
+    public Integer countBoard(){
+        return board_tb_dao.count_boardList();
+    }
     public BoardInfo insertBoard(BoardCommand boardCommand){
        Integer board_idx = board_tb_dao.insertBoard(boardCommand);
        return board_tb_dao.selectBoardInfo_byBoardIdx(board_idx);
@@ -70,8 +74,12 @@ public class BoardService {
         comment_tb_dao.insertCommentInfo(commentCommand);
     }
 
-    public void deleteCommentInfo(Integer comment_idx){
+    public void deleteCommentInfo(Integer comment_idx, Integer parent_comment){
         comment_tb_dao.deleteCommentInfo(comment_idx);
+
+        if (parent_comment != 0){
+            comment_tb_dao.deleteParent(parent_comment);
+        }
     }
 
     public void updateCommentInfo(Integer comment_idx, String content){
@@ -93,6 +101,7 @@ public class BoardService {
     }
 
     public boolean deleteBoardLike(BoardLikeInfo boardLikeInfo,BoardInfo boardInfo ){
+
         if(!board_like_tb_dao.selectBoardLikeInfo(boardLikeInfo)){
             board_like_tb_dao.deleteBoardLike(boardLikeInfo);
             board_tb_dao.minusBoardLike(boardInfo);

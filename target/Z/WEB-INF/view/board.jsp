@@ -36,6 +36,15 @@
             font-style: normal;
         }
     </style>
+    <script>
+
+        $(document).ready(function () {
+            let width = $(".board_img_1 img").width();
+            $(".board_img_1 img").css('height', width);
+            $(".board_img_1 img").css('object-fit', 'contain');
+
+        });
+    </script>
 </head>
 <body>
 <div class="contents">
@@ -49,7 +58,10 @@
 
                 <div class="title">
                     <div>
-                        <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
+                        <c:if test="${loginSession.sns !='none'}">
+                            <img src="${loginSession.img}" alt="" style="border-radius: 50%">
+                        </c:if>
+                        <img src="${pageContext.request.contextPath}/img/user/${loginSession.img}" alt="" style="border-radius: 50%">
                         <span>${loginSession.user_name}</span>
                     </div>
 
@@ -61,22 +73,31 @@
                         <div>게시글이 없습니다. </div>
                     </c:if>
                     <c:if test="${boardInfoList != null}">
-                        <c:forEach items="${boardInfoList}" var="boardInfo">
-                            <div>
-                                <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
-                                    <div>
-                                        <div>${boardInfo.board_idx}</div>
-                                        <div>${boardInfo.board_title}</div>
-                                        <div>${boardInfo.board_img1}</div>
-                                        <div><img src="${pageContext.request.contextPath}/img/board/sunny.jpg"></div>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <c:forEach items="${boardInfoList}" var="boardInfo">
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <a href="${pageContext.request.contextPath}/board/detail?board_idx=${boardInfo.board_idx}">
+                                                <div class="board_img_1">
+                                                    <img  src="${pageContext.request.contextPath}/img/board/${boardInfo.board_img1}" style="width: 100%;">
+                                                    <div class="board_grid">
+                                                        <div>제목: ${boardInfo.board_title}</div>
+                                                        <div style="text-align: right"><i class="bi bi-eye"></i> ${boardInfo.see}</div>
+                                                        <div style="text-align: right"><i class="bi bi-heart"></i> ${boardInfo.like}</div>
+                                                    </div>
 
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+
+                            </c:forEach>
 
 
-                            <hr>
-                        </c:forEach>
+                        </div>
+
                     </c:if>
 
                 </div>

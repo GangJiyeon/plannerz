@@ -3,6 +3,8 @@ package Board.Controller;
 import Board.Dto.*;
 import Board.Service.BoardService;
 import User.Dto.LoginSession;
+import User.Dto.UserInfo;
+import User.Service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,13 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private LoginService loginService;
+
+    public   void setLoginService(LoginService loginService){
+        this.loginService = loginService;
+    }
 
 
     public void setBoardService(BoardService boardService) {
@@ -54,12 +63,9 @@ public class BoardController {
         model.addAttribute("loginSession", loginSession);
 
         //이미지를 저장할 서버의 경로
+        String uploadFolder = "/Users/gangjiyeon/IdeaProjects/Z/src/main/webapp/img/board";
 
-        String uploadFolder = "/Users/gangjiyeon/Desktop/포폴/plannerz/image/board/img";
-
-        System.out.println(file!=null);
-        System.out.println(file);
-        if (file!=null) {
+        if (!file.isEmpty()) {
             String fileRealName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
             long size = file.getSize(); //파일 사이즈
 
@@ -73,31 +79,66 @@ public class BoardController {
             String uniqueName = uuids[0];
 
             // File saveFile = new File(uploadFolder+"\\"+fileRealName); uuid 적용 전
-            File saveFile = new File(uploadFolder + "_" + uniqueName + fileExtension);  // 적용 후
+            File saveFile = new File(uploadFolder + "//" + uniqueName + fileExtension);  // 적용 후
             try {
                 file.transferTo(saveFile); // 실제 파일 저장메서드(filewriter 작업을 손쉽게 한방에 처리해준다.)
-
                 String savedFile = saveFile.toString();
-                boardCommand.setBoard_img1(savedFile);
+                boardCommand.setBoard_img1(uniqueName + fileExtension);
 
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            boardCommand.setBoard_img1("sunny.jpg");
         }
-
-
 
         BoardInfo boardInfo = boardService.insertBoard(boardCommand);
 
-        model.addAttribute("boardInfo", boardInfo);
+
+        return "redirect:/board/detail?board_idx=" + boardInfo.getBoard_idx();
+    }
+
+    @GetMapping("/add/board/like")
+    public String addBoardLike(Model model, @RequestParam("board_idx") Integer board_idx, HttpSession session){
 
         model.addAttribute("boardCommand", new BoardCommand());
         model.addAttribute("commentCommand", new CommentCommand());
         model.addAttribute("cocCommand", new CocCommand());
 
-        return "board_detail";
+        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
+        String user_id = loginSession.getUser_id();
+        BoardLikeInfo boardLikeInfo = new BoardLikeInfo();
+        boardLikeInfo.setLike_board_idx(board_idx);
+        boardLikeInfo.setLike_user_id(user_id);
+
+        BoardInfo boardInfo = boardService.selectBoardInfo(board_idx);
+
+        boardService.addBoardLike(boardLikeInfo, boardInfo);
+
+        return "redirect:/board/detail?board_idx="+board_idx;
+    }
+
+    @GetMapping("/delete/board/like")
+    public String deleteBoardLike(Model model, @RequestParam("board_idx") Integer board_idx, HttpSession session){
+
+        model.addAttribute("boardCommand", new BoardCommand());
+        model.addAttribute("commentCommand", new CommentCommand());
+        model.addAttribute("cocCommand", new CocCommand());
+
+        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
+        String user_id = loginSession.getUser_id();
+        BoardLikeInfo boardLikeInfo = new BoardLikeInfo();
+        boardLikeInfo.setLike_board_idx(board_idx);
+        boardLikeInfo.setLike_user_id(user_id);
+
+        BoardInfo boardInfo = boardService.selectBoardInfo(board_idx);
+
+        boardService.deleteBoardLike(boardLikeInfo, boardInfo);
+        boardInfo.setLike(boardInfo.getLike()-1);
+
+        return "redirect:/board/detail?board_idx="+board_idx;
     }
 
     @GetMapping("/board/detail")
@@ -108,6 +149,11 @@ public class BoardController {
         boardService.updateBoardSee(boardInfo);
         boardInfo.setSee(boardInfo.getSee()+1);
         model.addAttribute("boardInfo", boardInfo);
+
+        UserInfo board_userInfo = loginService.select_userInfo(boardInfo.getUser_id());
+
+        System.out.println(board_userInfo.getUser_id());
+        model.addAttribute("board_userInfo", board_userInfo);
 
         LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
         model.addAttribute("loginSession", loginSession);
@@ -120,6 +166,7 @@ public class BoardController {
         }else {
             model.addAttribute("commentAmount", 0);
         }
+
         model.addAttribute("cocCommentInfoList", cocCommentInfoList);
         model.addAttribute("commentInfoList", commentInfoList);
 
@@ -131,9 +178,11 @@ public class BoardController {
         return "board_detail";
     }
 
+
     @GetMapping("/board/list")
     public String board_list(Model model, @RequestParam(value = "page", required = false) Integer page) {
 
+        model.addAttribute("end", boardService.countBoard()/18+1);
         if (page == null) {
             page = 1;
         }
@@ -145,6 +194,107 @@ public class BoardController {
         System.out.println(boardInfoList_18);
         return "board_list";
     }
+
+    //댓글 작성
+    @PostMapping("/comment/add")
+    public String comment_add(HttpSession session, Model model, CommentCommand commentCommand) {
+
+        boardService.insertCommentInfo(commentCommand);
+
+
+        model.addAttribute("boardCommand", new BoardCommand());
+        model.addAttribute("commentCommand", new CommentCommand());
+        model.addAttribute("cocCommand", new CocCommand());
+
+        return "redirect:/board/detail?board_idx="+commentCommand.getParent_board_idx();
+    }
+
+    //댓글 삭제
+    @GetMapping("/comment/delete")
+    public String comment_delete(Model model, @RequestParam("comment_idx") Integer comment_idx,
+                                 @RequestParam(value = "parent_comment", required = false) String parent_comment,
+                                 @RequestParam("board_idx") Integer board_idx) {
+
+        if (parent_comment==null){
+            parent_comment = "0";
+        }
+
+
+        Integer comment = Integer.parseInt(parent_comment);
+        model.addAttribute("boardCommand", new BoardCommand());
+        model.addAttribute("commentCommand", new CommentCommand());
+        model.addAttribute("cocCommand", new CocCommand());
+
+        boardService.deleteCommentInfo(comment_idx, comment);
+        return "redirect:/board/detail?board_idx="+board_idx;
+    }
+
+
+    @GetMapping("/delete/comment/like")
+    public String deleteCommentLike(Model model, @RequestParam("comment_idx") Integer comment_idx,
+                                    @RequestParam("board_idx") Integer board_idx, HttpSession session){
+
+        model.addAttribute("boardCommand", new BoardCommand());
+        model.addAttribute("commentCommand", new CommentCommand());
+        model.addAttribute("cocCommand", new CocCommand());
+
+        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
+        String user_id = loginSession.getUser_id();
+
+        CommentLikeInfo commentLikeInfo = new CommentLikeInfo();
+        commentLikeInfo.setComment_idx(comment_idx);
+        commentLikeInfo.setComment_user_id(user_id);
+
+        CommentInfo commentInfo = boardService.selectCommentInfo_byCommentIdx(comment_idx);
+        boardService.deleteCommentLike(commentLikeInfo, commentInfo);
+
+        return "redirect:/board/detail?board_idx="+board_idx;
+
+    }
+
+    @GetMapping("/add/comment/like")
+    public String addCommentLike(Model model, @RequestParam("comment_idx") Integer comment_idx,
+                                 @RequestParam("board_idx") Integer board_idx, HttpSession session){
+
+        model.addAttribute("boardCommand", new BoardCommand());
+        model.addAttribute("commentCommand", new CommentCommand());
+        model.addAttribute("cocCommand", new CocCommand());
+
+        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
+        String user_id = loginSession.getUser_id();
+
+        CommentLikeInfo commentLikeInfo = new CommentLikeInfo();
+        commentLikeInfo.setComment_idx(comment_idx);
+        commentLikeInfo.setComment_user_id(user_id);
+
+        CommentInfo commentInfo = boardService.selectCommentInfo_byCommentIdx(comment_idx);
+        boardService.addCommentLike(commentLikeInfo, commentInfo);
+
+        return "redirect:/board/detail?board_idx="+board_idx;
+    }
+
+    @PostMapping("comment/coc/add")
+    public String coComment_add(HttpSession session, Model model, CocCommand cocCommand) {
+
+        CommentCommand commentCommand = new CommentCommand();
+        commentCommand.setParent_comment(cocCommand.getC_parent_comment());
+        commentCommand.setContent(cocCommand.getC_content());
+        commentCommand.setParent_board_idx(cocCommand.getC_parent_board_idx());
+        commentCommand.setUser_id(cocCommand.getC_user_id());
+        boardService.insertCommentInfo(commentCommand);
+
+        model.addAttribute("boardCommand", new BoardCommand());
+        model.addAttribute("commentCommand", new CommentCommand());
+        model.addAttribute("cocCommand", new CocCommand());
+
+        return "redirect:/board/detail?board_idx="+commentCommand.getParent_board_idx();
+    }
+
+
+
+
+
+
 
     @PostMapping("/board/delete")
     public String board_delete(Model model, BoardCommand boardCommand, HttpSession session) {
@@ -178,144 +328,29 @@ public class BoardController {
         BoardInfo boardInfo = boardService.selectBoardInfo(boardCommand.getBoard_idx());
         model.addAttribute("boardInfo", boardInfo);
 
-        return "board_detail";
+        return "redirect:/board/detail?board_idx="+boardInfo.getBoard_idx();
     }
 
-    //댓글 작성
-    @PostMapping("/comment/add")
-    public String comment_add(HttpSession session, Model model, CommentCommand commentCommand) {
 
-        boardService.insertCommentInfo(commentCommand);
 
-        model.addAttribute("boardCommand", new BoardCommand());
-        model.addAttribute("commentCommand", new CommentCommand());
-        model.addAttribute("cocCommand", new CocCommand());
 
-        return "board_detail";
-    }
 
-    @PostMapping("comment/coc/add")
-    public String coComment_add(HttpSession session, Model model, CocCommand cocCommand) {
 
-        CommentCommand commentCommand = new CommentCommand();
-        commentCommand.setParent_comment(cocCommand.getC_parent_comment());
-        commentCommand.setContent(cocCommand.getC_content());
-        commentCommand.setParent_board_idx(cocCommand.getC_parent_board_idx());
-        commentCommand.setUser_id(cocCommand.getC_user_id());
-        boardService.insertCommentInfo(commentCommand);
-
-        model.addAttribute("boardCommand", new BoardCommand());
-        model.addAttribute("commentCommand", new CommentCommand());
-        model.addAttribute("cocCommand", new CocCommand());
-
-        return "board_detail";
-    }
-
-    //댓글 삭제
-    @GetMapping("/comment/delete")
-    public String comment_delete(Model model, @RequestParam("comment_idx") Integer comment_idx) {
-        model.addAttribute("boardCommand", new BoardCommand());
-        model.addAttribute("commentCommand", new CommentCommand());
-        model.addAttribute("cocCommand", new CocCommand());
-
-        boardService.deleteCommentInfo(comment_idx);
-        return "board_detail";
-    }
 
     //댓글 수정
-    @GetMapping("/comment/update")
+    @PostMapping("/comment/update")
     public String comment_update(Model model, @RequestParam("comment_idx") Integer comment_idx,
-                                 @RequestParam("content") String content) {
+                                 @RequestParam("content") String content,
+                                 @RequestParam("board_idx") Integer board_idx) {
 
         model.addAttribute("boardCommand", new BoardCommand());
         model.addAttribute("commentCommand", new CommentCommand());
         model.addAttribute("cocCommand", new CocCommand());
 
         boardService.updateCommentInfo(comment_idx, content);
-        return "board_detail";
+        return "redirect:/board/detail?board_idx="+board_idx;
     }
 
 
-    @GetMapping("/add/board/like")
-    public String addBoardLike(Model model, @RequestParam("board_idx") Integer board_idx, HttpSession session){
 
-        model.addAttribute("boardCommand", new BoardCommand());
-        model.addAttribute("commentCommand", new CommentCommand());
-        model.addAttribute("cocCommand", new CocCommand());
-
-        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
-        String user_id = loginSession.getUser_id();
-        BoardLikeInfo boardLikeInfo = new BoardLikeInfo();
-        boardLikeInfo.setLike_board_idx(board_idx);
-        boardLikeInfo.setLike_user_id(user_id);
-
-        BoardInfo boardInfo = boardService.selectBoardInfo(board_idx);
-
-        boardService.addBoardLike(boardLikeInfo, boardInfo);
-
-        return "board_detail";
-    }
-
-    @GetMapping("/delete/board/like")
-    public String deleteBoardLike(Model model, @RequestParam("board_idx") Integer board_idx, HttpSession session){
-
-        model.addAttribute("boardCommand", new BoardCommand());
-        model.addAttribute("commentCommand", new CommentCommand());
-        model.addAttribute("cocCommand", new CocCommand());
-
-        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
-        String user_id = loginSession.getUser_id();
-        BoardLikeInfo boardLikeInfo = new BoardLikeInfo();
-        boardLikeInfo.setLike_board_idx(board_idx);
-        boardLikeInfo.setLike_user_id(user_id);
-
-        BoardInfo boardInfo = boardService.selectBoardInfo(board_idx);
-
-        boardService.deleteBoardLike(boardLikeInfo, boardInfo);
-        boardInfo.setLike(boardInfo.getLike()-1);
-
-        return "board_detail";
-    }
-
-    @GetMapping("/delete/comment/like")
-    public String deleteCommentLike(Model model, @RequestParam("comment_idx") Integer comment_idx, HttpSession session){
-
-        model.addAttribute("boardCommand", new BoardCommand());
-        model.addAttribute("commentCommand", new CommentCommand());
-        model.addAttribute("cocCommand", new CocCommand());
-
-        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
-        String user_id = loginSession.getUser_id();
-
-        CommentLikeInfo commentLikeInfo = new CommentLikeInfo();
-        commentLikeInfo.setComment_idx(comment_idx);
-        commentLikeInfo.setComment_user_id(user_id);
-
-        CommentInfo commentInfo = boardService.selectCommentInfo_byCommentIdx(comment_idx);
-        boardService.deleteCommentLike(commentLikeInfo, commentInfo);
-        commentInfo.setLike(commentInfo.getLike()-1);
-
-        return "board_detail";
-    }
-
-    @GetMapping("/add/comment/like")
-    public String addCommentLike(Model model, @RequestParam("comment_idx") Integer comment_idx, HttpSession session){
-
-        model.addAttribute("boardCommand", new BoardCommand());
-        model.addAttribute("commentCommand", new CommentCommand());
-        model.addAttribute("cocCommand", new CocCommand());
-
-        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
-        String user_id = loginSession.getUser_id();
-
-        CommentLikeInfo commentLikeInfo = new CommentLikeInfo();
-        commentLikeInfo.setComment_idx(comment_idx);
-        commentLikeInfo.setComment_user_id(user_id);
-
-        CommentInfo commentInfo = boardService.selectCommentInfo_byCommentIdx(comment_idx);
-        boardService.addCommentLike(commentLikeInfo, commentInfo);
-
-
-        return "board_detail";
-    }
 }

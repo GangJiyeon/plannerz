@@ -5,6 +5,9 @@ public class Project_middle_command {
     private String middle_title;
     private Integer project_idx;
 
+    public Project_middle_command() {
+    }
+
     public Project_middle_command(String middle_title, Integer project_idx) {
         this.middle_title = middle_title;
         this.project_idx = project_idx;

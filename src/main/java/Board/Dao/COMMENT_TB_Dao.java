@@ -48,6 +48,11 @@ public class COMMENT_TB_Dao {
         int result = jdbcTemplate.update(sql,comment_idx);
     }
 
+    public void deleteParent(Integer parent_comment){
+        String sql = "DELETE FROM COMMENT_TB WHERE parent_comment=?";
+        int result = jdbcTemplate.update(sql,parent_comment);
+    }
+
     public void updateCommentInfo(Integer comment_idx, String content){
         String sql = "UPDATE COMMENT_TB SET content=? WHERE comment_idx=?";
         jdbcTemplate.update(sql, content, comment_idx);

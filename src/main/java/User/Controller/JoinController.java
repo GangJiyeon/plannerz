@@ -2,24 +2,25 @@ package User.Controller;
 
 import User.Dto.*;
 import User.Exception.CantMakeUserInfoException;
-import User.Exception.DuplicateUserException;
 import User.Service.JoinService;
+import User.Validator.AgreeValidator;
 import User.Validator.JoinValidator;
-import User.Validator.User_idValidator;
+import UserInfo.Service.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Controller
 public class JoinController {
@@ -27,10 +28,16 @@ public class JoinController {
     @Autowired
     private JoinService joinService;
 
+    @Autowired
+    private AlarmService alarmService;
+
     public void setLoginService(JoinService joinService) {
         this.joinService = joinService;
     }
 
+    public void setAlarmService(AlarmService alarmService){
+        this.alarmService = alarmService;
+    }
 
     @Autowired
     private NaverLoginBO naverLoginBO;
@@ -115,81 +122,90 @@ public class JoinController {
 
     //아이디 중복 체크
     @PostMapping("/check/id")
-    public String checkId( Model model, HttpSession session, @Valid IdCheck idCheck,
-                          Errors errors) {
-
-        //new User_idValidator().validate(idCheck, errors);
-
-        model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
-        //model.addAttribute("idCheck", new IdCheck());
-        model.addAttribute("joinCommand", new JoinCommand());
-
+    public String checkId(Model model, HttpSession session, @Valid IdCheck idCheck, Errors errors) {
 
         if (errors.hasErrors()) {
-            System.out.println("error");
             return "join2_2";
         }
 
-        try {
-            boolean id_notExist = joinService.checkid(idCheck.getCheck_user_id());
-            idCheck.setId_not_exist(id_notExist);
+        boolean id_notExist = joinService.checkid(idCheck.getCheck_user_id());
+        idCheck.setId_not_exist(id_notExist);
 
-            if (id_notExist) {
-                session.setAttribute("new_userId", idCheck.getCheck_user_id());
-            } else {
-                System.out.println("duplicate");
-                errors.rejectValue("check_user_id","duplicate");
-            }
-        } catch (DuplicateUserException e) {
-
+        if (id_notExist) {
+            session.setAttribute("new_userId", idCheck.getCheck_user_id());
+        } else {
+            errors.rejectValue("check_user_id","duplicate");
         }
 
-
-
+        model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
+        model.addAttribute("joinCommand", new JoinCommand());
         return "join2_2";
-
     }
 
     //회원정보 입력
     @PostMapping("/join/input")
-    public String join(Model model, JoinCommand joinCommand,
-                       Errors errors, HttpSession session) throws ParseException {
-
+    public String join(Model model, JoinCommand joinCommand, Errors errors, HttpSession session,
+                       @RequestParam(required = false, value = "file") MultipartFile file) throws ParseException {
 
         model.addAttribute("idCheck", new IdCheck());
-       // model.addAttribute("joinCommand", new JoinCommand());
 
+        //DB에 전송할 회원정보 재구성하기
         String birth = joinCommand.getBirth();
-
         String year = birth.substring(0,4);
         String month = birth.substring(4,6);
         String day = birth.substring(6);
         birth = year + "-" + month + "-" + day;
-        System.out.println(birth);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-        String phone = joinCommand.getPhone();
-        phone = phone.substring(0,3) + "-" + phone.substring(3,7) + "-" + phone.substring(7);
-        joinCommand.setPhone(phone);
-
         Date user_birth = format.parse(birth);
         joinCommand.setUser_birth(user_birth);
 
+        //입력값 검증하기
         new JoinValidator().validate(joinCommand, errors);
 
         joinCommand.setUser_id((String) session.getAttribute("new_userId"));
         joinCommand.setSns("none");
-        joinCommand.setImg(null);
 
         if(errors.hasErrors()){
-            System.out.println(errors);
-            System.out.println("has error");
             return "join2_2";
         }
 
         try{
+
+            //이미지를 저장할 서버의 경로
+            String uploadFolder = "/Users/gangjiyeon/IdeaProjects/Z/src/main/webapp/img/user";
+
+            if (!file.isEmpty()) {
+                String fileRealName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
+                long size = file.getSize(); //파일 사이즈
+
+                //서버에 저장할 파일이름 fileextension으로 .jsp이런식의  확장자 명을 구함
+                String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+
+                //고유한 랜덤 문자를 통해 db와 서버에 저장할 파일명을 새롭게 만들기
+                UUID uuid = UUID.randomUUID();
+                String[] uuids = uuid.toString().split("-");
+
+                String uniqueName = uuids[0];
+
+                // File saveFile = new File(uploadFolder+"\\"+fileRealName); uuid 적용 전
+                File saveFile = new File(uploadFolder + "//" + uniqueName + fileExtension);  // 적용 후
+                try {
+                    file.transferTo(saveFile); // 실제 파일 저장메서드(filewriter 작업을 손쉽게 한방에 처리해준다.)
+                    String savedFile = saveFile.toString();
+                    joinCommand.setImg(uniqueName + fileExtension);
+
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                joinCommand.setImg("회원.jpeg");
+            }
+
             joinService.join(joinCommand);
             session.removeAttribute("user_id");
+            alarmService.insert(joinCommand.getUser_id());
             model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
             return "join3";
 
@@ -200,19 +216,42 @@ public class JoinController {
 
     //동의 항목 체크
     @PostMapping("/check/agree")
-    public String checkAgree(JoinAgreeCommand joinAgreeCommand){
+    public String checkAgree(JoinAgreeCommand joinAgreeCommand, Errors errors){
 
-        if(joinAgreeCommand.getAgree1()==true){
-            if(joinAgreeCommand.getAgree2()==true){
-                return "join4";
-            }else {
-                return "join3";
-            }
-        }else{
+        System.out.println(joinAgreeCommand.getAgree1());
+        new AgreeValidator().validate(joinAgreeCommand, errors);
+
+        if(errors.hasErrors()){
             return "join3";
         }
-
+        return "join4";
 
     }
 
+    //회원정보 수정
+    @PostMapping("/update/userinfo")
+    public String update_userinfo(UserInfo userInfo){
+
+        return "userinfo";
+    }
+
+    @GetMapping("/delete/user")
+    public String delete_view(){
+
+        return "delete";
+    }
+
+    //회원탈퇴
+    @PostMapping("/delete/user.do")
+    public String delete(HttpSession session, @RequestParam(value = "pw", required = false)String pw){
+
+        if (pw == null){
+            pw="pw";
+        }
+        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
+        joinService.deleteUserInfo(loginSession.getUser_id(), pw);
+
+        session.removeAttribute("loginSession");
+        return "home";
+    }
 }

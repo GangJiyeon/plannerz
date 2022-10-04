@@ -81,20 +81,22 @@
                     <div>
                         <div>
                             <div>
-                                <form:checkbox path="agree1" id="agree1"/>
+                                <form:checkbox path="agree1" id="agree1" value="checked" readOnly="true"/>
+                                <form:errors path="agree1" />
                                 <label for="agree1">약관동의 1</label>
                             </div>
                             <div>
-                                약관동의 내용 1
+                                약관동의 내용 1(필수)
                             </div>
                         </div>
                         <div>
                             <div>
-                                <form:checkbox path="agree2" id="agree2"/>
+                                <form:checkbox path="agree2" id="agree2" value="treu"/>
+                                <form:errors path="agree2" />
                                 <label for="agree2">약관동의 2</label>
                             </div>
                             <div>
-                                약관동의 내용 3
+                                약관동의 내용 2(필수)
                             </div>
                         </div>
                         <div>
@@ -103,7 +105,7 @@
                                 <label for="agree3">약관동의 3</label>
                             </div>
                             <div>
-                                약관동의 내용 3
+                                약관동의 내용 3(선)
                             </div>
                         </div>
                     </div>

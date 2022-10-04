@@ -35,8 +35,8 @@ public class COMMENT_LIKE_TB_Dao {
     }
 
     public void deleteCommentLike(CommentLikeInfo commentLikeInfo){
-        String sql = "DELETE FROM COMMENT_LIKE_TB WHERE comment_like_idx=?";
-        jdbcTemplate.update(sql, commentLikeInfo.getComment_like_idx());
+        String sql = "DELETE FROM COMMENT_LIKE_TB WHERE comment_idx=? AND comment_user_id=?";
+        jdbcTemplate.update(sql, commentLikeInfo.getComment_idx(), commentLikeInfo.getComment_user_id());
     }
 
 }

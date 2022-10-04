@@ -35,9 +35,10 @@ public class BOARD_LIKE_TB_Dao {
     }
 
     public void deleteBoardLike(BoardLikeInfo boardLikeInfo){
-        System.out.println("like_idx=" + boardLikeInfo.getLike_board_idx());
-        System.out.println("user_id=" + boardLikeInfo.getLike_user_id());
-        String sql = "DELETE FROM BOARD_LIKE_TB WHERE like_idx=? AND like_user_id=?";
-        jdbcTemplate.update(sql, boardLikeInfo.getLike_idx(), boardLikeInfo.getLike_user_id());
+        String sql = "DELETE FROM BOARD_LIKE_TB WHERE like_board_idx=? AND like_user_id=?";
+        int result = jdbcTemplate.update(sql, boardLikeInfo.getLike_board_idx(), boardLikeInfo.getLike_user_id());
+        if (result==0){
+            System.out.println("fail");
+        }
     }
 }

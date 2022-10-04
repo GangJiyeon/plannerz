@@ -48,9 +48,11 @@
                 <%@include file="includes/board.jsp"%>
                 <div class="title">
                     <div>
-                        <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png"
-                             alt="">
-                        <span>${loginSession.user_name}</span>
+                        <c:if test="${board_userInfo.sns == 'none'}">
+                            <img src="${pageContext.request.contextPath}/img/user/${board_userInfo.img}" alt="" style="border-radius: 50%">
+                        </c:if>
+                        <img src="${board_userInfo.img}" alt="" style="border-radius: 50%">
+                        <span>${board_userInfo.user_name}</span>
                     </div>
                 </div>
 
@@ -58,40 +60,45 @@
                     <div class="margin_con">
                         <form:form modelAttribute="boardCommand">
                             <div>
-                                <div>
-                                    <span>제목: ${boardInfo.board_title}</span>
+                                <div style="margin-bottom: 10px; padding-bottom: 20px; border-bottom: solid 1px rgb(152, 166, 185);">
+                                    <img src="${pageContext.request.contextPath}/img/board/${boardInfo.board_img1}" style="width: 100%; max-width: 600px; max-height: 600px; margin: auto;">
                                 </div>
+
                                 <div>
-                                    <span>조회수: ${boardInfo.see}</span>
+                                    <div style="text-align: right; color: #9b9b9b; font-size: 13px">
+                                        <span>${boardInfo.insert_date}</span>
+                                            <button type="submit"
+                                                    onclick="javascript:form.action='${pageContext.request.contextPath}/board/delete'"
+                                                    id="service">삭제하기
+                                            </button>
+
+                                            <button type="submit"
+                                                    onclick="javascript:form.action='${pageContext.request.contextPath}/board/update'"
+                                                    id="logout_btn">수정하기
+                                            </button>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1.5fr 50px 50px">
+                                        <div>
+                                            <span>${boardInfo.user_id}</span>
+                                        </div>
+                                        <div>
+                                            <span>${boardInfo.board_title}</span>
+                                        </div>
+                                        <div style="text-align: right"><i class="bi bi-eye"></i> ${boardInfo.see}</div>
+                                        <div style="text-align: right"><i class="bi bi-heart"></i> ${boardInfo.like}</div>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 1.5fr 50px 50px">
+                                        <div></div>
+                                        <div>
+                                            <span>${boardInfo.board_content}</span>
+                                        </div>
+                                        <div></div>
+                                    </div>
+
+
                                 </div>
-                                <div>
-                                    <span>작성자: ${boardInfo.user_id}</span>
-                                </div>
-                                <div>
-                                    <span>내용: ${boardInfo.board_content}</span>
-                                </div>
-                                <div>
-                                    <span>작성일: ${boardInfo.insert_date}</span>
-                                </div>
-                                <div>
-                                    <span>좋아요: ${boardInfo.like}</span>
-                                </div>
-                                <div>
-                                    <span>이미지1: </span>
-                                    <img src="${boardInfo.board_img1}">
-                                </div>
-                                <div>
-                                    <span>이미지2: ${boardInfo.board_img2}</span>
-                                </div>
-                                <div>
-                                    <span>이미지3: ${boardInfo.board_img3}</span>
-                                </div>
-                                <div>
-                                    <span>이미지4: ${boardInfo.board_img4}</span>
-                                </div>
-                                <div>
-                                    <span>이미지5: ${boardInfo.board_img5}</span>
-                                </div>
+
+
                                 <form:input path="board_idx" type="hidden" value="${boardInfo.board_idx}"/>
 
                                 <a href="${pageContext.request.contextPath}/add/board/like?board_idx=${boardInfo.board_idx}">좋아요 추가</a>
@@ -100,18 +107,7 @@
                             </div>
 
 
-                            <div>
-                                <button type="submit"
-                                        onclick="javascript:form.action='${pageContext.request.contextPath}/board/delete'"
-                                        id="service">삭제하기
-                                </button>
-                            </div>
-                            <div>
-                                <button type="submit"
-                                        onclick="javascript:form.action='${pageContext.request.contextPath}/board/update'"
-                                        id="logout_btn">수정하기
-                                </button>
-                            </div>
+
 
 
                         </form:form>
@@ -126,9 +122,11 @@
                         <hr>
                         <div class="add_comment">
                             <form:form modelAttribute="commentCommand" action="${pageContext.request.contextPath}/comment/add">
-                                <label for="user_id">작성자: </label>
-                                <form:input path="user_id" value="${loginSession.user_id}" id="user_id" readonly="true"/>
-                                <label for="content">내용: </label>
+                                <c:if test="${loginSession.sns !='none'}">
+                                    <img src="${loginSession.img}" alt="" style="border-radius: 50%; width: 50px;">
+                                </c:if>
+                                <img src="${pageContext.request.contextPath}/user/${loginSession.img}" alt="">
+                                <form:input path="user_id" value="${loginSession.user_id}" id="user_id" readonly="true" hidden="true"/>
                                 <form:input path="content" id="content"/>
                                 <form:input path="parent_board_idx" value="${boardInfo.board_idx}" type="hidden"/>
                                 <form:button>작성하기</form:button>
@@ -144,12 +142,13 @@
                                         <div>작성자: ${commentInfo.user_id}</div>
                                         <div>작성일: ${commentInfo.insert_date}</div>
                                         <div>종아요: ${commentInfo.like}</div>
-                                        <a href="${pageContext.request.contextPath}/add/comment/like?comment_idx=${commentInfo.comment_idx}">좋아요 추가</a>
-                                        <a href="${pageContext.request.contextPath}/delete/comment/like?comment_idx=${commentInfo.comment_idx}">좋아요 삭제</a>
+                                        <div>내용: ${commentInfo.content}</div>
+                                        <a href="${pageContext.request.contextPath}/add/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}">좋아요 추가</a>
+                                        <a href="${pageContext.request.contextPath}/delete/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}">좋아요 삭제</a>
 
                                         <div class="comment_btn_area">
                                             <div>
-                                                <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${commentInfo.comment_idx}">
+                                                <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${commentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
                                                     <button type="button" class="delete_comment">삭제</button>
                                                 </a>
                                             </div>
@@ -166,6 +165,7 @@
                                             <form:form action="${pageContext.request.contextPath}/comment/update" modelAttribute="commentCommand">
                                                 <input type="text" name="content" value="${commentInfo.content}">
                                                 <input type="text" hidden name="comment_idx" value="${commentInfo.comment_idx}">
+                                                <input type="text" hidden name="board_idx" value="${commentInfo.board_idx}">
                                                 <form:button>수정하기</form:button>
                                             </form:form>
                                         </div>
@@ -181,7 +181,7 @@
                                             </form:form>
                                         </div>
                                     </div>
-                                    <div>내용: ${commentInfo.content}</div>
+
 
 
                                     <c:forEach items="${cocCommentInfoList}" var="cocCommentInfo">
@@ -192,12 +192,12 @@
                                                     <div>작성자: ${cocCommentInfo.user_id}</div>
                                                     <div>작성일: ${cocCommentInfo.insert_date}</div>
                                                     <div>내용: ${cocCommentInfo.content}</div>
-                                                    <div>종아요: ${cocCommentInfo.like}</div>
                                                 </div>
-
-
-
-
+                                                <div>
+                                                    <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${cocCommentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
+                                                        <button type="button" class="delete_comment">삭제</button>
+                                                    </a>
+                                                </div>
                                             </div>
 
                                         </c:if>

@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="border_blue">
-                        <div class="col-12 col-md-9 col-lg-8 offset-lg-1">
+                        <div class="col-12 col-md-9 col-lg-8 offset-lg-1" style="margin: 0px !important">
                             <form>
                                 <div class="row">
                                     <div class="col-12 col-md-6">
@@ -69,8 +69,8 @@
                                             <label class="form-label" for="user_name">
                                                 <spring:message code="profile_photo"/>
                                             </label>
-                                            <input class="form-control form-control-sm" id="img" type="image"
-                                                   value="${userInfo.img}" required="required">
+                                            <img src="${selectUserInfo.img}" class="form-control form-control-sm">
+
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -79,22 +79,24 @@
                                                 <spring:message code="user_name"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="user_name" type="text"
-                                                   value="${loginSession.user_name}" required="required">
+                                                   value="${selectUserInfo.user_name}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="user_id">
                                                 <spring:message code="user_id"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="user_id" type="text"
-                                                   value="${loginSession.user_id}" required="required">
+                                                   value="${selectUserInfo.user_id}" readonly>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="user_pw">
-                                                <spring:message code="user_pw"/>
-                                            </label>
-                                            <input class="form-control form-control-sm" id="user_pw" type="password"
-                                                   value="${userInfo.user_pw}" required="required">
-                                        </div>
+                                        <c:if test="${not empty selectUserInfo}">
+                                            <div class="form-group">
+                                                <label class="form-label" for="user_pw">
+                                                    <spring:message code="user_pw"/>
+                                                </label>
+                                                <input class="form-control form-control-sm" id="user_pw" type="password"
+                                                       value="${selectUserInfo.user_pw}">
+                                            </div>
+                                        </c:if>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
@@ -102,7 +104,7 @@
                                                 <spring:message code="sns"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="sns" name="sns"
-                                                   type="text" value="${userInfo.sns}" required="" disabled>
+                                                   type="text" value="${selectUserInfo.sns}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -111,7 +113,7 @@
                                                 <spring:message code="birth"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="birth" name="birth"
-                                                   type="datetime" value="${userInfo.birth}" required="">
+                                                   type="datetime" value="${selectUserInfo.birth}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -120,7 +122,7 @@
                                                 <spring:message code="phone"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="phone" name="phone" type="text"
-                                                   value="${userInfo.phone}" required="required">
+                                                   value="${selectUserInfo.phone}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -129,7 +131,7 @@
                                                 <spring:message code="job"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="job" name="job"
-                                                   type="datetime" value="${userInfo.job}" required="">
+                                                   type="datetime" value="${selectUserInfo.job}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -138,51 +140,14 @@
                                                 <spring:message code="join_date"/>
                                             </label>
                                             <input class="form-control form-control-sm" id="join_date" name="join_date"
-                                                   type="datetime" value="${userInfo.join_date}" required="" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-6">
-                                        <div class="form-group mb-8">
-                                            <label class="form-label"><spring:message code="gendar"/></label>
-                                            <div>
-                                                <input class="btn-check" type="radio" name="gender" id="male"
-                                                       checked="">
-                                                <label class="btn btn-sm btn-outline-border" for="male">
-                                                    <spring:message code="male"/>
-                                                </label>
-                                                <input class="btn-check" type="radio" name="gender" id="female">
-                                                <label class="btn btn-sm btn-outline-border" for="female">
-                                                    <spring:message code="female"/>
-                                                </label>
-                                            </div>
+                                                   type="datetime" value="${selectUserInfo.join_date}" readonly>
                                         </div>
                                     </div>
 
-                                    <div class="col-12">
-                                        <button class="btn btn-dark" type="submit">
-                                            <spring:message code="save_btn"/>
-                                        </button>
-                                    </div>
+
 
                                 </div>
                             </form>
-
-                            <div class="col-12 col-lg-6">
-                                <div class="form-group mb-8">
-
-                                    <script>
-                                        Kakao.API.request({
-                                            url: '/v1/api/talk/channels',
-                                            success: function(response) {
-                                                console.log(response);
-                                            },
-                                            fail: function(error) {
-                                                console.log(error);
-                                            }
-                                        });
-                                    </script>
-                                </div>
-                            </div>
                         </div>
                     </div>
 

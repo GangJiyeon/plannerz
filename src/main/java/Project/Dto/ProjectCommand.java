@@ -7,27 +7,20 @@ import java.util.Date;
 public class ProjectCommand {
 
     private String title;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date target_date;
     private String user_id;
-    private String middle_title;
 
     public ProjectCommand() {
     }
 
-    public ProjectCommand(String title, Date target_date, String user_id, String middle_title) {
+    public ProjectCommand(String title, Date target_date, String user_id) {
         this.title = title;
         this.target_date = target_date;
         this.user_id = user_id;
-        this.middle_title = middle_title;
+
     }
 
-    public String getMiddle_title() {
-        return middle_title;
-    }
-
-    public void setMiddle_title(String middle_title) {
-        this.middle_title = middle_title;
-    }
 
     public String getTitle() {
         return title;

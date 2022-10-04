@@ -124,8 +124,13 @@
                                         <input name="item_title" placeholder="투두리스트 내용">
                                         <input name="item_title" placeholder="투두리스트 내용">
                                         <input name="item_title" placeholder="투두리스트 내용">
-                                        <button type="button" id="add_todolist_input">투두리스트 추가하기</button>
-                                        <button type="submit">투두리스트 등록하기</button>
+                                        <hr id="here">
+                                        <button type="button" id="add_todolist_input"
+                                                style="border: solid 1px rgb(113, 131, 147); color: rgb(88, 103, 116);
+                                                border-radius: 5px;  width:100%; background-color: white; margin-bottom: 10px">
+                                            투두리스트 추가하기</button>
+                                        <button type="submit" style="border: solid 1px rgb(113, 131, 147); color: rgb(88, 103, 116);
+                                          border-radius: 5px;  background-color: white; width: 100%;">투두리스트 등록하기</button>
                                     </div>
                                 </div>
                             </form>

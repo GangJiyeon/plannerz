@@ -15,7 +15,6 @@
 }
 .two_div{
     height: 100vh;
-    position: fixed;
 }
 .border_blue{
     margin: 20px 40px 20px 40px;
@@ -44,4 +43,7 @@
 .oneSpaceone{
     display: grid;
     grid-template-columns: 1fr 30px 1fr;
+}
+.form-control:disabled, .form-control[readonly]{
+    background-color: white !important;
 }

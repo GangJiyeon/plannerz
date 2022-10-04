@@ -51,33 +51,60 @@
             <div class="inputArea success_login">
 
                 <c:if test="${newUserInfo != null}">
-                    <form:form method="get">
+                    <c:if test="${none eq enewUserInfo.sns}">
+                        <form:form method="get">
+                            <div class="welcome">
+                                <div>회원님의 아이디는 ${newUserInfo.user_id} 입니다. </div>
+                            </div>
+                            <div>
+                                <button type="submit" onclick="javascript:form.action='/Z/login'" id="service">로그인 하러 가기</button>
+                            </div>
+                            <div>
+                                <button type="submit" onclick="javascript:form.action='/Z/home'" id="logout_btn">홈 화면으로 이동</button>
+                            </div>
+                            <div>
+                                <button type="submit" onclick="javascript:form.action='/Z/view/find/pw'" id="service">비밀번호 찾기</button>
+                            </div>
+                        </form:form>
+                    </c:if>
+                    <c:if test="${newUserInfo.sns eq naver}">
                         <div class="welcome">
-
-                            <div>회원님의 아이디는 ${newUserInfo.user_id} 입니다. </div>
+                            <div>회원님은 ${newUserInfo.sns} 계정 회원입니다.  </div>
                         </div>
+
+                        <a href="https://nid.naver.com/user2/help/idInquiry?m=viewInputUserInfo&token_help=ghJLbcEXMjKLd7W1">
+                            <div>
+                                <button type="button">네이버 계정 찾으러 가기</button>
+                            </div>
+                        </a>
                         <div>
                             <button type="submit" onclick="javascript:form.action='/Z/login'" id="service">로그인 하러 가기</button>
                         </div>
-                        <div>
-                            <button type="submit" onclick="javascript:form.action='/Z/home'" id="logout_btn">홈 화면으로 이동</button>
+                    </c:if>
+                    <c:if test="${newUserInfo.sns eq kakao}">
+                        <div class="welcome">
+                            <div>회원님은 ${newUserInfo.sns} 계정 회원입니다.  </div>
                         </div>
+                        <a href="https://accounts.kakao.com/weblogin/find_account_guide?continue=https%3A%2F%2Fcs.kakao.com%2Fsearch%3Fquery%3D%25EC%25B9%25B4%25EC%25B9%25B4%25EC%2598%25A4%25ED%258B%25B0%25EB%25B9%2584%26serviceId%3D52%26categoryId%3D167%26sort%3D#pageFindAccountSelect">
+                            <div>
+                                <button type="button">카카오 계정 찾으러 가기</button>
+                            </div>
+                        </a>
                         <div>
-                            <button type="submit" onclick="javascript:form.action='/Z/view/find/pw'" id="">비밀번호 찾기</button>
+                            <button type="submit" onclick="javascript:form.action='/Z/login'" id="service">로그인 하러 가기</button>
                         </div>
-                    </form:form>
+                    </c:if>
                 </c:if>
 
 
-                <c:if test="${success_find == 'false'}">
-
+                <c:if test="${success_find == false}">
                     <div>가입되지 않는 계정입니다. </div>
                     <form:form method="get">
                         <div>
-                            <button type="submit" onclick="javascript:form.action='/Z/home'" >홈 화면으로 이동</button>
+                            <button type="submit" onclick="javascript:form.action='/Z/home'" id="service">홈 화면으로 이동</button>
                         </div>
                         <div>
-                            <button type="submit" onclick="javascript:form.action='/Z/join'" >회원가입하기</button>
+                            <button type="submit" onclick="javascript:form.action='/Z/join'" id="service" >회원가입하기</button>
                         </div>
                     </form:form>
                 </c:if>
@@ -87,7 +114,7 @@
                     <div>전화번호를 입력하세요 </div>
                     <form:form action="${pageContext.request.contextPath}/find/id" modelAttribute="userInfo">
                         <form:input path="phone" placeholder="010-1234-5678 형식으로 입력" />
-                        <form:button>비밀번호 찾기</form:button>
+                        <form:button id="service">비밀번호 찾기</form:button>
                     </form:form>
                 </c:if>
 
