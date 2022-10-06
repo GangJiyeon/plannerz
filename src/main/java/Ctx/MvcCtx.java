@@ -30,8 +30,8 @@ public class MvcCtx implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(loginCheckInterceptor())
-                .addPathPatterns("/board/**","/todolist/**")
-                .excludePathPatterns((""));
+                .addPathPatterns("/")
+                .excludePathPatterns();
 
     }
 

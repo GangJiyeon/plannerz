@@ -51,19 +51,19 @@
     <div class="menuList">
         <div></div>
         <div>
-            <button>abount us</button>
+            <button class="bth_op">about us</button>
         </div>
         <div></div>
         <div>
-            <button>how to use</button>
+            <button class="bth_op">how to use</button>
         </div>
         <div></div>
         <div>
-            <button>user</button>
+            <button class="bth_op">user</button>
         </div>
         <div></div>
         <div>
-            <button>board</button>
+            <button class="bth_op">board</button>
         </div>
         <div></div>
     </div>

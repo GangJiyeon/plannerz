@@ -12,10 +12,15 @@ public class CommentInfo {
     private Date insert_date;
     private Integer like;
 
+    private String user_img;
+
+    private String user_sns;
+
+
     public CommentInfo() {
     }
 
-    public CommentInfo(Integer comment_idx, String user_id, String content, Integer board_idx, Integer parent_comment, Date insert_date, Integer like) {
+    public CommentInfo(Integer comment_idx, String user_id, String content, Integer board_idx, Integer parent_comment, Date insert_date, Integer like, String user_img, String user_sns) {
         this.comment_idx = comment_idx;
         this.user_id = user_id;
         this.content = content;
@@ -23,6 +28,24 @@ public class CommentInfo {
         this.parent_comment = parent_comment;
         this.insert_date = insert_date;
         this.like = like;
+        this.user_img = user_img;
+        this.user_sns = user_sns;
+    }
+
+    public String getUser_sns() {
+        return user_sns;
+    }
+
+    public void setUser_sns(String user_sns) {
+        this.user_sns = user_sns;
+    }
+
+    public String getUser_img() {
+        return user_img;
+    }
+
+    public void setUser_img(String user_img) {
+        this.user_img = user_img;
     }
 
     public Integer getComment_idx() {

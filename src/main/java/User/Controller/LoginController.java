@@ -43,26 +43,26 @@ public class LoginController {
     private AlarmService alarmService;
     @Autowired
     private JoinService joinService;
+
     public void setLoginService(LoginService loginService, NaverLoginBO naverLoginBO, JoinService joinService) {
         this.loginService = loginService;
         this.naverLoginBO = naverLoginBO;
         this.joinService = joinService;
     }
 
-    public void setAlarmService(AlarmService alarmService){
+    public void setAlarmService(AlarmService alarmService) {
         this.alarmService = alarmService;
     }
+
     @Autowired
     private NaverLoginBO naverLoginBO;
     private String apiResult = null;
 
 
-
-
     //로그인 뷰 보여주기
     @GetMapping("/login")
     public String login(Model model, HttpSession session, LoginCommand loginCommand,
-                        @CookieValue(value = "remember_me", required = false) Cookie cookie, HttpServletRequest request) throws Exception{
+                        @CookieValue(value = "remember_me", required = false) Cookie cookie, HttpServletRequest request) throws Exception {
 
         model.addAttribute("loginCommand", new LoginCommand());
 
@@ -76,7 +76,7 @@ public class LoginController {
         // 네이버
         model.addAttribute("url", naverAuthUrl);
 
-        if(cookie != null){
+        if (cookie != null) {
             loginCommand.setUser_id(cookie.getValue());
             loginCommand.setRemember_me(true);
             System.out.println(cookie.getValue());
@@ -103,44 +103,40 @@ public class LoginController {
                             Errors errors, HttpSession session,
                             HttpServletResponse response) {
 
+        //입력값 검증
         new LoginCommandValidator().validate(loginCommand, errors);
 
         if (errors.hasErrors()) {
             return "login";
         }
 
-        try {
-            UserInfo userInfo = loginService.loginService(loginCommand);
 
-            if (userInfo != null) {
-                LoginSession loginSession = new LoginSession(userInfo.getUser_id(), userInfo.getUser_name(), userInfo.getSns(), userInfo.getImg());
-                session.setAttribute("loginSession", loginSession);
-            }
-
-            Cookie rememberCookie = new Cookie("remember_me", loginCommand.getUser_id());
-            rememberCookie.setPath("/");
-
-            System.out.println(loginCommand.getRemember_me());
-
-            if (loginCommand.getRemember_me()){
-                rememberCookie.setMaxAge(60*60*24*30);
-
-                System.out.println("success");
-            }else {
-                rememberCookie.setMaxAge(0);
-
-                System.out.println("fail");
-
-            }
-
-            response.addCookie(rememberCookie);
-
-            return "login_success";
-        } catch (WrongIdPwException e) {
+        UserInfo userInfo = loginService.loginService(loginCommand);
+        //등록된 계정(아이디, 비밀번호로 userInfo가 조회될 경우)인 경우
+        if (userInfo != null) {
+            //세션에 저장
+            LoginSession loginSession = new LoginSession(userInfo.getUser_id(), userInfo.getUser_name(), userInfo.getSns(), userInfo.getImg());
+            session.setAttribute("loginSession", loginSession);
+        }
+        //등록되지 않은 계정인 경우
+        else {
             errors.reject("ioPasswordNotMatching");
-            System.out.println("login error");
             return "login";
         }
+
+        //아이디 기억하기
+        Cookie rememberCookie = new Cookie("remember_me", loginCommand.getUser_id());
+        rememberCookie.setPath("/");
+
+        if (loginCommand.getRemember_me()) {
+            rememberCookie.setMaxAge(60 * 60 * 24 * 30);
+        } else {
+            rememberCookie.setMaxAge(0);
+        }
+        response.addCookie(rememberCookie);
+        return "login_success";
+
+
     }
 
     //네이버 로그인 성공시 callback호출 메소드
@@ -160,12 +156,12 @@ public class LoginController {
          {"resultcode":"00",
          "message":"success",
          "response":{"id":"33666449",
-                    "nickname":"shinn****",
-                     "age":"20-29",
-                     "gender":"M",
-                     "email":"sh@naver.com",
-                     "name":"\uc2e0\ubc94\ud638"
-                    }
+         "nickname":"shinn****",
+         "age":"20-29",
+         "gender":"M",
+         "email":"sh@naver.com",
+         "name":"\uc2e0\ubc94\ud638"
+         }
          }
          **/
 
@@ -179,7 +175,7 @@ public class LoginController {
         JSONObject response_obj = (JSONObject) jsonObj.get("response");
 
         String user_id = (String) response_obj.get("id");
-        String user_name = (String) response_obj.get("name") ;
+        String user_name = (String) response_obj.get("name");
         String birthday = (String) response_obj.get("birthday");
         String birthyear = (String) response_obj.get("birthyear");
         String img = (String) response_obj.get("profile_image");
@@ -204,7 +200,7 @@ public class LoginController {
         SNSAccount select_snsAccount = joinService.selectSNS_Account(snsAccount);
 
         //등록되지 않은 SNS 계정이라면
-        if(select_snsAccount == null){
+        if (select_snsAccount == null) {
             //랜덤 아이디 생성 후 SNS_ACCOUNT_TB 에 계정 등록
             SNSAccount snsAccount1 = joinService.create_random_id(snsAccount);
 
@@ -230,7 +226,7 @@ public class LoginController {
             model.addAttribute("joinCommand", joinCommand);
             model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
             return "join3";
-        }else {
+        } else {
             UserInfo userInfo1 = loginService.select_userInfo(select_snsAccount.getRandom_id());
 
             loginSession = new LoginSession(select_snsAccount.getRandom_id(), user_name, sns, userInfo1.getImg());
@@ -270,7 +266,7 @@ public class LoginController {
 
         SNSAccount snsAccount1 = null;
         //등록되지 않은 SNS 계정이라면
-        if(select_snsAccount == null) {
+        if (select_snsAccount == null) {
             //랜덤 아이디 생성 후 SNS_ACCOUNT_TB 에 계정 등록
             snsAccount1 = joinService.create_random_id(snsAccount);
 
@@ -285,7 +281,7 @@ public class LoginController {
             birthday = birthday + "-" + ((String) userInfo.get("birthday")).substring(2, 4);
             joinCommand.setSns("kakao");
 
-            Date birth = formatter.parse("0000-"+birthday);
+            Date birth = formatter.parse("0000-" + birthday);
             joinCommand.setUser_birth(birth);
             joinCommand.setImg((String) userInfo.get("img"));
 
@@ -297,21 +293,19 @@ public class LoginController {
             session.setAttribute("loginSession", loginSession);
 
             return "join3";
-        }else {
+        } else {
             UserInfo userInfo1 = loginService.select_userInfo(select_snsAccount.getRandom_id());
-            LoginSession loginSession = new LoginSession(select_snsAccount.getRandom_id(), user_name, sns,userInfo1.getImg() );
+            LoginSession loginSession = new LoginSession(select_snsAccount.getRandom_id(), user_name, sns, userInfo1.getImg());
             session.setAttribute("loginSession", loginSession);
 
         }
-
-
 
 
         return "/login_success"; //본인 원하는 경로 설정
     }
 
     //토큰발급
-    public String getAccessToken (String authorize_code) {
+    public String getAccessToken(String authorize_code) {
         String access_Token = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -370,7 +364,7 @@ public class LoginController {
     }
 
     //유저정보조회
-    public HashMap<String, Object> getUserInfo (String access_Token) {
+    public HashMap<String, Object> getUserInfo(String access_Token) {
 
         //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         HashMap<String, Object> userInfo = new HashMap<String, Object>();

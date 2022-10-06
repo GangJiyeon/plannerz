@@ -127,8 +127,15 @@ public class TodolistController {
 
     //투두리스트 수정
     @PostMapping("/todolist/update.do")
-    public String list_update(Todolist todolist, HttpSession session, Model model) {
+    public String list_update(Todolist todolist, HttpSession session, Model model,
+                              @RequestParam("done") String done) {
 
+        System.out.println(done);
+        String[] doneList = done.split(",");
+        Boolean[] dones = new Boolean[doneList.length];
+        for (int i = 0; i<doneList.length; i++){
+            dones[i] = Boolean.parseBoolean(doneList[i]);
+        }
         Todolist_info todolist_info = new Todolist_info(todolist.getList_idx(), todolist.getList_title(), todolist.getUser_id());
         Todolist_item_info todolist_item_info = new Todolist_item_info(todolist.getList_item_idx(), todolist.getList_idx(), todolist.getItem_title(), todolist.getDone());
 
@@ -140,6 +147,7 @@ public class TodolistController {
         for (int i = 0; i < item_titles.length; i++) {
             todolist_item_info.setItem_title(item_titles[i]);
             todolist_item_info.setList_item_idx(list_item_idx[i]);
+            todolist_item_info.setDone(dones[i]);
             todolistService.update_todolist_item(todolist_item_info);
         }
 

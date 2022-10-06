@@ -111,11 +111,15 @@
                         method: "GET",
                         dataType: 'json',
                         success: function (monthlyInfoItem){
+                            alert(monthlyInfoItem)
                             alert("dho")
                             $("#calendarModalUpdate").modal("show"); // modal 나타내기
                             $("#title2").prop("value", monthlyInfoItem.title);
                         },
-                        error: function (){
+                        error: function (request, status, error){
+                            alert(request);
+                            alert(status);
+                            alert(error);
                             alert("fail");
                         }
                     })

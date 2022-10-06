@@ -50,19 +50,19 @@
             <div class="title2">회원가입</div>
             <div class="join_step">
                 <div id="step1" class="step">
-                    <div class="square"><span>본인인증</span></div>
+                    <div class="square" style="background-color: rgb(226 226 226) !important;"><span>본인인증</span></div>
                 </div>
                 <div></div>
                 <div id="step2" class="step">
-                    <div class="square"><span>정보입력</span></div>
+                    <div class="square" style="background-color: rgb(226 226 226) !important;"><span>정보입력</span></div>
                 </div>
                 <div></div>
                 <div id="step3" class="step ">
-                    <div class="square"><span>약관동의</span></div>
+                    <div class="square" style="background-color: rgb(226 226 226) !important;"><span>약관동의</span></div>
                 </div>
                 <div></div>
-                <div id="step4" class="step true">
-                    <div class="square"><span>회원가입</span></div>
+                <div id="step4" class="step">
+                    <div class="square" "><span>회원가입</span></div>
                 </div>
             </div>
 

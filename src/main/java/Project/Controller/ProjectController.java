@@ -160,7 +160,7 @@ public class ProjectController {
 
         return "project";
     }
-    //프로젝트 업데이트
+    //프로젝트 업데이트 뷰 보여주기
     @GetMapping("/project/update")
     public String projectUpdate(Model model, HttpSession session) {
         //사용자 아이디 가져오기
@@ -175,26 +175,48 @@ public class ProjectController {
         return "project_update";
     }
 
+    //프로젝트 업데이트
     @PostMapping("/project/update.do")
     public String project_update(Model model, HttpSession session,
                                  ProjectCommand projectCommand,
-                                 @RequestParam("project_idx") Integer project_idx,
+                                 @RequestParam("project_idx") String project_idx,
+                                 @RequestParam("pro_idx") Integer pro_idx,
                                  @RequestParam("middle_title") String middle_title,
                                  @RequestParam("middle_idx") String middle_idx,
                                  @RequestParam("item_idx") String item_idx,
-                                 @RequestParam("item_title") String item_title
+                                 @RequestParam("item_title") String item_title,
+                                 @RequestParam("item_done") String done
                                  ){
 
+        String[] project_idxs = project_idx.split(",");
         String[] middle_titles = middle_title.split(",");
         String[] middle_idxs = middle_idx.split(",");
         String[] item_idxs = item_idx.split(",");
         String[] item_titles = item_title.split(",");
 
+        String[] title = projectCommand.getTitle().split(",");
+
+        for (int i =0; i<title.length; i++){
+            if(Integer.parseInt(project_idxs[i])==pro_idx){
+                System.out.println(Integer.parseInt(project_idxs[i]));
+                System.out.println();
+                ProjectCommand projectCommand1 = new ProjectCommand();
+                projectCommand1.setTitle(title[i]);
+                projectCommand1.setTarget_date(projectCommand.getTarget_date());
+                projectService.project_update(projectCommand1, pro_idx);
+            }
+        }
+
+
+
+
+
+
         for(int i = 0; i<middle_titles.length; i++){
             projectService.project_mid_update(middle_titles[i], middle_idxs[i]);
         }
 
-        projectService.project_update(projectCommand, project_idx);
+
 
         for(int i = 0; i<item_titles.length; i++){
             projectService.project_item_update(item_titles[i], item_idxs[i]);

@@ -5,6 +5,7 @@ import Calendar.Dto.MonthlyInfo;
 import Calendar.Dto.MonthlyUpdate;
 import Calendar.Service.MonthlyService;
 import User.Dto.LoginSession;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class MonthlyController {
     }
 
     @GetMapping("/monthly/item/select")
-    public String monthlyItemSelect(HttpSession session, Model model,
+    public void monthlyItemSelect(HttpSession session, Model model,
                                     @RequestParam ("monthly_idx") Integer monthly_idx,
                                     HttpServletResponse response) throws IOException {
 
@@ -52,13 +53,22 @@ public class MonthlyController {
         String user_id = loginSession.getUser_id();
 
         MonthlyInfo monthlyInfoItem = monthlyService.selectMonthlyItem(user_id, monthly_idx);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("title", monthlyInfoItem.getTitle());
+        jsonObject.put("start", monthlyInfoItem.getStart_date());
+        jsonObject.put("end", monthlyInfoItem.getFinish_date());
+        jsonObject.put("color", monthlyInfoItem.getBg_color());
+        jsonObject.put("textColor", monthlyInfoItem.getTx_color());
+        jsonObject.put("id", monthlyInfoItem.getMonthly_idx());
+        jsonObject.put("alarm", monthlyInfoItem.getAlarm_time());
+
+        System.out.println(jsonObject);
         response.setContentType("application/json;charset=UTF-8");
-        System.out.println(monthlyInfoItem);
         PrintWriter output = response.getWriter();
-        output.print(monthlyInfoItem);
+        output.print(jsonObject);
         output.close();
 
-        return "monthly";
     }
 
     @PostMapping("/monthly/update")

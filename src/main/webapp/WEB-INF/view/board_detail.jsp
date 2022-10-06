@@ -43,13 +43,13 @@
     <%@include file="includes/side_bar.jsp" %>
     <div class="content margin_40">
         <div class="real">
-
             <div class="contentArea">
-                <%@include file="includes/board.jsp"%>
+                <%@include file="includes/board.jsp" %>
                 <div class="title">
                     <div>
                         <c:if test="${board_userInfo.sns == 'none'}">
-                            <img src="${pageContext.request.contextPath}/img/user/${board_userInfo.img}" alt="" style="border-radius: 50%">
+                            <img src="${pageContext.request.contextPath}/img/user/${board_userInfo.img}" alt=""
+                                 style="border-radius: 50%">
                         </c:if>
                         <img src="${board_userInfo.img}" alt="" style="border-radius: 50%">
                         <span>${board_userInfo.user_name}</span>
@@ -60,58 +60,60 @@
                     <div class="margin_con">
                         <form:form modelAttribute="boardCommand">
                             <div>
-                                <div style="margin-bottom: 10px; padding-bottom: 20px; border-bottom: solid 1px rgb(152, 166, 185);">
-                                    <img src="${pageContext.request.contextPath}/img/board/${boardInfo.board_img1}" style="width: 100%; max-width: 600px; max-height: 600px; margin: auto;">
+                                <div style="margin-bottom: 20px;  border-bottom: solid 1px rgb(152, 166, 185);">
+                                    <img src="${pageContext.request.contextPath}/img/board/${boardInfo.board_img1}"
+                                         style="width: 100%; max-width: 600px; max-height: 600px; margin: 5px 0px;">
+                                    <div style="text-align: right">
+                                        <span style="text-align: right; color: #9b9b9b; margin-right: 5px"><i
+                                                class="bi bi-eye"></i> ${boardInfo.see} </span>
+                                        <span style="text-align: right; color: #9b9b9b;"><i
+                                                class="bi bi-heart"></i> ${boardInfo.like} </span>
+                                        <a href="${pageContext.request.contextPath}/add/board/like?board_idx=${boardInfo.board_idx}">
+                                            <i class="bi bi-hand-thumbs-up"></i>
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/delete/board/like?board_idx=${boardInfo.board_idx}">
+                                            <i class="bi bi-hand-thumbs-down"></i>
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div>
-                                    <div style="text-align: right; color: #9b9b9b; font-size: 13px">
-                                        <span>${boardInfo.insert_date}</span>
-                                            <button type="submit"
-                                                    onclick="javascript:form.action='${pageContext.request.contextPath}/board/delete'"
-                                                    id="service">삭제하기
-                                            </button>
-
-                                            <button type="submit"
-                                                    onclick="javascript:form.action='${pageContext.request.contextPath}/board/update'"
-                                                    id="logout_btn">수정하기
-                                            </button>
-                                    </div>
-                                    <div style="display: grid; grid-template-columns: 1fr 1.5fr 50px 50px">
+                                    <div style="display: grid; grid-template-columns: 70px 1fr">
                                         <div>
-                                            <span>${boardInfo.user_id}</span>
+                                            <c:if test="${board_userInfo.sns == 'none'}">
+                                                <img src="${pageContext.request.contextPath}/img/user/${board_userInfo.img}"
+                                                     alt="" style="border-radius: 50%; width: 50px;">
+                                            </c:if>
+                                            <img src="${board_userInfo.img}" alt=""
+                                                 style="border-radius: 50%; width: 50px;">
+                                            <div>${board_userInfo.user_name}</div>
                                         </div>
                                         <div>
-                                            <span>${boardInfo.board_title}</span>
-                                        </div>
-                                        <div style="text-align: right"><i class="bi bi-eye"></i> ${boardInfo.see}</div>
-                                        <div style="text-align: right"><i class="bi bi-heart"></i> ${boardInfo.like}</div>
-                                    </div>
-                                    <div style="display: grid; grid-template-columns: 1fr 1.5fr 50px 50px">
-                                        <div></div>
-                                        <div>
-                                            <span>${boardInfo.board_content}</span>
-                                        </div>
-                                        <div></div>
-                                    </div>
+                                            <div style="display: grid; grid-template-columns: 1fr 120px;">
+                                                <div>
+                                                    <span>${boardInfo.board_title}</span>
+                                                </div>
+                                                <div style="text-align: right; color: #9b9b9b; font-size: 13px">
+                                                    <span>${boardInfo.insert_date}</span>
+                                                    <a href="${pageContext.request.contextPath}/board/delete">
+                                                        <i class="bi bi-trash3"></i>
+                                                    </a>
+                                                    <a href="${pageContext.request.contextPath}/board/update">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                </div>
 
+                                            </div>
 
+                                            <div style="background-color: rgb(242, 244, 247); padding: 10px; border-radius: 10px;">
+                                                <span>${boardInfo.board_content}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-
                                 <form:input path="board_idx" type="hidden" value="${boardInfo.board_idx}"/>
-
-                                <a href="${pageContext.request.contextPath}/add/board/like?board_idx=${boardInfo.board_idx}">좋아요 추가</a>
-                                <a href="${pageContext.request.contextPath}/delete/board/like?board_idx=${boardInfo.board_idx}">좋아요 삭제</a>
-
                             </div>
-
-
-
-
-
                         </form:form>
-
                     </div>
 
                     <div class="margin_con">
@@ -121,15 +123,17 @@
                         </div>
                         <hr>
                         <div class="add_comment">
-                            <form:form modelAttribute="commentCommand" action="${pageContext.request.contextPath}/comment/add">
+                            <form:form modelAttribute="commentCommand"
+                                       action="${pageContext.request.contextPath}/comment/add">
                                 <c:if test="${loginSession.sns !='none'}">
                                     <img src="${loginSession.img}" alt="" style="border-radius: 50%; width: 50px;">
                                 </c:if>
                                 <img src="${pageContext.request.contextPath}/user/${loginSession.img}" alt="">
-                                <form:input path="user_id" value="${loginSession.user_id}" id="user_id" readonly="true" hidden="true"/>
+                                <form:input path="user_id" value="${loginSession.user_id}" id="user_id" readonly="true"
+                                            hidden="true"/>
                                 <form:input path="content" id="content"/>
                                 <form:input path="parent_board_idx" value="${boardInfo.board_idx}" type="hidden"/>
-                                <form:button>작성하기</form:button>
+                                <form:button class="btn_css">작성하기</form:button>
                             </form:form>
                         </div>
 
@@ -138,50 +142,81 @@
                         <div class="board_scroll">
                             <c:forEach items="${commentInfoList}" var="commentInfo">
                                 <div id="${commentInfo.comment_idx}">
-                                    <div class="comment_info_area">
-                                        <div>작성자: ${commentInfo.user_id}</div>
-                                        <div>작성일: ${commentInfo.insert_date}</div>
-                                        <div>종아요: ${commentInfo.like}</div>
-                                        <div>내용: ${commentInfo.content}</div>
-                                        <a href="${pageContext.request.contextPath}/add/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}">좋아요 추가</a>
-                                        <a href="${pageContext.request.contextPath}/delete/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}">좋아요 삭제</a>
-
-                                        <div class="comment_btn_area">
-                                            <div>
-                                                <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${commentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
-                                                    <button type="button" class="delete_comment">삭제</button>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <button type="button" class="update_comment_btn">수정</button>
-                                            </div>
-                                            <div>
-                                                <button type="button" class="add_comment_btn">대댓글 작성</button>
-                                            </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 100px 120px; gap: 10px">
+                                        <div></div>
+                                        <div style="padding: 3px 0px;">${commentInfo.insert_date}</div>
+                                        <div>
+                                            <button type="button" class="add_comment_btn btn_css">대댓글 작성</button>
                                         </div>
+                                    </div>
+
+                                    <div style="display: grid; grid-template-columns: 50px 1fr; gap: 10px;">
+                                        <div>
+                                            <c:if test="${commentInfo.user_sns =='none'}">
+                                                <img src="${pageContext.request.contextPath}/img/user${commentInfo.user_img}" style="border-radius: 50%; width: 50px;">
+                                            </c:if>
+                                            <c:if test="${commentInfo.user_sns !='none'}">
+                                                <img src="${commentInfo.user_img}" style="border-radius: 50%"; width="50px;">
+                                            </c:if>
+
+                                        </div>
+                                        <div>
+                                            <div style="display: grid; grid-template-columns: 1fr 130px;">
+                                                <div>${commentInfo.user_id}</div>
+                                                <div style="display: flex; gap: 5px; text-align: right">
+                                                    <div><i class="bi bi-heart"></i> ${commentInfo.like}</div>
+                                                    <a href="${pageContext.request.contextPath}/add/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}"><i
+                                                            class="bi bi-hand-thumbs-up"></i></a>
+                                                    <a href="${pageContext.request.contextPath}/delete/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}"><i
+                                                            class="bi bi-hand-thumbs-down"></i></a>
+                                                    <div class="comment_btn_area">
+                                                        <div>
+                                                            <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${commentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
+                                                                <i class="bi bi-trash3"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div>
+                                                            <i class="bi bi-pencil update_comment_btn"></i>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>${commentInfo.content}</div>
+
+                                        </div>
+
+
+
                                     </div>
                                     <div>
                                         <div class="update_comment_con">
-                                            <form:form action="${pageContext.request.contextPath}/comment/update" modelAttribute="commentCommand">
+                                            <form:form action="${pageContext.request.contextPath}/comment/update"
+                                                       modelAttribute="commentCommand">
                                                 <input type="text" name="content" value="${commentInfo.content}">
-                                                <input type="text" hidden name="comment_idx" value="${commentInfo.comment_idx}">
-                                                <input type="text" hidden name="board_idx" value="${commentInfo.board_idx}">
-                                                <form:button>수정하기</form:button>
+                                                <input type="text" hidden name="comment_idx"
+                                                       value="${commentInfo.comment_idx}">
+                                                <input type="text" hidden name="board_idx"
+                                                       value="${commentInfo.board_idx}">
+                                                <form:button class="btn_css">수정하기</form:button>
                                             </form:form>
                                         </div>
                                         <div class="add_comment_con">
-                                            <form:form modelAttribute="cocCommand" action="${pageContext.request.contextPath}/comment/coc/add">
+                                            <form:form modelAttribute="cocCommand"
+                                                       action="${pageContext.request.contextPath}/comment/coc/add">
                                                 <label for="user_id">작성자: </label>
-                                                <form:input path="c_user_id" value="${loginSession.user_id}" id="user_id" readonly="true"/>
+                                                <form:input path="c_user_id" value="${loginSession.user_id}"
+                                                            id="user_id" readonly="true"/>
                                                 <label for="content">내용: </label>
                                                 <form:input path="c_content" id="content"/>
-                                                <form:input path="c_parent_board_idx" value="${boardInfo.board_idx}" type="hidden"/>
-                                                <form:input path="c_parent_comment" value="${commentInfo.comment_idx}" type="hidden"/>
+                                                <form:input path="c_parent_board_idx" value="${boardInfo.board_idx}"
+                                                            type="hidden"/>
+                                                <form:input path="c_parent_comment" value="${commentInfo.comment_idx}"
+                                                            type="hidden"/>
                                                 <form:button>작성하기</form:button>
                                             </form:form>
                                         </div>
                                     </div>
-
 
 
                                     <c:forEach items="${cocCommentInfoList}" var="cocCommentInfo">
@@ -195,7 +230,7 @@
                                                 </div>
                                                 <div>
                                                     <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${cocCommentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
-                                                        <button type="button" class="delete_comment">삭제</button>
+                                                        <i class="bi bi-trash3"></i>
                                                     </a>
                                                 </div>
                                             </div>

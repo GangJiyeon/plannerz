@@ -70,8 +70,8 @@ public class BoardService {
         return comment_tb_dao.selectCommentInfo_byBoardDdx(board_idx);
     }
 
-    public void insertCommentInfo(CommentCommand commentCommand){
-        comment_tb_dao.insertCommentInfo(commentCommand);
+    public void insertCommentInfo(CommentCommand commentCommand, String img, String sns){
+        comment_tb_dao.insertCommentInfo(commentCommand, img, sns);
     }
 
     public void deleteCommentInfo(Integer comment_idx, Integer parent_comment){

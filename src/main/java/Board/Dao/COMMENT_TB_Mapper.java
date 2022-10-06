@@ -18,9 +18,11 @@ public class COMMENT_TB_Mapper implements RowMapper<CommentInfo> {
         Integer parent_comment = rs.getInt("parent_comment");
         Date insert_date = rs.getDate("insert_date");
         Integer like = rs.getInt("comment_like");
+        String user_img = rs.getString("user_img");
+        String user_sns = rs.getString("user_sns");
 
         CommentInfo commentInfo = new CommentInfo(comment_idx, user_id, content, board_idx,
-                parent_comment, insert_date, like);
+                parent_comment, insert_date, like, user_img, user_sns);
 
         return commentInfo;
     }

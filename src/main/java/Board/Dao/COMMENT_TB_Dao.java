@@ -35,11 +35,12 @@ public class COMMENT_TB_Dao {
         List<CommentInfo> result = jdbcTemplate.query(sql, new COMMENT_TB_Mapper(), comment_idx);
         return result.isEmpty() ? null : result.get(0);
     }
-    public void insertCommentInfo(CommentCommand commentCommand){
-        String sql = "INSERT INTO COMMENT_TB (user_id, content, board_idx, parent_comment)" +
-                " VALUES (?,?,?,?)";
+    public void insertCommentInfo(CommentCommand commentCommand, String img, String sns){
+        String sql = "INSERT INTO COMMENT_TB (user_id, content, board_idx, parent_comment, user_img, user_sns)" +
+                " VALUES (?,?,?,?,?,?)";
 
-        jdbcTemplate.update(sql, commentCommand.getUser_id(), commentCommand.getContent(), commentCommand.getParent_board_idx(), commentCommand.getParent_comment());
+        jdbcTemplate.update(sql, commentCommand.getUser_id(), commentCommand.getContent(),
+                commentCommand.getParent_board_idx(), commentCommand.getParent_comment(), img, sns);
 
     }
 

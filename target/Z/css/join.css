@@ -56,6 +56,7 @@ input{
 .join_step{
     display: grid;
     grid-template-columns: 1fr 10px 1fr 10px 1fr 10px 1fr;
+    margin-top: 30px;
 }
 .white{
 
@@ -70,10 +71,7 @@ input{
     min-width: 700px;
     background-color: rgb(242, 244, 247);
 }
-.true{
-    background-color: white;
-    border: solid 1px  rgb(113, 131, 147);
-}
+
 .sns_join_area{
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -89,10 +87,20 @@ input{
 .sns_wrapper{
     display: grid;
     grid-template-columns: 60px 1fr;
+    border-radius: 35px;
+    padding: 5px;
 }
 .kakao{
     background-color: rgb(253, 231, 77);
     border-radius: 50%;
     padding: 5px;
 
+}
+#identify{
+    color: #586774;
+    border: solid 1px #586774;
+    padding: 23px;
+    width: 100%;
+    border-radius: 35px;
+    background-color: white;
 }

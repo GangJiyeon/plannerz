@@ -29,13 +29,13 @@ $(document).ready(function(){
     })
 
     $("#add_middle_btn").on("click", function (){
-        $("#add_middle_btn").before("<div class=\"input_project\"><input name=\"middle_title\" placeholder='중간목표를 입력하세요. '/></div>");
+        $(".input_project").append("<div><input name=\"middle_title\" placeholder='중간목표를 입력하세요.' style='margin-top: 10px;'/></div>");
     })
 
 
     $(".add_project_item").on("click", function (){
         let idx = $(this).attr('id');
-        $(this).before("<input type=\"text\" name=\"middle_idx\" value=\""+idx+"\">\n" +
+        $(this).before("<input type=\"text\" name=\"middle_idx\" value=\""+idx+"\" hidden>\n" +
             "                                                                    <input type=\"text\" name=\"title\"\n" +
             "                                                                           placeholder=\"내용을 입력하세용!\"/>");
     })
@@ -45,11 +45,5 @@ $(document).ready(function(){
         location.href = "/Z/project/item/delete?"+idx;
     })
 
-    $(".add_project_item").on("click", function (){
-        let idx = $(this).attr('id');
-        $(this).before("<input type=\"text\" name=\"middle_idx\" value="+idx+">\n" +
-            "                                                                    <input type=\"text\" name=\"title\"\n" +
-            "                                                                           placeholder=\"내용을 입력하세용!\"/>");
-    })
 
 });

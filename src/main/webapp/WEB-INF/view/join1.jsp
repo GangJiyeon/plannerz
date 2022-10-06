@@ -5,10 +5,10 @@
   Time: 10:20 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@page import="javax.xml.bind.DatatypeConverter"%>
-<%@page import="java.security.MessageDigest"%>
-<%@page import="java.net.URLEncoder"%>
-<%@page import="java.util.Calendar"%>
+<%@page import="javax.xml.bind.DatatypeConverter" %>
+<%@page import="java.security.MessageDigest" %>
+<%@page import="java.net.URLEncoder" %>
+<%@page import="java.util.Calendar" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -32,8 +32,7 @@
     String userHash = "";
     String flgFixedUser = "N";              // 특정사용자 고정시 Y
 
-    if("Y".equals(flgFixedUser))
-    {
+    if ("Y".equals(flgFixedUser)) {
         String plainText2 = userName + mid + userPhone + mTxId + userBirth + reqSvcCd;
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(plainText2.getBytes("UTF-8"));
@@ -72,11 +71,9 @@
         }
     </style>
     <script language="javascript">
-        function callSa()
-        {
+        function callSa() {
             let window = popupCenter();
-            if(window != undefined && window != null)
-            {
+            if (window != undefined && window != null) {
                 //document.saForm.setAttribute("target", "sa_popup");
                 document.saForm.setAttribute("post", "post");
                 document.saForm.setAttribute("action", "https://sa.inicis.com/auth");
@@ -87,36 +84,36 @@
         function popupCenter() {
             let _width = 400;
             let _height = 620;
-            var xPos = (document.body.offsetWidth/2) - (_width/2); // 가운데 정렬
+            var xPos = (document.body.offsetWidth / 2) - (_width / 2); // 가운데 정렬
             xPos += window.screenLeft; // 듀얼 모니터일 때
 
-            return window.open("", "sa_popup", "width="+_width+", height="+_height+", left="+xPos+", menubar=yes, status=yes, titlebar=yes, resizable=yes");
+            return window.open("", "sa_popup", "width=" + _width + ", height=" + _height + ", left=" + xPos + ", menubar=yes, status=yes, titlebar=yes, resizable=yes");
         }
     </script>
 </head>
 <body>
 <div class="fixed">
-    <%@include file="./includes/header.jsp"%>
+    <%@include file="./includes/header.jsp" %>
 
     <div class="form_wrapper">
         <div class="form">
 
             <div class="title2">회원가입</div>
             <div class="join_step">
-                <div id="step1" class="step true">
+                <div id="step1" class="step">
                     <div class="square"><span>본인인증</span></div>
                 </div>
                 <div></div>
                 <div id="step2" class="step">
-                    <div class="square"><span>정보입력</span></div>
+                    <div class="square" style="background-color: rgb(226 226 226) !important;"><span>정보입력</span></div>
                 </div>
                 <div></div>
                 <div id="step3" class="step">
-                    <div class="square"><span>약관동의</span></div>
+                    <div class="square" style="background-color: rgb(226 226 226) !important;"><span>약관동의</span></div>
                 </div>
                 <div></div>
                 <div id="step4" class="step">
-                    <div class="square"><span>회원가입</span></div>
+                    <div class="square" style="background-color: rgb(226 226 226) !important;"><span>회원가입</span></div>
                 </div>
             </div>
             <div>
@@ -125,9 +122,14 @@
 
             <div class="form_border">
                 <div class="sns_join_area">
-                    <div>
+                    <div style="border-right: solid 1px  rgb(113, 131, 147); padding-right: 30px;">
+                        <h5 style="text-align: center">일반 회원가입</h5>
+                        <div style="background-color: rgb(242, 244, 247); padding: 10px; margin-bottom: 10px">
+                            간편 본인인증 후 정보입력이 필요 <br>
+                            남녀노소 누구나 이용가능!
+                        </div>
                         <div>
-                            <button type="submit" onclick="callSa()">본인인증</button>
+                            <button type="submit" onclick="callSa()" id="identify">본인인증</button>
                         </div>
                         <form name="saForm">
                             <input type="text" name="mid" value="<%=mid %>" hidden>
@@ -146,35 +148,44 @@
                             <!-- successUrl/failUrl 은 분리하여도 됩니다. !-->
                         </form>
                     </div>
-                    <div >
-                        <div class="sns_wrapper">
-                            <a href="${url}">
-                                <div class="naver">
-                                    <img src="${pageContext.request.contextPath}/img/naver.png" />
-                                </div>
-                                <div>네이버로 시작하기</div>
+                    <div style="padding-left: 30px">
+                        <h5 style="text-align: center">
+                            SMS 회원가입
+                        </h5>
+                        <div style="background-color: rgb(242, 244, 247); padding: 10px; margin-bottom: 10px;">
+                            본인인증이나 추가정보 입력 없이 간편한 가입이 가능!
+                            <br>
+                            naver 계정이나, kakao 계정이 필요
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
 
+                            <a href="${url}" style="text-decoration: none;">
+                                <div class="sns_wrapper" style="border: solid 1px #03c73c;">
+                                    <div class="naver">
+                                        <img src="${pageContext.request.contextPath}/img/naver.png"/>
+                                    </div>
+                                    <div style="padding: 17px 20px 0px 20px;">네이버로 시작하기</div>
+                                </div>
+                            </a>
+
+
+                            <a href="${reqUrl}" style="text-decoration: none;">
+                                <div class="sns_wrapper" style="border: solid 1px #ffe600;;">
+                                    <div class="kakao">
+                                        <img src="${pageContext.request.contextPath}/img/kakao_talk.svg"/>
+                                    </div>
+                                    <div style="padding: 17px 20px 0px 20px;">카카오로 시작하기</div>
+                                </div>
                             </a>
 
                         </div>
-                        <div class="sns_wrapper">
-                            <a href="${reqUrl}">
-                                <div class="kakao">
-                                    <img src="${pageContext.request.contextPath}/img/kakao_talk.svg" />
-                                </div>
-                                <div>카카오로 시작하기</div>
-                            </a>
 
-                        </div>
 
                     </div>
                 </div>
 
 
-
             </div>
-
-
 
 
         </div>

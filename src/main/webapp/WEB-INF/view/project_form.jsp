@@ -99,14 +99,13 @@
                                                                     ${middle.title}
                                                             </div>
                                                             <div class="item_list">
-                                                                <fieldset>
-                                                                    <legend>${middle.project_middle_idx}</legend>
-                                                                    <input type="text" name="middle_idx" value="${middle.project_middle_idx}">
+
+                                                                    <input type="text" name="middle_idx" value="${middle.project_middle_idx}" hidden>
                                                                     <input type="text" name="title"
-                                                                           placeholder="내용을 입력하세용!"/>
-                                                                    <button type="button" class="add_project_item" id="${middle.project_middle_idx}">내용 추가하기</button>
+                                                                           placeholder="내용을 입력하세용!" style="margin-bottom: 5px"/>
+                                                                    <button type="button" class="add_project_item btn_op" id="${middle.project_middle_idx}">내용 추가하기</button>
                                                                     <script></script>
-                                                                </fieldset>
+
 
                                                             </div>
                                                         </div>
@@ -118,7 +117,8 @@
                                             </c:forEach>
 
                                         </div>
-                                        <form:button>등록하기</form:button>
+                                        <hr>
+                                        <form:button class="btn_op">등록하기</form:button>
                                     </form:form>
 
                                 </div>

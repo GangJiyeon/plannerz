@@ -152,10 +152,10 @@
                             </a>
                         </div>
                     </div>
-                    <div id="kakao_login_wrapper">
-                        <div class="snslogin">
+                    <div id="kakao_login_wrapper" style="padding: 0px 30px; margin: 13%; margin-top: 5px;margin-bottom: 0px; ">
+                        <div class="snslogin" style="background-color: #fee502;">
                             <a class="p-2" href="${reqUrl}">
-                                <img src="${pageContext.request.contextPath}/img/kakao_login_medium_narrow.png" style="height:60px">
+                                <img style="height: 40px; " src="${pageContext.request.contextPath}/img/kakao_login_medium_narrow.png" >
                             </a>
                         </div>
                     </div>

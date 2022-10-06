@@ -46,40 +46,32 @@
                 <%@include file="includes/board.jsp"%>
                 <div class="title">
                     <div>
-                        <img src="${pageContext.request.contextPath}/img/2021_Login_with_naver_guidelines_Kr/btnW_아이콘원형.png" alt="">
-                        <span>${loginSession.user_name}</span>
+                        게시글 작성하기
                     </div>
 
 
                 </div>
                 <div class="margin_con">
                     <form:form method="post" action="${pageContext.request.contextPath}/board/form.do"  enctype="multipart/form-data" modelAttribute="boardCommand">
-                        <div>
+                        <div style="margin-bottom: 5px;">
                             <label>
                                 <spring:message code="board.title" />
                             </label>
                             <form:input path="board_title"/>
                         </div>
-                        <div>
+                        <div style="margin-bottom: 5px;">
                             <label>
                                 <spring:message code="board.content" />
                             </label>
                             <form:input path="board_content"/>
                         </div>
-                        <div>
+                        <div style="margin-bottom: 5px;">
                             <label>
                                 <spring:message code="board.img" />
                             </label>
                             <input type="file" name="file" multiple="multiple" id="board_img"/>
                         </div>
-                        <div>
-                            <label>
-                                <spring:message code="board.img" />
-                            </label>
-                            <input type="file" name="file" multiple="multiple"/>
-                        </div>
-
-                        <form:button>
+                        <form:button class="btn_css">
                             <spring:message code="board.form"/>
                         </form:button>
                     </form:form>

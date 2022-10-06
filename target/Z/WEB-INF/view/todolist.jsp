@@ -72,14 +72,14 @@
                     </div>
                 </div>
                 <div>
-                    <div class="border_blue not" id="project_contents">
+                    <div class="border_blue not" id="project_contents" >
 
                         <c:forEach items="${todolistInfoList}" var="todolistInfo">
                             <div id="${todolistInfo.list_idx}" class="con">
                                 <div class="content_title">
                                     <div class="three_items">
                                         <div><span class="title3">${todolistInfo.list_title}</span></div>
-                                        <div class="btn_area_todolist">
+                                        <div class="btn_area_todolist" >
                                             <button type="button" class="total_delete_btn" id="list_idx=${todolistInfo.list_idx}">삭제</button>
                                             <button type="button" class="total_update_btn" id="list_idx=${todolistInfo.list_idx}">수정</button>
                                         </div>
@@ -87,15 +87,22 @@
 
                                     </div>
 
-                                    <div class="bg_w">
+                                    <div class="bg_w" >
                                         <c:forEach items="${listItemInfoList}" var="listItemInfo">
                                             <c:forEach items="${listItemInfo}" var="listItem">
                                                 <c:if test="${todolistInfo.list_idx==listItem.list_idx}">
                                                     <div class="item_list todo_items">
                                                         <div>
-                                                            <input type="checkbox" name=""
-                                                                   id="${listItem.list_item_idx}" checked>
-                                                            <span>${listItem.item_title}</span>
+                                                            <c:if test="${listItem.done == true}">
+                                                                <input type="checkbox" name=""
+                                                                       id="${listItem.list_item_idx}" checked readonly>
+                                                                <span>${listItem.item_title}</span>
+                                                            </c:if>
+                                                            <c:if test="${listItem.done != true}">
+                                                                <input type="checkbox" name=""
+                                                                       id="${listItem.list_item_idx}" readonly>
+                                                                <span>${listItem.item_title}</span>
+                                                            </c:if>
                                                         </div>
                                                         <div class="delete_btn_area">
                                                             <button class="delete_btn" id="list_idx=${todolistInfo.list_idx}&item_idx=${listItem.list_item_idx}">X</button>

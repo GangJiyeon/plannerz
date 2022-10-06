@@ -110,7 +110,7 @@
                                     <div class="title3">${projectInfo.title} [D-20]</div>
                                     <div>목표기한: ${projectInfo.target_date}</div>
                                 </div>
-                                <div class="btn_area_todolist">
+                                <div class="btn_area_todolist" style="    margin-bottom: 10px;">
                                     <button type="button" class="total_delete_btn"
                                             id="project_idx=${projectInfo.project_idx}">삭제
                                     </button>
@@ -139,24 +139,43 @@
                                             <c:forEach items="${middleItem}" var="middle">
                                                 <c:if test="${projectInfo.project_idx==middle.project_idx}">
                                                     <div class="bg_w">
-                                                        <div class="title4" id="con_${middle.project_middle_idx}">
-                                                                ${middle.title}
-                                                            <button type="button" class="mid_delete_btn"
-                                                                    id="mid_idx=${middle.project_middle_idx}">X
-                                                            </button>
+                                                        <div class="title4" id="con_${middle.project_middle_idx}" style="display: grid; gap:5px;grid-template-columns: 1fr 20px; padding: 10px;">
+                                                            <div>
+                                                                    ${middle.title}
+                                                            </div>
+                                                            <div>
+                                                                <button type="button" class="mid_delete_btn"
+                                                                        id="mid_idx=${middle.project_middle_idx}">X
+                                                                </button>
+                                                            </div>
                                                         </div>
+
                                                         <c:forEach items="${itemList}" var="items">
                                                             <c:forEach items="${items}" var="item">
                                                                 <c:if test="${middle.project_middle_idx==item.middle_idx}">
-                                                                    <div class="item_list">
-                                                                        <input type="checkbox" name="" id=""
-                                                                               class="${item.done}"
-                                                                               checked disabled>
-                                                                        <span>${item.title}</span>
-                                                                        <button type="button" class="delete_item"
-                                                                                id="project_idx=${projectInfo.project_idx}&item_idx=${item.item_idx}">
-                                                                            X
-                                                                        </button>
+                                                                    <div class="item_list" style="display: grid; gap: 5px; grid-template-columns: 20px 1fr 20px">
+                                                                        <div>
+                                                                            <c:if test="${item.done == true}">
+                                                                                <input type="checkbox" name="" id=""
+                                                                                       class="${item.done}" checked
+                                                                                       disabled>
+                                                                            </c:if>
+                                                                            <c:if test="${item.done != true}">
+                                                                                <input type="checkbox" name="" id=""
+                                                                                       class="${item.done}"
+                                                                                       disabled>
+                                                                            </c:if>
+                                                                        </div>
+                                                                        <div>
+                                                                            <span>${item.title}</span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <button type="button" class="delete_item"
+                                                                                    id="project_idx=${projectInfo.project_idx}&item_idx=${item.item_idx}">
+                                                                                X
+                                                                            </button>
+                                                                        </div>
+
                                                                     </div>
                                                                 </c:if>
                                                             </c:forEach>
@@ -182,20 +201,23 @@
                                 <form:form action="${pageContext.request.contextPath}/project/form1"
                                            modelAttribute="projectCommand">
                                     <div class="title3">프로젝트 추가하기</div>
-                                    <div>
-                                        <form:input path="title" placeholder="프로젝트 이름을 입력하세요. "/>
+                                    <div style="margin-bottom: 5px">
+                                        <form:input path="title" placeholder="프로젝트 이름을 입력하세요. " cssStyle="padding-left: 10px;"/>
                                     </div>
                                     <div>
-                                        <form:input path="target_date" type="date" placeholder="목표날짜를 입력하세요. "/>
+                                        <form:input path="target_date" type="date" placeholder="목표날짜를 입력하세요. " cssStyle="padding-left: 10px;"/>
                                     </div>
                                     <div class="input_project">
-                                        <input type="text" name="middle_title" placeholder="중간목표를 입력하세요."/>
+                                        <div>
+                                            <input type="text" name="middle_title" placeholder="중간목표를 입력하세요."/>
+                                        </div>
                                     </div>
-                                    <div class="input_project" id="add_middle_btn">
+                                    <hr>
+                                    <div class=" btn_op" id="add_middle_btn" style="text-align: center">
                                         <span>중간목표 추가하기</span>
                                     </div>
-                                    <div>
-                                        <form:button>다음으로</form:button>
+                                    <div >
+                                        <form:button class=" btn_op">다음으로</form:button>
                                     </div>
                                 </form:form>
 

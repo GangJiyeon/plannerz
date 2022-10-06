@@ -49,10 +49,13 @@ public class UserInfoController {
         return "popup";
     }
 
-    @GetMapping("userinfo")
+    @GetMapping("/userinfo")
     public String userinfo(Model model, HttpSession session){
 
         LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
+        if (loginSession == null){
+            return "redirect:/login";
+        }
         String user_id = loginSession.getUser_id();
 
         UserInfo userInfo = loginService.select_userInfo(user_id);

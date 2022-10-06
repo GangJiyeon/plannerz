@@ -50,7 +50,7 @@
 
             $(".add_project_item").on("click", function () {
                 let idx = $(this).attr('id');
-                location.href = "/Z/project/update/for/add?"+idx;
+                location.href = "/Z/project/update/for/add?" + idx;
             })
         });
     </script>
@@ -82,27 +82,27 @@
                                     </div>
                                 </c:forEach>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
 
                 <div>
                     <div class="border_blue " id="project_contents">
-                        <form:form action="${pageContext.request.contextPath}/project/update.do"
-                                   modelAttribute="projectCommand">
+                        <form:form action="${pageContext.request.contextPath}/project/update.do" modelAttribute="projectCommand">
                             <c:forEach items="${projectInfoList}" var="projectInfo">
                                 <div id="${projectInfo.project_idx}" class="project_middle">
                                     <div class="content_title">
                                         <div class="title3">
                                             <form:input path="title" value="${projectInfo.title}"/>
+                                            <input type="text" name="project_idx" value="${projectInfo.project_idx}" hidden>
+
                                         </div>
-                                        <div>
-                                            목표기한:
-                                            <form:input path="target_date" type="date" value="${projectInfo.target_date}"/>
+                                        <div style="display: grid; grid-template-columns: 70px 1fr; margin: 5px 0px">
+                                            <div style="padding: 3px 0px;">목표기한:</div>
+                                            <div>
+                                                <form:input path="target_date" type="date" value="${projectInfo.target_date}"/>
+                                            </div>
                                         </div>
-                                        <input type="text" name="project_idx" value="${projectInfo.project_idx}" />
                                     </div>
                                     <div class="scroller_wrapper">
                                         <div class="three">
@@ -111,24 +111,35 @@
                                                     <c:if test="${projectInfo.project_idx==middle.project_idx}">
                                                         <div class="bg_w">
                                                             <div class="title4" id="con_${middle.project_middle_idx}">
-                                                                <input type="text" name="middle_idx" value="${middle.project_middle_idx}">
-                                                                <input type="text" name="middle_title" value="${middle.title}">
+                                                                <input type="text" name="pro_idx" value="${middle.project_idx}" hidden/>
+                                                                <input type="text" name="middle_idx" value="${middle.project_middle_idx}" hidden/>
+                                                                <input type="text" name="middle_title" value="${middle.title}"/>
                                                             </div>
                                                             <c:forEach items="${itemList}" var="items">
                                                                 <c:forEach items="${items}" var="item">
                                                                     <c:if test="${middle.project_middle_idx==item.middle_idx}">
-                                                                        <div class="item_list">
-                                                                            <input type="text" name="item_idx" value="${item.item_idx}" />
-                                                                            <input type="checkbox" name="item_done" id=""
-                                                                                   class="${item.done}">
-                                                                            <span><input type="text" name="item_title"
-                                                                                         value="${item.title}"/></span>
+                                                                        <div class="item_list" style="display: grid; grid-template-columns: 15px 1fr; gap: 5px">
+                                                                            <input type="text" name="item_idx" value="${item.item_idx}" hidden/>
+                                                                            <c:if test="${item.done == true}">
+                                                                                <input type="checkbox" name="item_done"
+                                                                                       id=""
+                                                                                       class="${item.done}" checked>
+                                                                            </c:if>
+                                                                            <c:if test="${item.done != true}">
+                                                                                <input type="checkbox" name="item_done"
+                                                                                       id=""
+                                                                                       class="${item.done}">
+                                                                            </c:if>
+                                                                            <input type="text" name="item_title"
+                                                                                   value="${item.title}"/>
+
                                                                         </div>
                                                                     </c:if>
                                                                 </c:forEach>
                                                             </c:forEach>
-                                                            <button type="button" class="add_project_item"
-                                                                    id="middle_idx=${middle.project_middle_idx}&project_idx=${projectInfo.project_idx}">내용 추가하기
+                                                            <button type="button" class="add_project_item btn_op"
+                                                                    id="middle_idx=${middle.project_middle_idx}&project_idx=${projectInfo.project_idx}">
+                                                                내용 추가하기
                                                             </button>
 
                                                         </div>
@@ -146,7 +157,8 @@
 
                                 </div>
                             </c:forEach>
-                            <form:button>수정하기</form:button>
+                            <hr>
+                            <form:button class="btn_op" style="margin-top: 10px">수정하기</form:button>
                         </form:form>
                     </div>
                 </div>

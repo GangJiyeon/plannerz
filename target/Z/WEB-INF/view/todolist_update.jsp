@@ -41,13 +41,18 @@
         $(document).ready(function () {
             $(".con").css('display', 'none');
             $(".con").filter("#${param.list_idx}").css('display', 'block');
+
+            if(document.getElementById("input_check").checked) {
+                document.getElementById("input_check_hidden").disabled = true;
+            }
+
         });
     </script>
 </head>
 <body>
 <div class="contents">
     <%@include file="includes/side_bar.jsp" %>
-    <div class="content">
+    <div class="content" style="height: 100%">
         <div class="real">
             <div class="title">todolist</div>
             <div class="onetTothree">
@@ -72,36 +77,38 @@
                     </div>
                 </div>
                 <div>
-                    <div class="border_blue not" id="project_contents">
+                    <div class="border_blue not" id="project_contents" >
 
                         <c:forEach items="${todolistInfoList}" var="todolistInfo">
-                            <form:form modelAttribute="todolist"
-                                       action="${pageContext.request.contextPath}/todolist/update.do">
-
+                            <form:form modelAttribute="todolist" action="${pageContext.request.contextPath}/todolist/update.do">
                                 <div id="${todolistInfo.list_idx}" class="con">
                                     <div class="content_title">
                                         <form:input path="list_idx" type="hidden" value="${todolistInfo.list_idx}"/>
                                         <form:input path="user_id" type="hidden" value="${loginSession.user_id}"/>
                                         <div class="three_items">
-                                            <div class="title3 width100">
+                                            <div class="title3 ">
                                                 <form:input path="list_title" value="${todolistInfo.list_title}"/>
                                             </div>
-                                            <div>
-                                                <button type="button" class="total_delete_btn"
-                                                        id="list_idx=${todolistInfo.list_idx}">삭제
-                                                </button>
-                                            </div>
-                                        </div>
 
+                                        </div>
+                                        <div>
+                                            <button type="button" class="total_delete_btn"
+                                                    id="list_idx=${todolistInfo.list_idx}">삭제
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="bg_w">
+                                    <div class="bg_w" style="max-height: 500px; overflow: scroll;">
                                         <c:forEach items="${listItemInfoList}" var="listItemInfo">
                                             <c:forEach items="${listItemInfo}" var="listItem">
                                                 <c:if test="${todolistInfo.list_idx==listItem.list_idx}">
                                                     <div class="item_list">
                                                         <div>
-                                                            <input type="checkbox" name="done"
-                                                                   id="${listItem.list_item_idx}" checked>
+                                                            <input type="checkbox" name="done" value="true"
+                                                                       id="${listItem.list_item_idx}" class="input_check">
+
+                                                            <input type="hidden" name="done" value="false"
+                                                                   id="${listItem.list_item_idx}" class="input_check_hidden">
+
                                                             <form:input path="item_title"
                                                                         value="${listItem.item_title}"/>
                                                             <button type="button" class="delete_btn"
@@ -116,15 +123,20 @@
                                                 </c:if>
                                             </c:forEach>
                                         </c:forEach>
-                                        <div>
-                                            <button type="button" class="add_todolist_item"
-                                                    id="list_idx=${todolistInfo.list_idx}">
-                                                <span>투두리스트 추가하기</span>
-                                            </button>
-                                        </div>
-                                        <form:button>제출하기</form:button>
+
                                     </div>
                                 </div>
+                                <hr>
+                                <div style="width: 100%;">
+                                    <button type="button" class="add_todolist_item btn_op"
+                                            id="list_idx=${todolistInfo.list_idx}">
+                                        <span>투두리스트 추가하기</span>
+                                    </button>
+                                </div>
+                                <div style="width: 100%;">
+                                    <form:button class="btn_op">제출하기</form:button>
+                                </div>
+
                             </form:form>
                         </c:forEach>
 

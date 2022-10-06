@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -199,7 +200,9 @@ public class BoardController {
     @PostMapping("/comment/add")
     public String comment_add(HttpSession session, Model model, CommentCommand commentCommand) {
 
-        boardService.insertCommentInfo(commentCommand);
+        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
+        String user_img = loginSession.getImg();
+        boardService.insertCommentInfo(commentCommand, user_img, loginSession.getSns());
 
 
         model.addAttribute("boardCommand", new BoardCommand());
@@ -276,12 +279,13 @@ public class BoardController {
     @PostMapping("comment/coc/add")
     public String coComment_add(HttpSession session, Model model, CocCommand cocCommand) {
 
+        LoginSession loginSession = (LoginSession)session.getAttribute("loginSession");
         CommentCommand commentCommand = new CommentCommand();
         commentCommand.setParent_comment(cocCommand.getC_parent_comment());
         commentCommand.setContent(cocCommand.getC_content());
         commentCommand.setParent_board_idx(cocCommand.getC_parent_board_idx());
         commentCommand.setUser_id(cocCommand.getC_user_id());
-        boardService.insertCommentInfo(commentCommand);
+        boardService.insertCommentInfo(commentCommand, loginSession.getImg(), loginSession.getSns());
 
         model.addAttribute("boardCommand", new BoardCommand());
         model.addAttribute("commentCommand", new CommentCommand());
@@ -296,7 +300,7 @@ public class BoardController {
 
 
 
-    @PostMapping("/board/delete")
+    @RequestMapping("/board/delete")
     public String board_delete(Model model, BoardCommand boardCommand, HttpSession session) {
         boardService.delete_board(boardCommand.getBoard_idx());
         LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
@@ -305,7 +309,7 @@ public class BoardController {
         return "board";
     }
 
-    @PostMapping("/board/update")
+    @RequestMapping("/board/update")
     public String board_update_view(Model model, BoardCommand boardCommand) {
         model.addAttribute("boardCommand", new BoardCommand());
         model.addAttribute("commentCommand", new CommentCommand());

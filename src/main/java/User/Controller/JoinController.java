@@ -43,7 +43,7 @@ public class JoinController {
     private NaverLoginBO naverLoginBO;
     private String apiResult = null;
 
-    //뷰 보여주기
+    //회원가입 뷰 보여주기
     @RequestMapping("/join")
     public String join(Model model, HttpSession session){
 
@@ -57,7 +57,6 @@ public class JoinController {
 
         // 네이버
         model.addAttribute("url", naverAuthUrl);
-
 
         //<<카카오 회원가입>>
         //카카오 인가코드 발급
@@ -73,21 +72,25 @@ public class JoinController {
         return "join1";
     }
 
+    //회원가입 성공 뷰 페이지 보여주기
     @RequestMapping("/success")
     public String success(){
         return "success";
     }
 
+    //본인인증 뷰 페이지(회원가입 1단계) 보여주기
     @GetMapping("/identify")
     public String identify(){
         return "join1";
     }
 
+    //회원가입 2단계 뷰 페이지 보여주기
     @PostMapping("/view/step2")
     public String go_step2(Model model) {
         return "join2";
     }
 
+    //본인인증 시 입력한 이름, 생년월일, 전화번호 세션 저장
     @PostMapping("/view/step_2")
     public String view_step2_2(@RequestParam("user_name") String user_name,
                                @RequestParam("user_birth") String user_birth,
@@ -104,39 +107,45 @@ public class JoinController {
         return "join2_2";
     }
 
+    //회원가입 3단계 뷰 페이지 보여주기
     @PostMapping("/view/step3")
     public String go_step3(Model model, HttpSession session) {
         model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
+        //2단계에서 입력한 본인인증 정보 세션 삭제
         session.removeAttribute("user_name");
         session.removeAttribute("user_birth");
         session.removeAttribute("phone");
-
         return "join3";
     }
 
+    //회원가입 4단계 뷰 페이지 보여주기
     @PostMapping("/view/step4")
     public String go_step4() {
         return "join4";
     }
 
-
     //아이디 중복 체크
     @PostMapping("/check/id")
     public String checkId(Model model, HttpSession session, @Valid IdCheck idCheck, Errors errors) {
 
+        //입력값 검증
         if (errors.hasErrors()) {
             return "join2_2";
         }
 
+        //이미 등록된 아이디 여부 확인
         boolean id_notExist = joinService.checkid(idCheck.getCheck_user_id());
         idCheck.setId_not_exist(id_notExist);
 
+        //사용 가능한 아이디이면
         if (id_notExist) {
             session.setAttribute("new_userId", idCheck.getCheck_user_id());
+        //이미 등록된 아이디이면
         } else {
             errors.rejectValue("check_user_id","duplicate");
         }
 
+        //회원가입 2단계에 필요한 커맨드 객체 전달
         model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
         model.addAttribute("joinCommand", new JoinCommand());
         return "join2_2";
@@ -174,6 +183,7 @@ public class JoinController {
             //이미지를 저장할 서버의 경로
             String uploadFolder = "/Users/gangjiyeon/IdeaProjects/Z/src/main/webapp/img/user";
 
+            //사용자가 업로드한 파일리 존재한다면
             if (!file.isEmpty()) {
                 String fileRealName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
                 long size = file.getSize(); //파일 사이즈
@@ -199,13 +209,22 @@ public class JoinController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            //파일을 업로드 하지 않았다면
             }else {
+                //기본이미지 등록
                 joinCommand.setImg("회원.jpeg");
             }
 
-            joinService.join(joinCommand);
+            //아이디 체크 시 저장한 아이디 세션 삭제
             session.removeAttribute("user_id");
+
+            //회원정보 등록
+            joinService.join(joinCommand);
+
+            //알림정보 등록
             alarmService.insert(joinCommand.getUser_id());
+
+            //약관동의에 필요한 커맨드 객체 생성
             model.addAttribute("joinAgreeCommand", new JoinAgreeCommand());
             return "join3";
 
@@ -218,33 +237,28 @@ public class JoinController {
     @PostMapping("/check/agree")
     public String checkAgree(JoinAgreeCommand joinAgreeCommand, Errors errors){
 
-        System.out.println(joinAgreeCommand.getAgree1());
         new AgreeValidator().validate(joinAgreeCommand, errors);
-
         if(errors.hasErrors()){
             return "join3";
         }
         return "join4";
-
     }
 
     //회원정보 수정
     @PostMapping("/update/userinfo")
     public String update_userinfo(UserInfo userInfo){
-
         return "userinfo";
     }
 
+    //회원탈퇴 뷰 보여주기
     @GetMapping("/delete/user")
     public String delete_view(){
-
         return "delete";
     }
 
     //회원탈퇴
     @PostMapping("/delete/user.do")
     public String delete(HttpSession session, @RequestParam(value = "pw", required = false)String pw){
-
         if (pw == null){
             pw="pw";
         }
