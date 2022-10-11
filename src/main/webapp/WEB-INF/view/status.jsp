@@ -50,6 +50,11 @@
                             <h4>환급챌린지</h4>
                         </div>
                         <hr>
+                        <a href="${pageContext.request.contextPath}/pay">
+                            <button class="btn_op" type="button">
+                                챌린지 신청하기
+                            </button>
+                        </a>
                         <div>45일째 도전중</div>
                         <div>
                             <div class="user_two_div">

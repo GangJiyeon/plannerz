@@ -47,3 +47,12 @@
 .form-control:disabled, .form-control[readonly]{
     background-color: white !important;
 }
+.btn_op{
+    background-color: rgb(152 166 186);
+    border: none;
+    margin: 15px 0px;
+    color: white;
+    width: 100%;
+    padding: 5px;
+    border-radius: 10px;
+}

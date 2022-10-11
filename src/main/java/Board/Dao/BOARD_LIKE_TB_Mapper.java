@@ -2,10 +2,8 @@ package Board.Dao;
 
 import Board.Dto.BoardLikeInfo;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 public class BOARD_LIKE_TB_Mapper implements RowMapper<BoardLikeInfo> {
     @Override
     public BoardLikeInfo mapRow(ResultSet rs, int i) throws SQLException {

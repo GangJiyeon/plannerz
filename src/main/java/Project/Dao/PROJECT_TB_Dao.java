@@ -7,9 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,14 +21,14 @@ public class PROJECT_TB_Dao {
     }
 
 
+    //프로젝트 리스트 조회
     public List<ProjectInfo> selectProjectList_byUserId(String user_id){
         String sql = "SELECT * FROM PROJECT_TB WHERE user_id=?";
         List<ProjectInfo> results = jdbcTemplate.query(sql, new PROJECT_TB_Mapper(), user_id);
-
         return results.isEmpty() ? null : results;
     }
 
-
+    //프로젝트 등록
     public Integer insertProject(ProjectCommand projectCommand){
 
         Integer num;
@@ -55,11 +53,13 @@ public class PROJECT_TB_Dao {
 
     }
 
+    //프로젝트 삭제
     public void delete_project(Integer project_idx){
         String sql = "DELETE FROM PROJECT_TB WHERE project_idx=?";
         int result = jdbcTemplate.update(sql, project_idx);
     }
 
+    //프로젝트 수정
     public void update_project(ProjectCommand projectCommand, Integer project_idx){
         String sql = "UPDATE PROJECT_TB SET title=?, target_date=? WHERE project_idx=?";
         jdbcTemplate.update(sql, projectCommand.getTitle(), projectCommand.getTarget_date(), project_idx);

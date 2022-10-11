@@ -203,9 +203,12 @@
                                     <div class="title3">프로젝트 추가하기</div>
                                     <div style="margin-bottom: 5px">
                                         <form:input path="title" placeholder="프로젝트 이름을 입력하세요. " cssStyle="padding-left: 10px;"/>
+                                        <form:errors path="title" />
                                     </div>
                                     <div>
                                         <form:input path="target_date" type="date" placeholder="목표날짜를 입력하세요. " cssStyle="padding-left: 10px;"/>
+                                        <form:errors path="target_date" />
+
                                     </div>
                                     <div class="input_project">
                                         <div>

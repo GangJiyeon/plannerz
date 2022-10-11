@@ -2,12 +2,8 @@ package Ctx;
 
 import Board.Controller.BoardController;
 import Board.Service.BoardService;
-import Calendar.Controller.DailyController;
 import Calendar.Controller.MonthlyController;
-import Calendar.Controller.WeeklyController;
-import Calendar.Service.DailyService;
 import Calendar.Service.MonthlyService;
-import Calendar.Service.WeeklyService;
 import Project.Controller.ProjectController;
 import Project.Service.ProjectService;
 import ToDoList.Controller.TodolistController;
@@ -40,7 +36,6 @@ public class ControllerCtx {
         return new ExController();
     }
 
-
     private BoardService boardService;
 
     @Bean
@@ -49,15 +44,6 @@ public class ControllerCtx {
         boardController.setBoardService(boardService);
         boardController.setLoginService(loginService);
         return boardController;
-    }
-
-    private DailyService dailyService;
-
-    @Bean
-    public DailyController dailyController(){
-        DailyController dailyController = new DailyController();
-        dailyController.setDailyService(dailyService);
-        return dailyController;
     }
 
     private MonthlyService monthlyService;
@@ -69,14 +55,6 @@ public class ControllerCtx {
         return monthlyController;
     }
 
-    private WeeklyService weeklyService;
-
-    @Bean
-    public WeeklyController weeklyController(){
-        WeeklyController weeklyController = new WeeklyController();
-        weeklyController.setWeeklyService(weeklyService);
-        return weeklyController;
-    }
 
     private ProjectService projectService;
 

@@ -104,5 +104,11 @@ public class ProjectService {
 
     public void delete_mid(Integer mid_idx){
         proj_mid_tb_dao.delete_middle(mid_idx);
+        List<Project_item_info> item = proj_item_tb_dao.select_itemList_byMidIdx(mid_idx);
+
+        for (Project_item_info nth : item){
+            proj_item_tb_dao.delete_project_item(nth.getItem_idx());
+        }
+
     }
 }

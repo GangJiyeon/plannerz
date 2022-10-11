@@ -11,11 +11,8 @@ public class CommentInfo {
     private Integer parent_comment;
     private Date insert_date;
     private Integer like;
-
     private String user_img;
-
     private String user_sns;
-
 
     public CommentInfo() {
     }

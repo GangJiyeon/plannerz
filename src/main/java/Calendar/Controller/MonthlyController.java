@@ -5,20 +5,19 @@ import Calendar.Dto.MonthlyInfo;
 import Calendar.Dto.MonthlyUpdate;
 import Calendar.Service.MonthlyService;
 import User.Dto.LoginSession;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
+/** 먼슬리 관련 컨트롤러
+ 1. 제공기능
+ 캘린더 조회, 일정 삭제, 일정 추가
+ **/
 @Controller
 public class MonthlyController {
 
@@ -29,12 +28,13 @@ public class MonthlyController {
         this.monthlyService = monthlyService;
     }
 
+    //캘린더 조회
     @GetMapping("/monthly")
     public String monthly(HttpSession session, Model model){
+
         LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
         String user_id = loginSession.getUser_id();
         List<MonthlyInfo> monthlyInfoList = monthlyService.selectMonthlyInfo_byUserId(user_id);
-
 
         model.addAttribute("monthlyInfoList", monthlyInfoList);
         model.addAttribute("monthlyUpdate", new MonthlyUpdate());
@@ -43,38 +43,9 @@ public class MonthlyController {
         return "monthly";
     }
 
-    @GetMapping("/monthly/item/select")
-    public void monthlyItemSelect(HttpSession session, Model model,
-                                    @RequestParam ("monthly_idx") Integer monthly_idx,
-                                    HttpServletResponse response) throws IOException {
-
-        System.out.println("hi");
-        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
-        String user_id = loginSession.getUser_id();
-
-        MonthlyInfo monthlyInfoItem = monthlyService.selectMonthlyItem(user_id, monthly_idx);
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("title", monthlyInfoItem.getTitle());
-        jsonObject.put("start", monthlyInfoItem.getStart_date());
-        jsonObject.put("end", monthlyInfoItem.getFinish_date());
-        jsonObject.put("color", monthlyInfoItem.getBg_color());
-        jsonObject.put("textColor", monthlyInfoItem.getTx_color());
-        jsonObject.put("id", monthlyInfoItem.getMonthly_idx());
-        jsonObject.put("alarm", monthlyInfoItem.getAlarm_time());
-
-        System.out.println(jsonObject);
-        response.setContentType("application/json;charset=UTF-8");
-        PrintWriter output = response.getWriter();
-        output.print(jsonObject);
-        output.close();
-
-    }
-
+    //캘린더 수정
     @PostMapping("/monthly/update")
-    public String monthlyUdate(HttpSession session, Model model, MonthlyUpdate monthlyUpdate){
-        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
-        String user_id = loginSession.getUser_id();
+    public String monthlyUpdate(MonthlyUpdate monthlyUpdate){
 
         MonthlyInfo monthlyInfo = new MonthlyInfo();
         monthlyInfo.setMonthly_idx(monthlyUpdate.getUpdate_monthly_idx());
@@ -85,45 +56,28 @@ public class MonthlyController {
         monthlyInfo.setTx_color(monthlyUpdate.getUpdate_tx_color());
         monthlyInfo.setAlarm_time(monthlyUpdate.getUpdate_alarm_time());
         monthlyService.update(monthlyInfo);
-        List<MonthlyInfo> monthlyInfoList = monthlyService.selectMonthlyInfo_byUserId(user_id);
 
-        model.addAttribute("monthlyInfoList", monthlyInfoList);
-        model.addAttribute("monthlyUpdate", new MonthlyUpdate());
-        model.addAttribute("monthlyCommand", new MonthlyCommand());
-
-        return "monthly";
+        return "redirect:/monthly";
     }
 
+    //일정 추가
     @PostMapping("/monthly/add")
-    public String monthlyAdd(HttpSession session, Model model, MonthlyCommand monthlyCommand){
+    public String monthlyAdd(HttpSession session, MonthlyCommand monthlyCommand){
         LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
         String user_id = loginSession.getUser_id();
-
         monthlyCommand.setUser_id(user_id);
 
-        System.out.println(monthlyCommand.getBg_color());
+        monthlyService.insertNewMonthly(monthlyCommand);
 
-        List<MonthlyInfo> monthlyInfoList = monthlyService.insertNewMonthly(monthlyCommand);
-        model.addAttribute("monthlyInfoList", monthlyInfoList);
-        model.addAttribute("monthlyUpdate", new MonthlyUpdate());
-        model.addAttribute("monthlyCommand", new MonthlyCommand());
-        return "monthly";
+        return "redirect:/monthly";
     }
 
+    //일정 삭제
     @GetMapping("/monthly/delete")
-    public String monthly_delete(@RequestParam ("idx") Integer monthly_idx,
-                                 HttpSession session, Model model){
-
+    public String monthly_delete(@RequestParam ("idx") Integer monthly_idx){
 
         monthlyService.delete(monthly_idx);
-        LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
-        String user_id = loginSession.getUser_id();
-        List<MonthlyInfo> monthlyInfoList = monthlyService.selectMonthlyInfo_byUserId(user_id);
-        model.addAttribute("monthlyInfoList", monthlyInfoList);
-        model.addAttribute("monthlyUpdate", new MonthlyUpdate());
-        model.addAttribute("monthlyCommand", new MonthlyCommand());
-
-        return "monthly";
+        return "redirect:/monthly";
     }
 
 

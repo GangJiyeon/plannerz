@@ -105,24 +105,25 @@
                     alert(info.event.id);
                     let idx = info.event.id;
 
-                    $.ajax({
-                        url: "${pageContext.request.contextPath}/monthly/item/select",
-                        data: "monthly_idx=" + idx,
-                        method: "GET",
-                        dataType: 'json',
-                        success: function (monthlyInfoItem){
-                            alert(monthlyInfoItem)
-                            alert("dho")
-                            $("#calendarModalUpdate").modal("show"); // modal 나타내기
-                            $("#title2").prop("value", monthlyInfoItem.title);
-                        },
-                        error: function (request, status, error){
-                            alert(request);
-                            alert(status);
-                            alert(error);
-                            alert("fail");
-                        }
-                    })
+                    let title = info.event.title;
+                    let start = info.event.start;
+                    let finish = info.event.finish;
+                    let color = info.event.color;
+                    let textColor = info.event.textColor;
+
+                    let alarm = info.event.alarm;
+
+                    alert(textColor.split("#")[1])
+
+                    $("#calendarModalUpdate").modal("show");
+                    $("#title2").prop("value", title);
+                    $("#start_date2").prop("value", start);
+                    $("#finish_date2").prop("value", finish);
+                    $("#bg_color2").prop("value", color);
+                    $("#tx_color2").prop("value",  textColor);
+                    $("#alarm_time2").prop("value", alarm);
+
+
 
 
 
@@ -136,7 +137,7 @@
                 dayMaxEvents: true, // allow "more" link when too many events
                 locale: 'ko',
                 events: [
-                    <%List<MonthlyInfo> monthlyInfoList = (List<MonthlyInfo>) request.getAttribute("monthlyInfoList");%>
+                    <%List<MonthlyInfo>monthlyInfoList = (List<MonthlyInfo>) request.getAttribute("monthlyInfoList");%>
                     <%if (monthlyInfoList != null) {%>
                     <%for (MonthlyInfo nth : monthlyInfoList) {%>
                     {
@@ -146,7 +147,7 @@
                         color: '<%= nth.getBg_color()%>',
                         textColor: '<%= nth.getTx_color()%>',
                         id: '<%= nth.getMonthly_idx() %>',
-                        alarm: <%= nth.getAlarm_time() %>
+                        alarm: '<%= nth.getAlarm_time() %>'
                     },
                     <%}
                 }%>]
@@ -253,34 +254,33 @@
                             <form:input path="update_monthly_idx" type="hidden" id="monthly_idx"/>
                             <div>
                                 <label for="title2">일정 내용</label>
-                                <form:input path="update_title" class="form-control" id="title2"
-                                            value="${monthlyInfoItem.title}"/>
+                                <form:input path="update_title" class="form-control" id="title2"/>
                             </div>
                             <div>
                                 <label for="start_date2">시작 날짜</label>
                                 <form:input type="datetime-local" path="update_start_date" class="form-control"
-                                            value="${monthlyInfoItem.start_date}" id="start_date2"/>
+                                            id="start_date2"/>
 
                             </div>
                             <div>
                                 <label for="finish_date2">종료 날짜</label>
                                 <form:input type="datetime-local" path="update_finish_date" class="form-control"
-                                            value="${monthlyInfoItem.finish_date}" id="finish_date2"/>
+                                            id="finish_date2"/>
                             </div>
                             <div>
                                 <label for="bg_color2">배경색</label>
                                 <form:input type="color" path="update_bg_color" class="form-control" id="bg_color2"
-                                            value="${monthlyInfoItem.bg_color}"/>
+
+                                />
                             </div>
                             <div>
                                 <label for="tx_color2">글자색</label>
                                 <form:input type="color" path="update_tx_color" class="form-control" id="tx_color2"
-                                            value="${monthlyInfoItem.tx_color}"/>
+                                              />
                             </div>
                             <div>
                                 <label for="alarm_time2">알림 설정(미입력 시 알림 없음)</label>
                                 <form:input type="datetime-local" path="update_alarm_time" class="form-control"
-                                            value="${monthlyInfoItem.alarm_time}"
                                             id="alarm_time2"/>
                             </div>
                         </div>

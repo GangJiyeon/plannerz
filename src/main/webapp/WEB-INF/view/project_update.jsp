@@ -130,8 +130,7 @@
                                                                                        id=""
                                                                                        class="${item.done}">
                                                                             </c:if>
-                                                                            <input type="text" name="item_title"
-                                                                                   value="${item.title}"/>
+                                                                            <input type="text" name="item_title" value="${item.title}"/>
 
                                                                         </div>
                                                                     </c:if>

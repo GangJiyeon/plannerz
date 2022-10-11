@@ -7,8 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+
+/** 회원계정 찾기 관련 컨트롤러
+ 1. 뷰 페이지 보여주기 : 아이디 찾기, 비밀번호 찾기
+ 2. 기능 : 아이디 찾기, 비밀번호 찾기
+ **/
 @Controller
 public class FindAccountController {
 

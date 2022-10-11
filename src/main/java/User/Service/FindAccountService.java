@@ -13,10 +13,12 @@ public class FindAccountService {
         this.user_tb_dao = user_tb_dao;
     }
 
+    //전화번호로 사용자 정보 조회하기
     public UserInfo findUserId_byPhone(String phone){
         return user_tb_dao.select_userInfo_byPhone(phone);
     }
 
+    //아이디로 사용자 정보 조회하기
     public UserInfo findUserPw_byUserId(String userId){
         return user_tb_dao.select_userInfo(userId);
     }

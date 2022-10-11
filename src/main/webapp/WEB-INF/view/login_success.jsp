@@ -12,8 +12,8 @@
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String clientId = "9M1xnD38Pu58YMvcnW37";//애플리케이션 클라이언트 아이디값";
-    String clientSecret = "yj1l9jLNca";//애플리케이션 클라이언트 시크릿값";
+    String clientId = "---";//애플리케이션 클라이언트 아이디값";
+    String clientSecret = "---";//애플리케이션 클라이언트 시크릿값";
     String code = request.getParameter("code");
     String state = request.getParameter("state");
     String redirectURI = URLEncoder.encode("http://localhost:8080/Z/callback", "UTF-8");
@@ -99,14 +99,10 @@
 </script>
 <div class="fixed">
     <%@include file="./includes/header.jsp"%>
-
     <div class="form_wrapper">
         <div class="form">
             <div class="title2">로그인</div>
             <div class="inputArea success_login">
-
-
-
                     <form:form method="get">
                         <div class="welcome">
                             <div>${loginSession.user_name}님 반갑습니다!</div>
@@ -119,12 +115,6 @@
                             <button type="submit" onclick="javascript:form.action='/Z/logout'" id="logout_btn">로그아웃</button>
                         </div>
                     </form:form>
-
-
-
-
-
-
             </div>
         </div>
     </div>

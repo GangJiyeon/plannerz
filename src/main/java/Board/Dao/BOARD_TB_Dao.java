@@ -2,19 +2,17 @@ package Board.Dao;
 
 import Board.Dto.BoardCommand;
 import Board.Dto.BoardInfo;
-import Board.Dto.BoardLikeInfo;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+/** 게시판 테이블 **/
 public class BOARD_TB_Dao {
 
     private JdbcTemplate jdbcTemplate;
@@ -95,26 +93,27 @@ public class BOARD_TB_Dao {
     public void update_board(BoardCommand boardCommand){
 
         String sql = "UPDATE BOARD_TB SET board_title=?, board_content=?," +
-                "board_img1=?, board_img2=?, board_img3=?, board_img4=?, board_img5=?" +
-                "WHERE board_idx=? ";
+                "board_img1=? WHERE board_idx=? ";
 
         jdbcTemplate.update(sql, boardCommand.getBoard_title(), boardCommand.getBoard_content(), boardCommand.getBoard_img1(),
-                boardCommand.getBoard_img2(), boardCommand.getBoard_img3(), boardCommand.getBoard_img4(), boardCommand.getBoard_img5(),
                 boardCommand.getBoard_idx());
 
     }
 
+    //게시글 조회수 수정
     public void updateBoardSee(BoardInfo boardInfo){
         String sql = "UPDATE BOARD_TB SET see=? WHERE board_idx=?";
         jdbcTemplate.update(sql, boardInfo.getSee()+1, boardInfo.getBoard_idx());
     }
 
+    //게시글 좋아요 추가
     public void addBoardLike(BoardInfo boardInfo){
         int num = boardInfo.getLike()+1;
         String sql = "UPDATE BOARD_TB SET board_like=? WHERE board_idx=?";
         jdbcTemplate.update(sql, num, boardInfo.getBoard_idx());
     }
 
+    //게시글 좋아요 삭제
     public void minusBoardLike(BoardInfo boardInfo){
         int num = boardInfo.getLike()-1;
         String sql = "UPDATE BOARD_TB SET board_like=? WHERE board_idx=?";

@@ -31,11 +31,10 @@ public class UserInfoService {
         this.sns_account_tb_dao = sns_account_tb_dao;
     }
 
+    //랜덤아이디 조회
     public SNSAccount select_randomId(String user_id){
         SNSAccount select_snsAccount = sns_account_tb_dao.find_randomId(user_id);
-        System.out.println(select_snsAccount.getRandom_id());
         return select_snsAccount;
-
     }
 
 }

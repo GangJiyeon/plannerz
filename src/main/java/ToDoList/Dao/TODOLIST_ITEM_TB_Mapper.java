@@ -2,7 +2,6 @@ package ToDoList.Dao;
 
 import ToDoList.Dto.Todolist_item_info;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

@@ -6,7 +6,6 @@ public class BoardLikeInfo {
     private Integer like_board_idx;
     private String like_user_id;
 
-
     public BoardLikeInfo() {
     }
 

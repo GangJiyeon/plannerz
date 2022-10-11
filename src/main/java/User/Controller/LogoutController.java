@@ -1,15 +1,13 @@
 package User.Controller;
 
-import User.Dto.LoginSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
+/** 회원계정 찾기 관련 컨트롤러
+ 1. 뷰 페이지 보여주기 : 로그아웃
+ 2. 기능 : 로그아웃
+ **/
 @Controller
 public class LogoutController {
 

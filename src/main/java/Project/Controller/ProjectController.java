@@ -2,10 +2,13 @@ package Project.Controller;
 
 import Project.Dto.*;
 import Project.Service.ProjectService;
+import Project.Validator.ProjectValidator;
 import User.Dto.LoginSession;
+import User.Validator.LoginCommandValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,17 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/** 프로젝트 관련 컨트롤러
+ 1. 주요기능
+ 프로젝트 전체 조회
+ 프로젝트 작성, 수정, 삭제
+ 소프로젝트 삭제, 프로젝트 아이템 삭제
+ **/
 @Controller
 public class ProjectController {
 
-    //의존주입
     @Autowired
     private ProjectService projectService;
 
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
     }
-
 
     //프로젝트 내역 조회 메서드
     public void select_user_projectInfoList(Model model, String user_id){
@@ -41,7 +48,6 @@ public class ProjectController {
                 //사용자의 프로젝트 리스트 idx
                 project_idx_List.add(nth.getProject_idx());
             }
-
             for (Integer nth : project_idx_List) {
                 //프로젝트 idx를 기준으로 분류된 소목표 리스트
                 List<Project_middle_info> middle = projectService.selectProjectMiddleInfo(nth);
@@ -78,8 +84,6 @@ public class ProjectController {
         return user_id;
     }
 
-    //<-------------------------------------------------------------------------------->//
-
 
     //프로젝트 내역 조회
     @GetMapping("/project")
@@ -100,8 +104,15 @@ public class ProjectController {
     //메인 프로젝트, 소 프로젝트 작성
     @PostMapping("/project/form1")
     public String projectForm1(Model model,
-                               ProjectCommand projectCommand, HttpSession session,
+                               ProjectCommand projectCommand, Errors errors, HttpSession session,
                                @RequestParam("middle_title") String middle_title) {
+
+        //입력값 검증
+        new ProjectValidator().validate(projectCommand, errors);
+
+        if (errors.hasErrors()) {
+            return "project";
+        }
 
         //1. 메인프로젝트 데이터 베이스에 저장하기
         String user_id = find_userSession(session); //사용자 아이디 가져오기
@@ -232,7 +243,6 @@ public class ProjectController {
         return "project";
     }
 
-
     //프로젝트 수정페이지에서 프로젝트 아이템 추가
     @GetMapping("/project/update/for/add")
     public String addd(HttpSession session,
@@ -245,12 +255,8 @@ public class ProjectController {
         model.addAttribute("projectCommand", new ProjectCommand());
 
         String user_id = find_userSession(session);
-
-
         projectService.insetItem_forUpdate(middle_idx);
-
         select_user_projectInfoList(model, user_id);
-
 
         return "project_update";
     }
@@ -258,8 +264,7 @@ public class ProjectController {
     //프로젝트 아이템 삭제
     @GetMapping("/project/item/delete")
     public String delete_project_item(@RequestParam("item_idx") Integer item_idx,
-                                      @RequestParam("project_idx") Integer project_idx,
-                                      HttpSession session, Model model
+                                      @RequestParam("project_idx") Integer project_idx
                                       ){
 
         projectService.delete_project_item(item_idx);
@@ -269,8 +274,7 @@ public class ProjectController {
     //소 프로젝트 아이템 삭제
     @GetMapping("/project/mid/delete")
     public String delete_mid_delete(HttpSession session, Model model,
-                                    @RequestParam("mid_idx") Integer mid_idx
-                                    ){
+                                    @RequestParam("mid_idx") Integer mid_idx){
         projectService.delete_mid(mid_idx);
         select_user_projectInfoList(model, find_userSession(session));
 
@@ -283,9 +287,7 @@ public class ProjectController {
         }
 
         return "redirect:/project?";
-
     }
-
 
     //프로젝트 삭제
     @GetMapping("/project/total/delete")
@@ -293,6 +295,5 @@ public class ProjectController {
         projectService.delete_all(project_idx);
         return "redirect:/project";
     }
-
 
 }

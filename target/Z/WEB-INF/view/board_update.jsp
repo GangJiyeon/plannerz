@@ -57,49 +57,31 @@
                 </div>
 
                 <div class="margin_con">
-                    <form:form modelAttribute="boardCommand">
+                    <form:form modelAttribute="boardCommand" enctype="multipart/form-data">
                         <div>
-                            <div>
+                            <div style="margin-bottom: 5px">
                                 <span>제목: </span>
                                 <form:input path="board_title" value="${boardInfo.board_title}"/>
-                            </div>
-                            <div>
-                                <span>작성자: </span>
-                                <form:input path="board_content" value="${boardInfo.user_id}" disabled="true"/>
-                            </div>
-                            <div>
+                            </div >
+                                <form:hidden path="board_idx" value="${boardInfo.board_idx}" readonly="true" />
+                            <div style="margin-bottom: 5px">
                                 <span>내용: </span>
                                 <form:input path="board_content" value="${boardInfo.board_content}"/>
                             </div>
-                            <div>
-                                <span>이미지1: </span>
-                                <form:input path="board_img1" value="${boardInfo.board_img1}"/>
+                            <div style="margin-bottom: 5px">
+                                <span>이미지: </span>
+                                <a href="${pageContext.request.contextPath}/img/board/${boardInfo.board_img1}">
+                                        ${boardInfo.board_img1}
+                                </a>
+                                <br>
+                                <input type="file" name="file">
                             </div>
-                            <div>
-                                <span>이미지2: </span>
-                                <form:input path="board_img2" value="${boardInfo.board_img2}"/>
-                            </div>
-                            <div>
-                                <span>이미지3: </span>
-                                <form:input path="board_img3" value="${boardInfo.board_img3}"/>
-                            </div>
-                            <div>
-                                <span>이미지4: </span>
-                                <form:input path="board_img4" value="${boardInfo.board_img4}"/>
-                            </div>
-                            <div>
-                                <span>이미지5: </span>
-                                <form:input path="board_img5" value="${boardInfo.board_img5}"/>
-                            </div>
-
                             <form:input path="board_idx" type="hidden" value="${boardInfo.board_idx}"/>
                         </div>
-
-                        <div>
-                            <button type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/board/delete'">삭제하기</button>
-                        </div>
-                        <div>
-                            <button type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/board/update.do'">수정하기</button>
+                        <hr>
+                        <div style="margin-bottom: 5px">
+                            <button class="btn_css" type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/board/delete'">삭제하기</button>
+                            <button class="btn_css" type="submit" onclick="javascript:form.action='${pageContext.request.contextPath}/board/update.do'">수정하기</button>
                         </div>
                     </form:form>
 

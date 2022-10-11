@@ -1,18 +1,12 @@
-
 package Ctx;
-
 
 import Board.Dao.BOARD_LIKE_TB_Dao;
 import Board.Dao.BOARD_TB_Dao;
 import Board.Dao.COMMENT_LIKE_TB_Dao;
 import Board.Dao.COMMENT_TB_Dao;
 import Board.Service.BoardService;
-import Calendar.Dao.DAILY_TB_Dao;
 import Calendar.Dao.MONTHLY_TB_Dao;
-import Calendar.Dao.WEEKLY_TB_Dao;
-import Calendar.Service.DailyService;
 import Calendar.Service.MonthlyService;
-import Calendar.Service.WeeklyService;
 import Project.Dao.PROJECT_TB_Dao;
 import Project.Dao.PROJ_ITEM_TB_Dao;
 import Project.Dao.PROJ_MID_TB_Dao;
@@ -26,7 +20,6 @@ import User.Dao.USER_TB_Dao;
 import User.Service.FindAccountService;
 import User.Service.JoinService;
 import User.Service.LoginService;
-
 import User.Service.PlannerService;
 import UserInfo.Dao.ALARM_TB_Dao;
 import UserInfo.Dao.SETTING_TB_Dao;
@@ -90,7 +83,6 @@ public class DatabaseCtx {
         return boardService;
     }
 
-
     @Bean
     public UserInfoService userInfoService(){
         UserInfoService userInfoService = new UserInfoService();
@@ -100,17 +92,6 @@ public class DatabaseCtx {
         return userInfoService;
     }
 
-    @Bean
-    public DAILY_TB_Dao daily_tb_dao(){
-        return new DAILY_TB_Dao(dataSource());
-    }
-
-    @Bean
-    public DailyService dailyService(){
-        DailyService dailyService = new DailyService();
-        dailyService.setDaily_tb_dao(daily_tb_dao());
-        return dailyService;
-    }
 
     @Bean
     public MONTHLY_TB_Dao monthly_tb_dao(){
@@ -122,18 +103,6 @@ public class DatabaseCtx {
         MonthlyService monthlyService = new MonthlyService();
         monthlyService.setMonthly_tb_dao(monthly_tb_dao());
         return monthlyService;
-    }
-
-    @Bean
-    public WEEKLY_TB_Dao weekly_tb_dao(){
-        return new WEEKLY_TB_Dao(dataSource());
-    }
-
-    @Bean
-    public WeeklyService weeklyService(){
-        WeeklyService weeklyService = new WeeklyService();
-        weeklyService.setWeekly_tb_dao(weekly_tb_dao());
-        return weeklyService;
     }
 
     @Bean
@@ -257,9 +226,5 @@ public class DatabaseCtx {
     public USERINFO_TB_Dao userinfo_tb_dao(){
         return new USERINFO_TB_Dao(dataSource());
     }
-
-
-
-
 
 }

@@ -1,17 +1,12 @@
 package User.Dao;
 
 import User.Dto.UserInfo;
-import com.mysql.cj.xdevapi.Result;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-
 public class USER_TB_Mapper implements RowMapper<UserInfo> {
-
-
 
     @Override
     public UserInfo mapRow(ResultSet rs, int i) throws SQLException {

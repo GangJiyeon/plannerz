@@ -58,12 +58,14 @@
                                 <spring:message code="board.title" />
                             </label>
                             <form:input path="board_title"/>
+                            <form:errors path="board_title"/>
                         </div>
                         <div style="margin-bottom: 5px;">
                             <label>
                                 <spring:message code="board.content" />
                             </label>
                             <form:input path="board_content"/>
+                            <form:errors path="board_content" />
                         </div>
                         <div style="margin-bottom: 5px;">
                             <label>

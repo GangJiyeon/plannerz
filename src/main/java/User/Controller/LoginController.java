@@ -1,7 +1,6 @@
 package User.Controller;
 
 import User.Dto.*;
-import User.Exception.WrongIdPwException;
 import User.Service.JoinService;
 import User.Validator.LoginCommandValidator;
 import User.Service.LoginService;
@@ -16,23 +15,23 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Objects;
 
+/** 로그인 관련 컨트롤러
+ 1. 뷰 페이지 보여주기 : 로그인
+ 2. 기능 : 직접 입력 로그인, 카카오 로그인, 네이버 로그인
+ **/
 @Controller
 public class LoginController {
 

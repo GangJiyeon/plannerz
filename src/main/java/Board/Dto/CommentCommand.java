@@ -11,7 +11,6 @@ public class CommentCommand {
     private Integer parent_comment;
     private Integer like;
 
-
     public CommentCommand() {
     }
 

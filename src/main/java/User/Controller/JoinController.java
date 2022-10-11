@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
@@ -22,6 +21,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+/** 회원가입 관련 컨트롤러
+ 1. 뷰 페이지 보여주기 : 회원가입 성공, 회원가입 1단계~4단계, 회원탈퇴
+ 2. 기능 : 본인인증, 네이버/kakao 회원가입, 아이디 중복 체크, 회원가입, 약관 동의, 회원탈퇴
+ **/
 @Controller
 public class JoinController {
 

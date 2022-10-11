@@ -61,6 +61,7 @@
                     </div>
 
                     <div class="border_blue">
+
                         <div class="col-12 col-md-9 col-lg-8 offset-lg-1" style="margin: 0px !important">
                             <form>
                                 <div class="row">
@@ -143,9 +144,6 @@
                                                    type="datetime" value="${selectUserInfo.join_date}" readonly>
                                         </div>
                                     </div>
-
-
-
                                 </div>
                             </form>
                         </div>

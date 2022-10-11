@@ -34,7 +34,10 @@ import java.util.List;
 
 import static java.util.Calendar.getInstance;
 
-@Configuration
+/** 알람 관련 컨트롤러
+ 1. 뷰 페이지 보여주기 : 알림 설정 페이지
+ 2. 기능 : 알림 정보 조회, 알림 정보 수정, 메시지 보내기 메서드
+ **/
 @EnableScheduling
 @Controller
 public class AlarmController {
@@ -45,12 +48,11 @@ public class AlarmController {
     @Autowired
     private LoginService loginService;
 
-
     public void setAlarm(AlarmService alarmService,LoginService loginService){
         this.alarmService = alarmService;
-
     }
 
+    /* 예약 메세지 발송 기능 추가 예정
     @Scheduled(cron="0 0 8,9,10,11 * * *")
     public void sendMessage1() {
 
@@ -59,21 +61,12 @@ public class AlarmController {
         List<AlarmInfo> alarmInfoList = alarmService.select_write(hour);
 
         for (AlarmInfo nth : alarmInfoList){
-
-
             UserInfo userInfo = loginService.select_userInfo(nth.getUser_id());
             String tel = userInfo.getPhone();
             String content = "스케줄을 작성할 시간입니다. ";
             message_test(tel, content);
         }
     }
-
-    @Scheduled(cron="0 58 12 * * *")
-    public void sendMessage2gg() {
-
-        System.out.println("hi");
-    }
-
 
     @Scheduled(cron="0 0 0,20,21,22,23 * * *")
     public void sendMessage2() {
@@ -90,10 +83,15 @@ public class AlarmController {
         }
     }
 
+     */
+
+
+    //메세지 전송하기
     public void message_test(String tel, String content){
         sendSMS(tel, content);
     }
 
+    //메세지 전송에 필요한 키값 획득
     // https://api.ncloud-docs.com/docs/common-ncpapi
     private String makeSignature(String url, String timestamp, String method, String accessKey, String secretKey) throws NoSuchAlgorithmException, InvalidKeyException {
         String space = " ";                    // one space
@@ -127,12 +125,13 @@ public class AlarmController {
         return encodeBase64String;
     }
 
+    //메세지 전송
     private void sendSMS(String tel, String content) {
         String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
         String requestUrl= "/sms/v2/services/";                   		// 요청 URL
         String requestUrlType = "/messages";                      		// 요청 URL
-        String accessKey = "t6s2KgSdVV15TtDR56wR";                     	// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키			// Access Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID
-        String secretKey = "e0b5faefbd5b49c19ac77206f3fec766";  // 2차 인증을 위해 서비스마다 할당되는 service secret key	// Service Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID
+        String accessKey = "--";                     	// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키			// Access Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID
+        String secretKey = "--";  // 2차 인증을 위해 서비스마다 할당되는 service secret key	// Service Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID
         String serviceId = "ncp:sms:kr:292282257447:plannerz";       // 프로젝트에 할당된 SMS 서비스 ID							// service ID : https://console.ncloud.com/sens/project > Simple & ... > Project > 서비스 ID
         String method = "POST";											// 요청 method
         String timestamp = Long.toString(System.currentTimeMillis()); 	// current timestamp (epoch)
@@ -150,7 +149,7 @@ public class AlarmController {
         toArr.add(toJson);
 
         bodyJson.put("type","SMS");							// Madantory, 메시지 Type (SMS | LMS | MMS), (소문자 가능)
-        bodyJson.put("from","01035747494");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능
+        bodyJson.put("from","--");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능
         bodyJson.put("content","PLANNERZ");	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
         bodyJson.put("messages", toArr);					// Mandatory(필수), 아래 항목들 참조 (messages.XXX), 최대 1,000개
 
@@ -200,7 +199,7 @@ public class AlarmController {
         }
     }
 
-
+    //알람 뷰 페이지 보여주기
     @GetMapping("/alarm")
     public String alarm(Model model, HttpSession session){
         LoginSession loginSession = (LoginSession) session.getAttribute("loginSession");
@@ -213,15 +212,17 @@ public class AlarmController {
         return "alarm";
     }
 
+    //알람 정보 설정 수정하기
     @PostMapping("/alarm/update")
     public String update_alarm(AlarmInfo alarmInfo, HttpSession session){
 
-        System.out.println(alarmInfo.getSchedule_alarm());
         LoginSession loginSession = (LoginSession)session.getAttribute("loginSession");
         alarmInfo.setUser_id(loginSession.getUser_id());
         alarmService.update(alarmInfo);
+
         return "redirect:/alarm";
     }
+
     @GetMapping("/alarm.do")
     public String alarm_do(){
 
@@ -230,10 +231,5 @@ public class AlarmController {
     }
 
 
-
-    @GetMapping("/planner")
-    public String view_planner(){
-        return "planner";
-    }
 
 }

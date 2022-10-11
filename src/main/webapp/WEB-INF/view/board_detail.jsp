@@ -68,12 +68,15 @@
                                                 class="bi bi-eye"></i> ${boardInfo.see} </span>
                                         <span style="text-align: right; color: #9b9b9b;"><i
                                                 class="bi bi-heart"></i> ${boardInfo.like} </span>
-                                        <a href="${pageContext.request.contextPath}/add/board/like?board_idx=${boardInfo.board_idx}">
-                                            <i class="bi bi-hand-thumbs-up"></i>
-                                        </a>
-                                        <a href="${pageContext.request.contextPath}/delete/board/like?board_idx=${boardInfo.board_idx}">
-                                            <i class="bi bi-hand-thumbs-down"></i>
-                                        </a>
+                                        <c:if test="${loginSession.user_id != boardInfo.user_id}">
+                                            <a href="${pageContext.request.contextPath}/add/board/like?board_idx=${boardInfo.board_idx}">
+                                                <i class="bi bi-hand-thumbs-up small_span" style="font-size: 16px"></i>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/delete/board/like?board_idx=${boardInfo.board_idx}">
+                                                <i class="bi bi-hand-thumbs-down small_span" style="font-size: 16px"></i>
+                                            </a>
+                                        </c:if>
+
                                     </div>
                                 </div>
 
@@ -93,14 +96,18 @@
                                                 <div>
                                                     <span>${boardInfo.board_title}</span>
                                                 </div>
+
                                                 <div style="text-align: right; color: #9b9b9b; font-size: 13px">
                                                     <span>${boardInfo.insert_date}</span>
-                                                    <a href="${pageContext.request.contextPath}/board/delete">
-                                                        <i class="bi bi-trash3"></i>
-                                                    </a>
-                                                    <a href="${pageContext.request.contextPath}/board/update">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </a>
+                                                    <c:if test="${loginSession.user_id == board_userInfo.user_id}">
+                                                        <a href="${pageContext.request.contextPath}/board/delete?board_idx=${boardInfo.board_idx}">
+                                                            <i class="bi bi-trash3 small_span"></i>
+                                                        </a>
+                                                        <a href="${pageContext.request.contextPath}/board/update?board_idx=${boardInfo.board_idx}">
+                                                            <i class="bi bi-pencil small_span"></i>
+                                                        </a>
+                                                    </c:if>
+
                                                 </div>
 
                                             </div>
@@ -123,14 +130,12 @@
                         </div>
                         <hr>
                         <div class="add_comment">
-                            <form:form modelAttribute="commentCommand"
-                                       action="${pageContext.request.contextPath}/comment/add">
+                            <form:form modelAttribute="commentCommand" action="${pageContext.request.contextPath}/comment/add">
                                 <c:if test="${loginSession.sns !='none'}">
                                     <img src="${loginSession.img}" alt="" style="border-radius: 50%; width: 50px;">
                                 </c:if>
                                 <img src="${pageContext.request.contextPath}/user/${loginSession.img}" alt="">
-                                <form:input path="user_id" value="${loginSession.user_id}" id="user_id" readonly="true"
-                                            hidden="true"/>
+                                <form:input path="user_id" value="${loginSession.user_id}" id="user_id" readonly="true" hidden="true"/>
                                 <form:input path="content" id="content"/>
                                 <form:input path="parent_board_idx" value="${boardInfo.board_idx}" type="hidden"/>
                                 <form:button class="btn_css">작성하기</form:button>
@@ -142,102 +147,106 @@
                         <div class="board_scroll">
                             <c:forEach items="${commentInfoList}" var="commentInfo">
                                 <div id="${commentInfo.comment_idx}">
-                                    <div style="display: grid; grid-template-columns: 1fr 100px 120px; gap: 10px">
-                                        <div></div>
-                                        <div style="padding: 3px 0px;">${commentInfo.insert_date}</div>
-                                        <div>
-                                            <button type="button" class="add_comment_btn btn_css">대댓글 작성</button>
-                                        </div>
-                                    </div>
 
                                     <div style="display: grid; grid-template-columns: 50px 1fr; gap: 10px;">
-                                        <div>
+                                        <div class="com_area">
                                             <c:if test="${commentInfo.user_sns =='none'}">
-                                                <img src="${pageContext.request.contextPath}/img/user${commentInfo.user_img}" style="border-radius: 50%; width: 50px;">
+                                                <img src="${pageContext.request.contextPath}/img/user${commentInfo.user_img}"
+                                                     style="border-radius: 50%; width: 50px;">
                                             </c:if>
                                             <c:if test="${commentInfo.user_sns !='none'}">
-                                                <img src="${commentInfo.user_img}" style="border-radius: 50%"; width="50px;">
+                                                <img src="${commentInfo.user_img}" style="border-radius: 50%" ;
+                                                     width="50px;">
                                             </c:if>
-
                                         </div>
-                                        <div>
-                                            <div style="display: grid; grid-template-columns: 1fr 130px;">
+                                        <div class="com_area">
+                                            <div style="display: grid; grid-template-columns: 1fr 200px;">
                                                 <div>${commentInfo.user_id}</div>
-                                                <div style="display: flex; gap: 5px; text-align: right">
-                                                    <div><i class="bi bi-heart"></i> ${commentInfo.like}</div>
-                                                    <a href="${pageContext.request.contextPath}/add/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}"><i
-                                                            class="bi bi-hand-thumbs-up"></i></a>
-                                                    <a href="${pageContext.request.contextPath}/delete/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}"><i
-                                                            class="bi bi-hand-thumbs-down"></i></a>
-                                                    <div class="comment_btn_area">
-                                                        <div>
-                                                            <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${commentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
-                                                                <i class="bi bi-trash3"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div>
-                                                            <i class="bi bi-pencil update_comment_btn"></i>
-                                                        </div>
-
-                                                    </div>
+                                                <div style="gap: 5px; text-align: right">
+                                                    <span class="small_span">${commentInfo.insert_date}</span>
+                                                    <i class="bi bi-heart small_span"></i> <span class="small_span">${commentInfo.like}</span>
+                                                    <c:if test="${loginSession.user_id != commentInfo.user_id}">
+                                                        <a href="${pageContext.request.contextPath}/add/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}">
+                                                            <i class="bi bi-hand-thumbs-up small_span"></i>
+                                                        </a>
+                                                        <a href="${pageContext.request.contextPath}/delete/comment/like?comment_idx=${commentInfo.comment_idx}&board_idx=${boardInfo.board_idx}">
+                                                            <i class="bi bi-hand-thumbs-down small_span"></i>
+                                                        </a>
+                                                    </c:if>
+                                                    <c:if test="${commentInfo.user_id == loginSession.user_id}">
+                                                        <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${commentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
+                                                            <i class="bi bi-trash3 small_span"></i>
+                                                        </a>
+                                                        <i class="bi bi-pencil update_comment_btn small_span"></i>
+                                                    </c:if>
                                                 </div>
                                             </div>
-                                            <div>${commentInfo.content}</div>
-
+                                            <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px"
+                                                 class="com_area">
+                                                <div>${commentInfo.content}</div>
+                                                <div>
+                                                    <button type="button" class="add_comment_btn btn_css" style="padding: 3px 5px; width: 100px; font-size: 13px;">대댓글 작성</button>
+                                                </div>
+                                            </div>
                                         </div>
-
-
-
                                     </div>
                                     <div>
                                         <div class="update_comment_con">
-                                            <form:form action="${pageContext.request.contextPath}/comment/update"
-                                                       modelAttribute="commentCommand">
+                                            <form:form action="${pageContext.request.contextPath}/comment/update" modelAttribute="commentCommand">
                                                 <input type="text" name="content" value="${commentInfo.content}">
-                                                <input type="text" hidden name="comment_idx"
-                                                       value="${commentInfo.comment_idx}">
-                                                <input type="text" hidden name="board_idx"
-                                                       value="${commentInfo.board_idx}">
+                                                <input type="text" hidden name="comment_idx" value="${commentInfo.comment_idx}">
+                                                <input type="text" hidden name="board_idx" value="${commentInfo.board_idx}">
                                                 <form:button class="btn_css">수정하기</form:button>
                                             </form:form>
                                         </div>
                                         <div class="add_comment_con">
-                                            <form:form modelAttribute="cocCommand"
-                                                       action="${pageContext.request.contextPath}/comment/coc/add">
+                                            <form:form modelAttribute="cocCommand" action="${pageContext.request.contextPath}/comment/coc/add">
                                                 <label for="user_id">작성자: </label>
-                                                <form:input path="c_user_id" value="${loginSession.user_id}"
-                                                            id="user_id" readonly="true"/>
+                                                <form:hidden path="c_user_id" value="${loginSession.user_id}" id="user_id" readonly="true"/>
                                                 <label for="content">내용: </label>
                                                 <form:input path="c_content" id="content"/>
-                                                <form:input path="c_parent_board_idx" value="${boardInfo.board_idx}"
-                                                            type="hidden"/>
-                                                <form:input path="c_parent_comment" value="${commentInfo.comment_idx}"
-                                                            type="hidden"/>
+                                                <form:input path="c_parent_board_idx" value="${boardInfo.board_idx}" type="hidden"/>
+                                                <form:input path="c_parent_comment" value="${commentInfo.comment_idx}" type="hidden"/>
                                                 <form:button>작성하기</form:button>
                                             </form:form>
                                         </div>
                                     </div>
-
-
                                     <c:forEach items="${cocCommentInfoList}" var="cocCommentInfo">
                                         <c:if test="${cocCommentInfo.parent_comment == commentInfo.comment_idx}">
                                             <div class="cocComment">
                                                 <hr>
-                                                <div id="${cocCommentInfo.comment_idx}">
-                                                    <div>작성자: ${cocCommentInfo.user_id}</div>
-                                                    <div>작성일: ${cocCommentInfo.insert_date}</div>
-                                                    <div>내용: ${cocCommentInfo.content}</div>
-                                                </div>
-                                                <div>
-                                                    <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${cocCommentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
-                                                        <i class="bi bi-trash3"></i>
-                                                    </a>
+                                                <div style="display: grid; grid-template-columns: 50px 1fr; gap: 10px;">
+                                                    <div>
+                                                        <c:if test="${cocCommentInfo.user_sns != 'none'}">
+                                                            <img style="border-radius: 50%; width: 50px;" src="${cocCommentInfo.user_img}">
+                                                        </c:if>
+                                                        <c:if test="${cocCommentInfo.user_sns == 'none'}">
+                                                            <img style="border-radius: 50%; width: 50px;" src="${pageContext.request.contextPath}/img/user/${cocCommentInfo.user_img}">
+                                                        </c:if>
+                                                    </div>
+                                                    <div>
+                                                        <div id="${cocCommentInfo.comment_idx}"
+                                                             style="display: grid; grid-template-columns: 1fr 150px">
+                                                            <div>
+
+                                                                <div>${cocCommentInfo.user_id}</div>
+                                                                <div>${cocCommentInfo.content}</div>
+                                                            </div>
+                                                            <div style="text-align: right">
+                                                                <span class="small_span"> ${cocCommentInfo.insert_date} </span>
+                                                                <c:if test="${loginSession.user_id == cocCommentInfo.user_id}">
+                                                                    <a href="${pageContext.request.contextPath}/comment/delete?comment_idx=${cocCommentInfo.comment_idx}&board_idx=${commentInfo.board_idx}&parent_idx=${commentInfo.parent_comment}">
+                                                                        <i class="bi bi-trash3 small_span"></i>
+                                                                    </a>
+                                                                </c:if>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-
                                         </c:if>
                                     </c:forEach>
-
                                 </div>
                                 <hr>
 

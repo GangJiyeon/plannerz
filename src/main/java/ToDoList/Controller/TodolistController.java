@@ -11,11 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/** 투두리스트 관련 컨트롤러
+ 1. 제공기능
+ 투두리스트 조회, 수정, 삭제, 등록
+ 투두리스트 아이템 삭제
+ **/
 @Controller
 public class TodolistController {
 
@@ -88,6 +93,7 @@ public class TodolistController {
     public String list_form(HttpSession session,
                             @RequestParam(value = "list_title") String list_title,
                             @RequestParam(value = "item_title") String item_title, Model model) {
+
 
         //1. 사용자 정보 가져오기
         String user_id = find_userSession(session);

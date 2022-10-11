@@ -23,7 +23,6 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                Ctx.ScheduleCtx
                 Ctx.DatabaseCtx
                 Ctx.MvcCtx
                 Ctx.ControllerCtx

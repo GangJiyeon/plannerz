@@ -1,7 +1,5 @@
 package Board.Dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class BoardCommand {
 
     private Integer board_idx;
@@ -13,8 +11,6 @@ public class BoardCommand {
     private String board_img3;
     private String board_img4;
     private String board_img5;
-
-
 
     public BoardCommand() {
     }
@@ -30,8 +26,6 @@ public class BoardCommand {
         this.board_img4 = board_img4;
         this.board_img5 = board_img5;
     }
-
-
 
     public Integer getBoard_idx() {
         return board_idx;

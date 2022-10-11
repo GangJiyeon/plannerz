@@ -2,7 +2,6 @@ package Board.Dto;
 
 public class CocCommand {
 
-
     private Integer c_comment_idx;
     private String c_user_id;
     private String c_content;

@@ -2,7 +2,6 @@ package Project.Dao;
 
 import Project.Dto.Project_middle_info;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

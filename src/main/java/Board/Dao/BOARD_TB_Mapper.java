@@ -1,9 +1,7 @@
 package Board.Dao;
 
 import Board.Dto.BoardInfo;
-import ToDoList.Dto.Todolist_info;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;

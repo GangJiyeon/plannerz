@@ -2,13 +2,16 @@ package Project.Dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 public class ProjectCommand {
 
+
     private String title;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date target_date;
+
     private String user_id;
 
     public ProjectCommand() {

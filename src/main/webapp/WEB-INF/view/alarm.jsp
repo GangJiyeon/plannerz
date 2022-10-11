@@ -276,7 +276,7 @@
                                                             <i class="bi bi-toggle-off"></i>
                                                         </div>
                                                     </div>
-                                                    <input name="check_alarm" value="${alarmInfo.check_alarm}" hidden>
+                                                    <input name="check_alarm"value="${alarmInfo.check_alarm}" hidden>
 
                                                 </div>
                                             </div>
@@ -286,9 +286,20 @@
                                 </div>
 
                             </div>
-                            <button type="submit">수정하기</button>
+                            <button  class="btn_op"  type="submit">수정하기</button>
                         </form>
 
+                        <hr>
+                        <h5>
+                            문자 보내기 기능 테스트 용
+                        </h5>
+                        <form action="${pageContext.request.contextPath}/message">
+                            <label for="tel">전화번호</label>
+                            <input type="text" name="tel" id="tel" placeholder="01012341234">
+                            <label for="content">내용</label>
+                            <input type="text" id="content" name="text">
+                            <button  class="btn_op" type="submit">문자보내기</button>
+                        </form>
                     </div>
 
 

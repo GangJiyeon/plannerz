@@ -1,10 +1,5 @@
 package UserInfo.Dto;
 
-import org.springframework.context.annotation.Bean;
-
-import java.sql.Time;
-import java.time.LocalTime;
-
 public class AlarmInfo {
 
     private String user_id;

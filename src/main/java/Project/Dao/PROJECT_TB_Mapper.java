@@ -1,16 +1,12 @@
 package Project.Dao;
 
 import Project.Dto.ProjectInfo;
-import Project.Dto.Project_item_info;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class PROJECT_TB_Mapper implements RowMapper<ProjectInfo> {
-
 
     @Override
     public ProjectInfo mapRow(ResultSet rs, int i) throws SQLException {
